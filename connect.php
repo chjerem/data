@@ -1,8 +1,8 @@
 <?php
 ################################################################################
 # @Name : connect.php
-# @Description : database connection parameters
-# @Call : 
+# @Desc : database connection parameters
+# @call : 
 # @parameters : 
 # @Author : Flox
 # @Create : 07/03/2007
@@ -11,12 +11,12 @@
 ################################################################################
 
 //database connection parameters
-$host='10.198.134.33'; //SQL server name
+$host='localhost'; //SQL server name
 $port='3306'; //SQL server port
 $db_name='bsup'; //database name
 $charset='utf8'; //database charset default utf8
-$user='zzzsub'; //database user name
-$password='Azerty123!'; //database password
+$user='root'; //database user name
+$password=''; //database password
 
 //database connection
 try {$db = new PDO("mysql:host=$host;port=$port;dbname=$db_name;charset=$charset", "$user", "$password" , array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));}
