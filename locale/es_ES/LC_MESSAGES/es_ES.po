@@ -1,0 +1,6319 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: GestSup\n"
+"POT-Creation-Date: 2017-05-03 09:56+0200\n"
+"PO-Revision-Date: 2017-05-03 09:56+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.1\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: _;gettext;T_\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: components\n"
+"X-Poedit-SearchPathExcluded-1: template\n"
+"X-Poedit-SearchPathExcluded-2: _SQL\n"
+"X-Poedit-SearchPathExcluded-3: js\n"
+
+#: admin.php:28 admin/backup.php:111 admin/group.php:402 admin/list.php:703
+#: admin/list.php:927 admin/list.php:1067 admin/parameters.php:349
+#: admin/update.php:121 admin/update.php:228 admin/update.php:235
+#: admin/update.php:250 admin/update.php:257 admin/update.php:273
+#: admin/update.php:284 admin/update.php:296 admin/user.php:1010
+#: admin/user.php:1015 core/asset.php:489 core/import_assets.php:195
+#: core/ldap.php:503 core/ticket.php:399 core/wol.php:31 index.php:702
+#: index.php:713 index.php:731 index.php:735 index.php:738 index.php:739
+#: index.php:740 index.php:741 index.php:742 index.php:743 index.php:744
+#: index.php:745 index.php:746 index.php:747 index.php:748 index.php:749
+#: index.php:750 index.php:757 install/index.php:134 login.php:145
+#: login.php:204 login.php:231 modify_pwd.php:37 modify_pwd.php:42
+#: modify_pwd.php:47 stat.php:144 stats/line_assets.php:116
+#: stats/line_tickets.php:123 stats/line_tickets_activity.php:113
+#: survey.php:359 survey.php:362 ticket_print.php:144
+msgid "Erreur"
+msgstr "Error"
+
+#: admin.php:28
+msgid ""
+"Vous n'avez pas accès au menu administration, contacter votre administrateur"
+msgstr ""
+"Usted no tiene acceso al menú de administración, contacto con el "
+"administrador"
+
+#: admin/backup.php:99
+msgid ""
+"La sauvegarde à été réalisée avec succès, une copie de l'archive se trouve "
+"dans le répertoire ./backup de votre serveur web"
+msgstr ""
+"La copia de seguridad se completó con éxito, una copia del archivo está en "
+"el directorio ./backup de su servidor web"
+
+#: admin/backup.php:113
+msgid "La sauvegarde de l'application à échoué"
+msgstr "La salvaguardia de la aplicación que ha fallado"
+
+#: admin/backup.php:136
+msgid "Sauvegardes de GestSup"
+msgstr "Las copias de seguridad GestSup"
+
+#: admin/backup.php:142
+msgid "Lancer la sauvegarde"
+msgstr "Iniciar copia de seguridad"
+
+#: admin/backup.php:146
+msgid "Administrer la base de donnée"
+msgstr "Administrar la base de datos"
+
+#: admin/group.php:105
+msgid "Gestion des groupes"
+msgstr "La Dirección del grupo"
+
+#: admin/group.php:108 admin/user.php:281 asset_list.php:265 dashboard.php:585
+#: procedure.php:408 stats/tables.php:89 stats/tables.php:137
+msgid "Nombre"
+msgstr "Número"
+
+#: admin/group.php:126 admin/group.php:237
+msgid "Édition d'un groupe"
+msgstr "Edición de un grupo de"
+
+#: admin/group.php:132 admin/group.php:243 admin/group.php:346
+#: admin/list.php:505 admin/list.php:803 admin/profile.php:43
+#: admin/user.php:588 admin/user.php:748 admin/user.php:941 asset.php:325
+#: asset_list.php:366 core/export_assets.php:64 register.php:176
+#: ticket_useradd.php:63 ticket_useradd.php:117
+msgid "Nom"
+msgstr "Nombre"
+
+#: admin/group.php:148 admin/group.php:259 admin/group.php:349
+#: admin/list.php:469 admin/list.php:524 admin/list.php:744 admin/list.php:818
+#: admin/parameters.php:1084 admin/user.php:609 admin/user.php:766
+#: asset.php:358 asset_list.php:440 asset_list.php:443
+#: core/export_assets.php:64 core/export_tickets.php:100
+#: core/export_tickets.php:105 core/export_tickets.php:109 core/ldap.php:381
+#: core/ldap_services.php:191 core/ldap_services.php:204
+#: core/ldap_services.php:444 dashboard.php:776 dashboard.php:778
+#: ticket.php:280 ticket.php:342
+msgid "Service"
+msgstr "Servicio"
+
+#: admin/group.php:176 admin/group.php:332
+msgid "Groupe d'utilisateurs"
+msgstr "Grupo de Usuarios"
+
+#: admin/group.php:182 admin/group.php:293 admin/group.php:338
+msgid "Groupe de techniciens"
+msgstr "Grupo de Técnicos"
+
+#: admin/group.php:186
+msgid "Ajout d'un nouveau membre"
+msgstr "La adición de un nuevo miembro"
+
+#: admin/group.php:203
+msgid "Membres actuels"
+msgstr "Miembros actuales"
+
+#: admin/group.php:208
+msgid "Fiche Utilisateur"
+msgstr "Hoja de datos de usuario"
+
+#: admin/group.php:209
+msgid "Enlever l'utilisateur du groupe"
+msgstr "Retire el grupo de usuarios"
+
+#: admin/group.php:217 admin/list.php:691 admin/user.php:712 asset_iface.php:88
+#: modify_pwd.php:83 thread.php:128 thread.php:130 thread.php:301
+#: ticket_catadd.php:118 ticket_useradd.php:162
+msgid "Modifier"
+msgstr "Editar"
+
+#: admin/group.php:222 admin/group.php:304 admin/user.php:717
+#: admin/user.php:954 core/ldap.php:488 core/ldap_agencies.php:475
+#: core/ldap_services.php:470 preview_mail.php:321 procedure.php:166
+#: procedure.php:376 register.php:240
+msgid "Retour"
+msgstr "Volver"
+
+#: admin/group.php:287
+msgid "Groupe d'utilisateur"
+msgstr "Grupo de Usuarios"
+
+#: admin/group.php:299 admin/list.php:915 admin/user.php:949
+#: asset_findip.php:102 asset_iface.php:61 event.php:238 thread.php:301
+#: ticket_catadd.php:78 ticket_useradd.php:100
+msgid "Ajouter"
+msgstr "Añadir"
+
+#: admin/group.php:319
+msgid "Ajouter un groupe"
+msgstr "Agregar grupo"
+
+#: admin/group.php:347
+msgid "Membres"
+msgstr "Miembro"
+
+#: admin/group.php:351 admin/user.php:1199 procedure.php:434
+msgid "Actions"
+msgstr "Acción"
+
+#: admin/group.php:383 admin/list.php:1044 procedure.php:459
+msgid "Éditer"
+msgstr "Editar"
+
+#: admin/group.php:386 admin/list.php:1051 attachement.php:75
+#: attachement.php:102 attachement.php:129 attachement.php:156
+#: attachement.php:182 dashboard.php:1610 procedure.php:357 procedure.php:466
+#: thread.php:132
+msgid "Supprimer"
+msgstr "Eliminar"
+
+#: admin/group.php:402
+msgid ""
+"Vous n'avez pas le droit d'accès à ce menu, ou vous ne disposer d'aucun "
+"service associé, contacter votre administrateur"
+msgstr ""
+"Usted no tiene derecho a acceder a este menú, o que no tendrá ningún "
+"servicio asociado, contacte con el administrador"
+
+#: admin/infos.php:19
+msgid "Informations sur GestSup"
+msgstr "Información GestSup"
+
+#: admin/infos.php:24 admin/update.php:173 login.php:272
+msgid "Version"
+msgstr "Versión"
+
+#: admin/infos.php:30
+msgid "Licence"
+msgstr "Licencia"
+
+#: admin/infos.php:37
+msgid "Site Officiel"
+msgstr "Sitio web oficial"
+
+#: admin/infos.php:44
+msgid "Contact"
+msgstr "Contacto"
+
+#: admin/infos.php:47 ticket_useradd.php:70 ticket_useradd.php:124
+msgid "Mail"
+msgstr "Correo electónico"
+
+#: admin/infos.php:51
+msgid "Communauté"
+msgstr "Comunidad"
+
+#: admin/infos.php:54
+msgid "Forum"
+msgstr "Foro"
+
+#: admin/infos.php:54
+msgid "Pour toutes vos questions d'installation, de bugs, de mises à jour"
+msgstr "Para cualquier duda de instalación, errores, cambios"
+
+#: admin/list.php:83
+msgid "Confirmation"
+msgstr "Confirmación"
+
+#: admin/list.php:87
+msgid "Voulez-vous supprimer cette ligne ?"
+msgstr "¿Quieres eliminar esta línea?"
+
+#: admin/list.php:90 core/install_update.php:48 core/install_update.php:228
+#: core/install_update.php:243
+msgid "Continuer"
+msgstr "Continuar"
+
+#: admin/list.php:92 asset_findip.php:104 asset_iface.php:63 asset_iface.php:90
+#: core/install_update.php:50 core/install_update.php:67
+#: core/install_update.php:230 core/install_update.php:245 modify_pwd.php:65
+#: modify_pwd.php:85 ticket_catadd.php:80 ticket_catadd.php:120
+#: ticket_template.php:93 ticket_useradd.php:102 ticket_useradd.php:165
+msgid "Fermer"
+msgstr "Cerrar"
+
+#: admin/list.php:140 admin/list.php:192 admin/parameters.php:168
+#: admin/parameters.php:352 core/upload.php:69 core/upload.php:92
+#: core/upload.php:115 core/upload.php:138 core/upload.php:161
+#: procedure.php:223
+msgid "Blocage de sécurité"
+msgstr "Cerradura de seguridad"
+
+#: admin/list.php:140 admin/list.php:192
+msgid "Type de fichier interdit"
+msgstr "Tipo de archivo prohibido"
+
+#: admin/list.php:224
+msgid "Gestion des listes"
+msgstr "Gestión de la lista"
+
+#: admin/list.php:237
+msgid "Catégories"
+msgstr "Categorías"
+
+#: admin/list.php:248 admin/list.php:586 admin/list.php:791 admin/user.php:511
+#: admin/user.php:925 core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 dashboard.php:738 dashboard.php:740
+#: procedure.php:136 procedure.php:313 procedure.php:432 ticket.php:514
+#: ticket_catadd.php:74 ticket_catadd.php:113
+msgid "Sous-catégorie"
+msgstr "Subcategoría"
+
+#: admin/list.php:260 admin/user.php:1126
+msgid "Agences"
+msgstr "Agencias"
+
+#: admin/list.php:271 admin/user.php:1141
+msgid "Services"
+msgstr "SERVICES"
+
+#: admin/list.php:282
+msgid "Criticités"
+msgstr "Criticidad"
+
+#: admin/list.php:293
+msgid "États des tickets"
+msgstr "Boletos Unidos"
+
+#: admin/list.php:304
+msgid "Lieux"
+msgstr "Lugares"
+
+#: admin/list.php:315
+msgid "Modèles des tickets"
+msgstr "Modelos entradas"
+
+#: admin/list.php:321
+msgid "Priorités"
+msgstr "Prioridades"
+
+#: admin/list.php:333
+msgid "Sociétés"
+msgstr "Empresas"
+
+#: admin/list.php:344
+msgid "Temps"
+msgstr "Tiempo"
+
+#: admin/list.php:356
+msgid "Types des tickets"
+msgstr "Tipos de entradas"
+
+#: admin/list.php:369
+msgid "Types des équipements"
+msgstr "Tipos de equipos"
+
+#: admin/list.php:375
+msgid "Fabricants des équipements"
+msgstr "Los fabricantes de equipos"
+
+#: admin/list.php:381
+msgid "Modèles des équipements"
+msgstr "Modelos de equipos"
+
+#: admin/list.php:387
+msgid "États des équipements"
+msgstr "Equipamiento Unidos"
+
+#: admin/list.php:393
+msgid "Localisation des équipements"
+msgstr "Ubicación del equipo"
+
+#: admin/list.php:403
+msgid "Rôle des interfaces IP des équipements"
+msgstr "El papel de los equipos de las interfaces IP"
+
+#: admin/list.php:409
+msgid "Réseaux des équipements"
+msgstr "Equipos de red"
+
+#: admin/list.php:436
+msgid "Édition d'une entrée"
+msgstr "Modificación de una entrada"
+
+#: admin/list.php:451 admin/list.php:564 admin/list.php:730 admin/list.php:773
+#: admin/user.php:488 admin/user.php:912 core/export_tickets.php:100
+#: core/export_tickets.php:105 core/export_tickets.php:109 core/mail.php:234
+#: dashboard.php:719 dashboard.php:721 procedure.php:116 procedure.php:293
+#: procedure.php:431 ticket.php:481 ticket.php:484 ticket_catadd.php:54
+#: ticket_catadd.php:90 ticket_print.php:108
+msgid "Catégorie"
+msgstr "Categoría"
+
+#: admin/list.php:502 admin/list.php:800 asset.php:214 asset_list.php:331
+#: dashboard.php:624 procedure.php:430
+msgid "Numéro"
+msgstr "Número"
+
+#: admin/list.php:508 admin/list.php:806 wysiwyg.php:97 wysiwyg.php:175
+msgid "Couleur"
+msgstr "Color"
+
+#: admin/list.php:610 admin/list.php:845 asset.php:225 asset_list.php:398
+#: asset_stock.php:96 core/export_assets.php:64 core/export_tickets.php:100
+#: core/export_tickets.php:105 core/export_tickets.php:109 dashboard.php:702
+#: plugins/availability/admin/parameters.php:103 ticket.php:389
+msgid "Type"
+msgstr "Tipo"
+
+#: admin/list.php:625 admin/list.php:857 core/export_assets.php:64
+msgid "Fabriquant"
+msgstr "Fabricante"
+
+#: admin/list.php:641 admin/list.php:873
+msgid "Image"
+msgstr "Imagen"
+
+#: admin/list.php:649 admin/list.php:869 admin/parameters.php:1188
+#: asset_list.php:410 asset_list.php:413 core/export_assets.php:64
+msgid "Modèle"
+msgstr "Modelo"
+
+#: admin/list.php:656 admin/list.php:880
+msgid "Équipement IP"
+msgstr "Equipos IP"
+
+#: admin/list.php:657 admin/list.php:661 admin/list.php:881 admin/list.php:886
+#: admin/parameters.php:1172 admin/parameters.php:1180
+#: admin/parameters.php:1245 admin/user.php:443 admin/user.php:865
+#: plugins/availability/admin/parameters.php:35
+#: plugins/availability/admin/parameters.php:132 survey.php:249 survey.php:255
+#: survey.php:256
+msgid "Oui"
+msgstr "Sí"
+
+#: admin/list.php:658 admin/list.php:662 admin/list.php:883 admin/list.php:888
+#: admin/parameters.php:1173 admin/parameters.php:1181
+#: admin/parameters.php:1246 admin/user.php:444 admin/user.php:866
+#: plugins/availability/admin/parameters.php:36
+#: plugins/availability/admin/parameters.php:133 survey.php:250 survey.php:261
+#: survey.php:262
+msgid "Non"
+msgstr "No"
+
+#: admin/list.php:660
+msgid "Équipement Wifi"
+msgstr "Los equipos inalámbricos"
+
+#: admin/list.php:667 admin/list.php:893
+msgid "Nombre d'années de garantie"
+msgstr "Años de garantía"
+
+#: admin/list.php:703
+msgid ""
+"Vous n'avez pas le droit de modifier une entrée sur cette liste, contacter "
+"votre administrateur"
+msgstr ""
+"Usted no tiene el derecho de editar una entrada en la lista, póngase en "
+"contacto con el administrador"
+
+#: admin/list.php:721
+msgid "Ajout d'une entrée"
+msgstr "Adición de una entrada"
+
+#: admin/list.php:885
+msgid "Équipement WIFI"
+msgstr "Equipos WIFI"
+
+#: admin/list.php:927
+msgid ""
+"Vous n'avez pas le droit d'ajouter une entrée sur cette liste, contacter "
+"votre administrateur"
+msgstr ""
+"Usted no tiene derecho a añadir una entrada en la lista, póngase en contacto "
+"con el administrador"
+
+#: admin/list.php:948
+msgid "Ajouter une entrée"
+msgstr "Añadir entrada"
+
+#: admin/list.php:1067
+msgid ""
+"Vous n'avez pas accès à cette liste ou vous ne disposer d'aucun service "
+"associé, contacter votre administrateur"
+msgstr ""
+"Usted no tiene acceso a esta lista, o que no tendrá ningún servicio "
+"asociado, contacte con el administrador"
+
+#: admin/list.php:1073
+msgid "Liste des couleurs par défaut"
+msgstr "Lista de colores por defecto"
+
+#: admin/list.php:1078
+msgid ""
+"Le numéro permet de sélectionner l'ordre dans lequel sont triées les "
+"criticités"
+msgstr ""
+"El número utilizado para seleccionar el orden en que son ordenados criticidad"
+
+#: admin/list.php:1082
+msgid "Liste des styles par défaut"
+msgstr "Lista de estilos por defecto"
+
+#: admin/parameters.php:165 admin/parameters.php:349 procedure.php:220
+msgid "Erreur de transfert vérifier le chemin"
+msgstr "Error de transferencia de comprobar la ruta"
+
+#: admin/parameters.php:168 admin/parameters.php:352 core/upload.php:69
+#: core/upload.php:92 core/upload.php:115 core/upload.php:138
+#: core/upload.php:161 procedure.php:223
+msgid "Fichier interdit"
+msgstr "Archivo prohibida"
+
+#: admin/parameters.php:501 admin/update.php:84
+msgid "Attention"
+msgstr "Atención"
+
+#: admin/parameters.php:503
+msgid ""
+"Le dossier d'installation est toujours présent sur votre serveur, pour des "
+"raisons de sécurité veuillez supprimer le répertoire \"./install\" ."
+msgstr ""
+"La carpeta de instalación está todavía presente en su servidor, por razones "
+"de seguridad por favor elimine el \\ \"./ instalar \"."
+
+#: admin/parameters.php:512
+msgid "Paramètres de l'application"
+msgstr "Configuración de la aplicación"
+
+#: admin/parameters.php:521
+msgid "Général"
+msgstr "General"
+
+#: admin/parameters.php:527
+msgid "Connecteurs"
+msgstr "Conectores"
+
+#: admin/parameters.php:533
+msgid "Fonctions"
+msgstr "Funciones"
+
+#: admin/parameters.php:544 admin/user.php:665 admin/user.php:785
+#: admin/user.php:1109 core/export_tickets.php:105 core/ldap.php:340
+#: dashboard.php:663 ticket.php:273 ticket_useradd.php:77
+#: ticket_useradd.php:133
+msgid "Société"
+msgstr "Empresa"
+
+#: admin/parameters.php:548
+msgid "Nom de l'entreprise"
+msgstr "Nombre de la empresa"
+
+#: admin/parameters.php:551
+msgid "Logo"
+msgstr "Logo"
+
+#: admin/parameters.php:557
+msgid "Supprimer ce logo"
+msgstr "Eliminar este logotipo"
+
+#: admin/parameters.php:571 system.php:109
+msgid "Serveur"
+msgstr "Servidor"
+
+#: admin/parameters.php:575
+msgid "URL d'accès au serveur"
+msgstr "URL para acceder al servidor"
+
+#: admin/parameters.php:577
+msgid ""
+"URL de l'accès au serveur pour vos utilisateurs, utilisé dans l'envoi de "
+"mail (exemple: https://gestsup en LAN ou https://support.masociete.com sur "
+"Internet)"
+msgstr ""
+"URL del servidor de acceso para sus usuarios, utilizado para el envío de "
+"correo electrónico (por ejemplo: https: // gestsup LAN o Internet https://"
+"support.masociete.com)"
+
+#: admin/parameters.php:584
+msgid "Affichage"
+msgstr "Vista"
+
+#: admin/parameters.php:588
+msgid "Nombre de ligne par page"
+msgstr "Número de líneas por página"
+
+#: admin/parameters.php:590
+msgid "Si cette valeur est trop grande cela peut ralentir l'application"
+msgstr "Si este valor es demasiado alta puede ralentizar la aplicación"
+
+#: admin/parameters.php:592
+msgid "Temps d'affichage des messages d'actions"
+msgstr "Compartir mensajes tiempo de la exhibición"
+
+#: admin/parameters.php:594
+msgid "Actualisation automatique"
+msgstr "Actualización automática"
+
+#: admin/parameters.php:596
+msgid ""
+"Si la valeur est à 0, alors l'actualisation automatique est désactivée. "
+"Attention, cette fonction peut faire clignoter l'écran selon les navigateurs"
+msgstr ""
+"Si el valor es 0, la actualización automática está desactivada. Advertencia, "
+"esta característica puede parpadear la pantalla de diferentes navegadores"
+
+#: admin/parameters.php:598
+msgid "Écran de supervision"
+msgstr "Pantalla de supervisión"
+
+#: admin/parameters.php:605 stat.php:114 stat_line.php:21 stats/tables.php:197
+msgid "Tickets"
+msgstr "Entradas"
+
+#: admin/parameters.php:609
+msgid "Numéro d'incrémentation"
+msgstr "Número incremental"
+
+#: admin/parameters.php:611
+msgid ""
+"Permet d'initialiser le compteur de ticket à une valeur souhaitée. Attention "
+"vous ne pourrez plus redéfinir le compteur à une valeur inférieur"
+msgstr ""
+"Para inicializar el contador de entradas a un valor deseado. Tenga en cuenta "
+"que no se puede restablecer el contador a un valor menor"
+
+#: admin/parameters.php:613
+msgid "Ordre de trie"
+msgstr "Orden de las clases"
+
+#: admin/parameters.php:615
+msgid "État > Priorité > Criticité > Date de création"
+msgstr "Estado> Prioridad> criticidad> Fecha de Creación"
+
+#: admin/parameters.php:616 admin/user.php:555
+msgid "État > Priorité > Criticité > Date de résolution estimé"
+msgstr "Estado> Prioridad> criticidad> Fecha estimada de resolución"
+
+#: admin/parameters.php:617
+msgid "État > Date de résolution estimé > Priorité > Criticité"
+msgstr "Estado> Fecha de la resolución estimada> Prioridad> criticidad"
+
+#: admin/parameters.php:618
+msgid "État > Date de résolution estimé > Criticité > Priorité"
+msgstr "Estado> Fecha de la resolución estimada> criticidad> Prioridad"
+
+#: admin/parameters.php:619
+msgid "État > Criticité > Date de résolution estimé > Priorité"
+msgstr "Estado> criticidad> Fecha estimada resolución> Prioridad"
+
+#: admin/parameters.php:620 admin/user.php:559
+msgid "Numéro de ticket"
+msgstr "Número de ticket"
+
+#: admin/parameters.php:622
+msgid "Détermine l'ordre de classement des tickets dans la liste des tickets"
+msgstr ""
+"Determina el orden de clasificación de las entradas en la lista de entradas"
+
+#: admin/parameters.php:626
+msgid "Gestion du méta état \"a traiter\""
+msgstr "La gestión del estado de Meta \\ \"regalo \""
+
+#: admin/parameters.php:627
+msgid ""
+"Permet d'afficher un nouvel état regroupant les états en attente de PEC, en "
+"cours, et en attente de retour"
+msgstr ""
+"Muestra un nuevo estado de la combinación de los estados de espera de PEC, "
+"retorno de la corriente ya la espera"
+
+#: admin/parameters.php:632
+msgid "Gestion des lieux"
+msgstr "Gestión del sitio"
+
+#: admin/parameters.php:633
+msgid ""
+"Permet un rattachement du ticket à une localité, une liste des lieux est "
+"éditable dans la section liste, un nouveau champ sera disponible sur le "
+"ticket"
+msgstr ""
+"Permite la fijación del boleto a una localidad, una lista de lugares en la "
+"lista es la sección editable, un nuevo campo estará disponible en el billete"
+
+#: admin/parameters.php:638
+msgid "Gestion des types"
+msgstr "Gestión de tipo"
+
+#: admin/parameters.php:639
+msgid ""
+"Permet de définir un type à un ticket (ex: Demande, Incident...), ajoute une "
+"ligne sur le ticket, la liste des types est administrable dans "
+"Administration > Liste"
+msgstr ""
+"Define un tipo de un billete (por ejemplo, Solicitud, de incidentes ...), "
+"agrega una fila en el billete, la lista de tipos es manejable en "
+"Administración> Lista"
+
+#: admin/parameters.php:647
+msgid "Son"
+msgstr "Además, su"
+
+#: admin/parameters.php:653
+msgid "Activer la notification sonore pour les nouvelles demandes"
+msgstr "Activar el envío de sonido para nuevas aplicaciones"
+
+#: admin/parameters.php:654
+msgid ""
+"Active l'avertisseur sonore pour le technicien si un utilisateur déclare un "
+"ticket (fonctionne uniquement sur Chrome, Firefox et Safari)"
+msgstr ""
+"Zumbador activo para el técnico si un usuario dice un billete (sólo funciona "
+"en Chrome, Firefox y Safari)"
+
+#: admin/parameters.php:662 index.php:609 menu.php:479 stats/tables.php:192
+#: stats/tables.php:241
+msgid "Utilisateurs"
+msgstr "Usuarios"
+
+#: admin/parameters.php:668
+msgid "Utiliser les propriétés utilisateur avancées"
+msgstr "Utilice las propiedades de usuario avanzada"
+
+#: admin/parameters.php:669
+msgid ""
+"Ajoute des champs supplémentaire aux propriétés utilisateurs, Société, FAX, "
+"Adresses..."
+msgstr ""
+"Agrega campos adicionales a las propiedades de los usuarios, la sociedad, "
+"fax, direcciones ..."
+
+#: admin/parameters.php:674
+msgid "Les utilisateurs peuvent s'enregistrer"
+msgstr "Los usuarios pueden guardar"
+
+#: admin/parameters.php:675
+msgid ""
+"Ajoute un bouton sur la page de connexion, permettant la création de "
+"nouveaux utilisateurs"
+msgstr ""
+"Añade un botón en la página de inicio de sesión, lo que permite la creación "
+"de nuevos usuarios"
+
+#: admin/parameters.php:680
+msgid "Limite de tickets par utilisateur"
+msgstr "Entradas por límite de usuarios"
+
+#: admin/parameters.php:681
+msgid ""
+"Permet de limiter le nombre de tickets qu'un utilisateur peut ouvrir pour un "
+"période donnée, les paramètres se trouvent sur la fiche de l'utilisateur. Si "
+"aucun paramètres n'est définit la limitation ne sera pas active. Si la "
+"limite de ticket est atteinte alors la création de ticket est bloqué pour "
+"l'utilisateur"
+msgstr ""
+"Se utiliza para limitar el número de entradas que un usuario puede abrir por "
+"un período de tiempo, las opciones se encuentran en el perfil del usuario. "
+"Si no se definen los parámetros de limitación no estará activo. Si se "
+"alcanza el límite de boletos a continuación, la creación de entradas está "
+"bloqueado para el usuario"
+
+#: admin/parameters.php:687
+msgid "Limite de tickets par Société"
+msgstr "Límite de boletos por la empresa"
+
+#: admin/parameters.php:688
+msgid ""
+"Permet de limiter le nombre de tickets qu'une société peut ouvrir pour un "
+"période donnée, les paramètres se trouvent Administration > Listes > "
+"Société . Si aucun paramètres n'est définit la limitation ne sera pas "
+"active. Si la limite de ticket est atteinte alors la création de ticket est "
+"bloqué pour l'ensemble des utilisateurs associés à cette société"
+msgstr ""
+"Se utiliza para limitar el número de entradas que una empresa puede abrir "
+"por un período de tiempo, los ajustes son Administración> Listados> "
+"Sociedad. Si no se definen los parámetros de limitación no estará activo. Si "
+"se alcanza el límite de boletos a continuación, la creación de entradas está "
+"bloqueado para todos los usuarios asociados a esta empresa"
+
+#: admin/parameters.php:694
+msgid "Les utilisateurs peuvent voir tous les tickets de leur société"
+msgstr "Los usuarios pueden ver todos sus billetes de sociedades"
+
+#: admin/parameters.php:695
+msgid ""
+"Ajoute une nouvelle vue pour les utilisateurs, afin de visualiser tous les "
+"tickets déclarés par l'ensemble des utilisateurs associés à une société. (Le "
+"droit side_company est nécessaire pour disposer de l'accès, le droit de "
+"modification de société user_profil_company est à désactiver pour les "
+"utilisateurs)"
+msgstr ""
+"Añade un nuevo punto de vista para los usuarios ver todas las entradas "
+"reportados por todos los usuarios asociados con una empresa. (El deber "
+"side_company es necesario tener acceso, rectificación empresa "
+"user_profil_company ley está apagado para los usuarios)"
+
+#: admin/parameters.php:701
+msgid "Les utilisateurs appartiennent à des agences"
+msgstr "Los usuarios pertenecen a las agencias"
+
+#: admin/parameters.php:702
+msgid "Ajoute une nouvelle liste dans Administration > Liste > Agence"
+msgstr "Añade una nueva Administración de la lista> Lista> Agencia"
+
+#: admin/parameters.php:707
+msgid "Les utilisateurs ne voient que les tickets de leurs services"
+msgstr "Los usuarios sólo ven las entradas para sus servicios"
+
+#: admin/parameters.php:708
+msgid ""
+"Permet de cloisonner la liste de tickets ainsi que les catégories, un droit "
+"additionnel est nécessaire dashboard_service_only"
+msgstr ""
+"Se utiliza para dividir la lista de entradas y de las categorías, se "
+"requiere un derecho adicional dashboard_service_only"
+
+#: admin/parameters.php:717
+msgid "Messages"
+msgstr "Mensajes"
+
+#: admin/parameters.php:723
+msgid ""
+"Envoi de mail automatique à l'utilisateur lors de l'ouverture ou fermeture "
+"d'un ticket par un technicien"
+msgstr ""
+"Envío automático electrónico al usuario durante la apertura o cierre de una "
+"multa por un técnico"
+
+#: admin/parameters.php:728
+msgid ""
+"Envoi de mail automatique à l'utilisateur lors de l'ajout ou la modification "
+"de la résolution d'un ticket par un technicien"
+msgstr ""
+"Envío automático electrónico al usuario al añadir o cambiar la resolución de "
+"un billete de un técnico"
+
+#: admin/parameters.php:733
+msgid ""
+"Envoi de mail automatique au technicien lors de la modification d'un ticket "
+"par un utilisateur"
+msgstr ""
+"El envío automático de correo electrónico al técnico cuando se cambia un "
+"billete por un usuario"
+
+#: admin/parameters.php:738
+msgid ""
+"Envoi de mail automatique à l'administrateur lors de l'ouverture d'un ticket "
+"par un utilisateur"
+msgstr ""
+"El envío automático de correo electrónico al administrador cuando se abre un "
+"billete por un usuario"
+
+#: admin/parameters.php:745 admin/user.php:1152 register.php:200
+#: register.php:210
+msgid "Adresse Mail"
+msgstr "Correo electrónico"
+
+#: admin/parameters.php:751
+msgid "Texte début du mail"
+msgstr "Principios texto del correo electrónico"
+
+#: admin/parameters.php:752
+msgid "Vous pouvez utiliser du code HTML (Exemple: <br />, <b></b>...)"
+msgstr "Se puede usar HTML (ejemplo: <br /> <b> </ b> ...)"
+
+#: admin/parameters.php:754
+msgid "Adresse en copie"
+msgstr "Copia al carbón"
+
+#: admin/parameters.php:756
+msgid "Intitulé de l'émetteur"
+msgstr "Nombre del emisor"
+
+#: admin/parameters.php:758
+msgid "Adresse de l'émetteur"
+msgstr "Dirección del remitente"
+
+#: admin/parameters.php:759
+msgid ""
+"Adresse d'envoi de tous les messages de l'application, si ce paramètre est "
+"vide les messages seront envoyés avec l'adresse mail de l'utilisateur "
+"connecté. Certains serveurs SMTP peuvent exiger que l'émetteur soit le même "
+"que le compte de connexion"
+msgstr ""
+"Dirección para enviar todos los mensajes a la aplicación, si este parámetro "
+"está vacío mensajes se envían con el correo electrónico del usuario "
+"conectado. Algunos servidores SMTP pueden requerir que el emisor es la misma "
+"que la cuenta de inicio de sesión"
+
+#: admin/parameters.php:763
+msgid "Intégrer un lien vers GestSup"
+msgstr "Incrustar un enlace a GestSup"
+
+#: admin/parameters.php:768
+msgid "Ordre antéchronologique dans les éléments de résolution"
+msgstr "Inversión del orden cronológico de los elementos resolución"
+
+#: admin/parameters.php:769
+msgid ""
+"Permet d'inverser le sens du fil de suivi de la résolution les éléments les "
+"plus récents seront en premier"
+msgstr ""
+"Se utiliza para invertir el subproceso de supervisión de la resolución de "
+"los artículos más recientes primero"
+
+#: admin/parameters.php:772
+msgid "Couleur du titre"
+msgstr "Color del título"
+
+#: admin/parameters.php:774
+msgid "Couleur du fond"
+msgstr "Color de fondo"
+
+#: admin/parameters.php:776
+msgid "Couleur du texte"
+msgstr "El color del texto"
+
+#: admin/parameters.php:783
+msgid "Debug"
+msgstr "Depurar"
+
+#: admin/parameters.php:789
+msgid "Activer le mode de débogage"
+msgstr "Activar el modo de depuración"
+
+#: admin/parameters.php:790
+msgid ""
+"Active le mode débogage afin d'afficher les éléments de résolution de "
+"problèmes"
+msgstr ""
+"Activar el modo de depuración para ver los elementos de resolución de "
+"problemas"
+
+#: admin/parameters.php:800 admin/parameters.php:1126 admin/parameters.php:1319
+#: survey.php:335
+msgid "Valider"
+msgstr "Presentar"
+
+#: admin/parameters.php:819
+msgid "Activer la liaison SMTP"
+msgstr "Permitir la conexión SMTP"
+
+#: admin/parameters.php:820
+msgid ""
+"Connecteur permettant l'envoi de mails depuis GestSup vers un serveur de "
+"messagerie, afin que les mails puissent être envoyés"
+msgstr ""
+"Conector para el envío de correos GestSup a un servidor de correo, por lo "
+"que el correo se puede enviar"
+
+#: admin/parameters.php:828
+msgid "Serveur SMTP"
+msgstr "Servidor SMTP"
+
+#: admin/parameters.php:830
+msgid ""
+"Adresse IP ou Nom de votre serveur de messagerie (Exemple: 192.168.0.1 ou "
+"SRVMSG ou smtp.free.fr ou auth.smtp.1and1.fr ou SSL0.OVH.NET)"
+msgstr ""
+"Dirección IP o nombre del servidor de correo (ejemplo: 192.168.0.1 o SRVMSG "
+"o smtp.free.fr o auth.smtp.1and1.fr o SSL0.OVH.NET)"
+
+#: admin/parameters.php:832
+msgid "Port SMTP"
+msgstr "Puerto SMTP"
+
+#: admin/parameters.php:838
+msgid ""
+"Port du serveur de messagerie par défaut le port 25 est utilisé, pour les "
+"connexions sécurisées les ports 465 et 587 sont utilisés. (exemple: OVH port "
+"587 1&1 port 587)"
+msgstr ""
+"Puerto del puerto del servidor de correo predeterminado 25 se utiliza para "
+"los puertos de conexiones seguras 465 y 587 se utilizan. (Ejemplo: OVH 1 y 1 "
+"puerto 587 puerto 587)"
+
+#: admin/parameters.php:840
+msgid "Vérification SSL"
+msgstr "Verificación SSL"
+
+#: admin/parameters.php:842 system.php:165 system.php:167 system.php:169
+#: system.php:171 system.php:173 system.php:175
+msgid "Activée"
+msgstr "Habilitado"
+
+#: admin/parameters.php:843
+msgid "Désactivée"
+msgstr "Desactivado"
+
+#: admin/parameters.php:845
+msgid ""
+"Désactivation de la verification du certificat serveur et autorise les "
+"certificats auto-signés"
+msgstr ""
+"La desactivación del certificado de servidor de verificación y permitir "
+"certificados con firma"
+
+#: admin/parameters.php:847
+msgid "Préfixe SMTP"
+msgstr "Prefijo SMTP"
+
+#: admin/parameters.php:849 admin/parameters.php:1046 asset.php:348
+#: asset.php:571 asset.php:586 asset_findip.php:83 locale/local_sql_data.php:35
+#: preview_mail.php:82 preview_mail.php:91
+msgid "Aucun"
+msgstr "Nningún"
+
+#: admin/parameters.php:854
+msgid "l'extension php_openssl devra être activée"
+msgstr "advertencia php_openssl la extensión debe estar habilitado"
+
+#: admin/parameters.php:857
+msgid "Classe SMTP"
+msgstr "La clase smtp"
+
+#: admin/parameters.php:859
+msgid "Défaut"
+msgstr "INCUMPLIMIENTO"
+
+#: admin/parameters.php:862
+msgid ""
+"Classe PHPMailer, par défaut utiliser isSMTP(), certains hébergements "
+"n'autorisent que le isSendMail() (exemple: 1&1 utilise isSendMail() )"
+msgstr ""
+"PHPMailer clase, por defecto utilizar isSMTP (), algunos sólo los "
+"alojamientos permiten la isSendMail () (ejemplo: 1 & 1 utiliza isSendMail ())"
+
+#: admin/parameters.php:866
+msgid "Serveur SMTP Authentifié"
+msgstr "Servidor SMTP autenticado"
+
+#: admin/parameters.php:867
+msgid ""
+"Cochez cette case si votre serveur de messagerie nécessite un identifiant et "
+"mot de passe pour envoyer des messages. (exemple: 1&1 exige un SMTP "
+"authentifié)"
+msgstr ""
+"Marque esta casilla si su servidor de correo requiere un nombre de usuario y "
+"contraseña para enviar mensajes. (Ejemplo: 1 y 1 requiere un SMTP "
+"autenticado)"
+
+#: admin/parameters.php:874 admin/profile.php:45 admin/user.php:435
+#: admin/user.php:857 asset.php:335 asset_list.php:380 asset_list.php:383
+#: core/export_assets.php:64 core/export_survey.php:65 core/ldap.php:217
+#: core/ldap.php:228 core/ldap.php:409 core/ldap.php:432 core/ldap.php:454
+#: core/ldap_agencies.php:341 core/ldap_agencies.php:353
+#: core/ldap_services.php:337 core/ldap_services.php:349 test.php:6 test.php:18
+msgid "Utilisateur"
+msgstr "Usuario"
+
+#: admin/parameters.php:876 admin/parameters.php:995 admin/parameters.php:1054
+#: admin/parameters.php:1083 admin/user.php:597 admin/user.php:754
+#: login.php:310 register.php:188
+msgid "Mot de passe"
+msgstr "Contraseña"
+
+#: admin/parameters.php:892
+msgid "Activer la liaison LDAP"
+msgstr "Habilitar el enlace LDAP"
+
+#: admin/parameters.php:893
+msgid ""
+"Connecteur permettant la synchronisation entre l'annuaire d'entreprise "
+"(Active Directory ou OpenLDAP) et GestSup"
+msgstr ""
+"Conector para la sincronización entre el directorio corporativo (Active "
+"Directory o OpenLDAP) y GestSup"
+
+#: admin/parameters.php:901
+msgid "Activer l'authentification GestSup avec LDAP"
+msgstr "GestSup habilitar la autenticación con LDAP"
+
+#: admin/parameters.php:902
+msgid ""
+"Active l'authentification des utilisateurs dans Gestsup, avec les "
+"identifiants présents dans l'annuaire LDAP. Cela ne désactive pas "
+"l'authentification avec la base utilisateurs de GestSup"
+msgstr ""
+"La autenticación de usuarios activos en Gestsup, con los identificadores "
+"presentes en el directorio LDAP. Esto no deshabilita la autenticación con la "
+"base de usuarios GestSup"
+
+#: admin/parameters.php:907
+msgid "Activer la synchronisation des groupes LDAP de services"
+msgstr "Habilitar grupos LDAP del servicio de sincronización"
+
+#: admin/parameters.php:908
+msgid ""
+"Permet de synchroniser des groupes LDAP de service: création, renommage, "
+"désactivation de services GestSup, création utilisateurs GestSup membres du "
+"groupe LDAP et association entre les deux. (Tous les utilisateurs doivent "
+"appartenir à un groupe)"
+msgstr ""
+"Sincronizar los grupos de servicio LDAP: la creación, el cambio de nombre, "
+"la desactivación del servicio GestSup, los usuarios GestSup miembros del "
+"grupo LDAP creación y asociación entre los dos. (Todos los usuarios deben "
+"pertenecer a un grupo)"
+
+#: admin/parameters.php:916
+msgid "Emplacement des groupes de service"
+msgstr "Grupos de servicios de localización"
+
+#: admin/parameters.php:918
+msgid ""
+"Emplacement des groupes de service dans l'annuaire LDAP. (exemple: "
+"ou=service, ou=utilisateurs) Attention il ne doit pas être suffixé du domaine"
+msgstr ""
+"Grupos de servicios de localización en el directorio LDAP. (Ejemplo: ou = "
+"Servicio, ou = usuarios) Precaución no debe ser el sufijo de dominio"
+
+#: admin/parameters.php:927
+msgid "Activer la synchronisation des groupes LDAP d'agences"
+msgstr "Habilitar grupos de agencias LDAP de sincronización"
+
+#: admin/parameters.php:928
+msgid ""
+"Permet de synchroniser des groupes LDAP d'agence: création, renommage, "
+"désactivation d'agences GestSup, création utilisateurs GestSup membres du "
+"groupe LDAP et association entre les deux. (Tous les utilisateurs doivent "
+"appartenir à un groupe)"
+msgstr ""
+"Sincronizar los grupos agencia de LDAP: la creación, el cambio de nombre, "
+"incapacitantes agencias GestSup, miembros del grupo de usuarios de la "
+"creación GestSup LDAP y la asociación entre los dos. (Todos los usuarios "
+"deben pertenecer a un grupo)"
+
+#: admin/parameters.php:936
+msgid "Emplacement des groupes d'agence"
+msgstr "Localización de grupos de agencias"
+
+#: admin/parameters.php:938
+msgid ""
+"Emplacement des groupes d'agences dans l'annuaire LDAP. (exemple: "
+"ou=groupe_agence, ou=utilisateurs) Attention il ne doit pas être suffixé du "
+"domaine"
+msgstr ""
+"Ubicación de los grupos de representación en el directorio LDAP. (Ejemplo: "
+"ou = groupe_agence, ou = usuarios) Precaución no debe ser el sufijo de "
+"dominio"
+
+#: admin/parameters.php:941
+msgid "Déplacer les tickets associés à l'agence"
+msgstr "Mover las entradas asociadas a la agencia"
+
+#: admin/parameters.php:951
+msgid "vers l'agence"
+msgstr "a la agencia"
+
+#: admin/parameters.php:966
+msgid "Type de serveur LDAP"
+msgstr "Tipo de servidor LDAP"
+
+#: admin/parameters.php:971
+msgid ""
+"Sélectionner si votre serveur d'annuaire est Windows Active Directory ou "
+"OpenLDAP"
+msgstr ""
+"Seleccione si su servidor de directorio de Windows Active Directory o "
+"OpenLDAP"
+
+#: admin/parameters.php:973
+msgid "Nom du serveur LDAP"
+msgstr "Nombre del servidor LDAP"
+
+#: admin/parameters.php:975
+msgid ""
+"Adresse IP ou nom netbios du serveur d'annuaire, sans suffixe DNS (Exemple: "
+"192.168.0.1 ou SVRAD)"
+msgstr ""
+"Nombre NetBIOS o la dirección IP del servidor de directorios, sin sufijo DNS "
+"(ejemplo: 192.168.0.1 o SVRAD)"
+
+#: admin/parameters.php:977
+msgid "Port LDAP"
+msgstr "Puerto LDAP"
+
+#: admin/parameters.php:982
+msgid ""
+"Le port par défaut est 389 si vous utilisez un serveur LDAPS (sécurisé) le "
+"port est 636"
+msgstr ""
+"El puerto por defecto es 389 si se utiliza un servidor LDAPS (seguro) es el "
+"puerto 636"
+
+#: admin/parameters.php:984
+msgid "Domaine"
+msgstr "Ámbito"
+
+#: admin/parameters.php:986
+msgid "Nom du domaine FQDN (Exemple: exemple.local)"
+msgstr "Nombres de dominio (FQDN Ejemplo: exemple.local)"
+
+#: admin/parameters.php:988
+msgid "Emplacement des utilisateurs"
+msgstr "Ubicación de los usuarios"
+
+#: admin/parameters.php:990
+msgid ""
+"Emplacement dans l'annuaire des utilisateurs. Par défaut pour Active "
+"Directory cn=users, si vous utilisez plusieurs unités d'organisation séparer "
+"avec un point virgule (ou=France,ou=utilisateurs;ou=Belgique,"
+"ou=utilisateurs) Attention il ne doit pas être suffixé du domaine"
+msgstr ""
+"Localización de la Guía del usuario. Predeterminado de Active Directory cn = "
+"users, si utiliza varias unidades organizativas separados por un punto y "
+"coma (o = Francia, ou = usuarios, ou = Bélgica, ou = usuarios) Precaución no "
+"debe ser el sufijo de dominio"
+
+#: admin/parameters.php:993
+msgid ""
+"Utilisateur présent dans l'annuaire LDAP, pour OpenLDAP l'utilisateur doit "
+"être à la racine et de type CN"
+msgstr ""
+"Usuario presente en el directorio LDAP, OpenLDAP para el usuario debe estar "
+"en la raíz y escriba CN"
+
+#: admin/parameters.php:1000
+msgid "Test du connecteur LDAP"
+msgstr "Pruebe el conector LDAP"
+
+#: admin/parameters.php:1022
+msgid "Activer la liaison IMAP"
+msgstr "Permitir la conexión IMAP"
+
+#: admin/parameters.php:1023
+msgid ""
+"Connecteur permettant de créer des tickets automatiquement en interrogeant "
+"une boite mail. Une fois le mail converti en ticket le message passe en lu "
+"dans la boite de messagerie. Attention une tâche planifiée doit être crée "
+"afin d'interroger de manière régulière la boite mail (cf FAQ)"
+msgstr ""
+"Conector para crear entradas de forma automática mediante la consulta de un "
+"buzón de correo. Una vez convertido al correo electrónico de entradas en el "
+"mensaje se lee en la bandeja de entrada. Advertencia de una tarea programada "
+"debe ser creado para examinar regularmente la bandeja de entrada (ver FAQ)"
+
+#: admin/parameters.php:1030
+msgid "Serveur de Messagerie"
+msgstr "Servidor de correo"
+
+#: admin/parameters.php:1032
+msgid ""
+"Adresse IP ou nom netbios ou nom FQDN du serveur POP ou IMAP de messagerie "
+"(ex: imap.free.fr, imap.gmail.com)"
+msgstr ""
+"Nombre NetBIOS o la dirección IP o FQDN del servidor de mensajería POP o "
+"IMAP (por ejemplo imap.free.fr, imap.gmail.com)"
+
+#: admin/parameters.php:1034
+msgid "Protocole"
+msgstr "Protocolo"
+
+#: admin/parameters.php:1041
+msgid ""
+"Protocole utilisé sur le serveur POP ou IMAP sécurisé ou non (ex: pour free."
+"fr sélectionner IMAP, pour gmail utiliser IMAP sécurisé)"
+msgstr ""
+"Protocolo utilizado en el POP o IMAP seguro o no (por ejemplo, para free.fr "
+"seleccione IMAP para Gmail mediante IMAP seguro)"
+
+#: admin/parameters.php:1043
+msgid "Dossier racine"
+msgstr "Carpeta raíz"
+
+#: admin/parameters.php:1048
+msgid ""
+"Dossier racine ou se trouve les messages entrants (par défaut INBOX, pour "
+"gmail INBOX)"
+msgstr ""
+"O la carpeta raíz es los mensajes entrantes (bandeja de entrada "
+"predeterminada para la cuenta de Gmail)"
+
+#: admin/parameters.php:1050
+msgid "Adresse de messagerie"
+msgstr "Dirección de mensajería"
+
+#: admin/parameters.php:1052
+msgid "Adresse de la boite de messagerie à relever"
+msgstr "Bandeja de entrada de dirección por delante"
+
+#: admin/parameters.php:1059
+msgid "Activer le multi BAL par service"
+msgstr "Habilitar BAL múltiples por servicio"
+
+#: admin/parameters.php:1060
+msgid ""
+"Permet de relever plusieurs boites aux lettres et d'associer les tickets "
+"crées à des services GestSup"
+msgstr ""
+"Deja la cara varios buzones y entradas asociadas a los servicios creados "
+"GestSup"
+
+#: admin/parameters.php:1076
+msgid "Supprimer l'association"
+msgstr "Eliminar la asociación"
+
+#: admin/parameters.php:1082 admin/user.php:600 admin/user.php:757
+msgid "Adresse mail"
+msgstr "Correo electrónico"
+
+#: admin/parameters.php:1099
+msgid "Adresses à exclure"
+msgstr "Direcciones que deben excluirse"
+
+#: admin/parameters.php:1101
+msgid ""
+"Permet d'ajouter des adresses mail et/ou des domaines à exclure de la "
+"récupération des messages. Le séparateur est le point virgule exemple: john."
+"doe@example.com;example2.com;outlook"
+msgstr ""
+"Le permite añadir direcciones de correo electrónico y / o áreas a ser "
+"excluidos de la recuperación de mensajes. El separador es el ejemplo coma "
+"john.doe@example.com punto; example2.com; perspectivas"
+
+#: admin/parameters.php:1103
+msgid "Action post traitement"
+msgstr "Acción postprocesado"
+
+#: admin/parameters.php:1107
+msgid "Passer en lu le mail"
+msgstr "Cambie a leer el correo electrónico"
+
+#: admin/parameters.php:1109
+msgid ""
+"Permet de spécifier une action sur le mail de la boite aux lettre, une fois "
+"le mail convertit en ticket"
+msgstr ""
+"Especifica una acción en el correo electrónico de los buzones de correo "
+"electrónico y una vez convertido al billete"
+
+#: admin/parameters.php:1111
+msgid "Répertoire"
+msgstr "Repertorio"
+
+#: admin/parameters.php:1111
+msgid ""
+"Permet de spécifier un répertoire de la messagerie dans lequel le mail sera "
+"déplacé exemple: INBOX/vu"
+msgstr ""
+"Le permite especificar un directorio de correo electrónico en el que el "
+"mensaje será trasladado ejemplo: CORREO / visto"
+
+#: admin/parameters.php:1116
+msgid "Lancer l'import des mails"
+msgstr "Comenzar a importar mails"
+
+#: admin/parameters.php:1143 index.php:599 menu.php:433
+msgid "Calendrier"
+msgstr "Calendario"
+
+#: admin/parameters.php:1148
+msgid "Activer la fonction Calendrier"
+msgstr "Habilitar el Calendario"
+
+#: admin/parameters.php:1149
+msgid ""
+"Active la gestion de planning, nouvel onglet et gestion dans les tickets"
+msgstr ""
+"La gestión de la planificación activa, nueva pestaña y gestión de entradas"
+
+#: admin/parameters.php:1156
+msgid "Équipement"
+msgstr "Equipo"
+
+#: admin/parameters.php:1161
+msgid "Activer la fonction gestion des équipements"
+msgstr "Activar la función de gestión de equipos"
+
+#: admin/parameters.php:1162
+msgid ""
+"Active la gestion des équipements, affiche un nouvel item dans le menu de "
+"gauche"
+msgstr "Gestión activa, muestra un nuevo elemento en el menú de la izquierda"
+
+#: admin/parameters.php:1170
+msgid "Gestion des adresses IP"
+msgstr "Gestión de direcciones IP"
+
+#: admin/parameters.php:1175
+msgid ""
+"Permet d'afficher dans la listes des équipements une colonne adresse IP, "
+"active les également des champs additionnels sur les fiches des équipements"
+msgstr ""
+"Indicaciones en la lista de los equipos de una dirección IP de la columna, "
+"también activa los campos adicionales en las hojas de los equipos"
+
+#: admin/parameters.php:1178
+msgid "Gestion des garanties"
+msgstr "La gestión de garantías"
+
+#: admin/parameters.php:1183
+msgid ""
+"Affiche un nouvel item dans le menu des équipements, permettant de "
+"visualiser les équipements en fin de garantie"
+msgstr ""
+"Muestra un nuevo elemento en el menú de equipos para la observación del "
+"equipo al final de la garantía"
+
+#: admin/parameters.php:1186
+msgid "Importer des équipements"
+msgstr "Equipamiento importado"
+
+#: admin/parameters.php:1188
+msgid "Télécharger le modèle CSV pour ensuite pouvoir lancer l'import"
+msgstr "Descargar la plantilla CSV y luego importar para lanzar"
+
+#: admin/parameters.php:1189
+msgid "Permet d'importer des équipements en lot depuis un fichier CSV"
+msgstr "Puede importar equipos en lotes desde un archivo CSV"
+
+#: admin/parameters.php:1198 index.php:598 procedure.php:368
+msgid "Procédure"
+msgstr "Procedimiento"
+
+#: admin/parameters.php:1203 admin/parameters.php:1216
+msgid "Activer la fonction"
+msgstr "Función de habilitación"
+
+#: admin/parameters.php:1204
+msgid "Active la gestion des procédures"
+msgstr "Procedimientos de gestión de activos"
+
+#: admin/parameters.php:1211 survey.php:148 survey.php:166
+msgid "Sondage"
+msgstr "Estudio"
+
+#: admin/parameters.php:1217
+msgid ""
+"Active la gestion d'un sondage utilisateur, permettant à un utilisateur de "
+"remplir un questionnaire de satisfaction sur un ticket "
+msgstr ""
+"Gestión activa de una encuesta a los usuarios, lo que permite a un usuario "
+"para completar una encuesta de satisfacción en un billete "
+
+#: admin/parameters.php:1225
+msgid ""
+"Envoyer un mail avec un lien vers le sondage à l'utilisateur lorsque le "
+"ticket passe dans l'état"
+msgstr ""
+"Enviar un correo electrónico con un enlace a la encuesta al usuario cuando "
+"el billete pasa al estado"
+
+#: admin/parameters.php:1237
+msgid ""
+"Envoi un mail en destination de l'utilisateur lorsque le ticket passe dans "
+"l'état sélectionné, exemple état attente retour client"
+msgstr ""
+"Enviar un correo electrónico al usuario cuando el billete pasa al estado "
+"seleccionado, por ejemplo, estado de espera de devolución del cliente"
+
+#: admin/parameters.php:1240
+msgid "Texte du mail envoyé à l'utilisateur pour le sondage"
+msgstr "Texto del correo enviado al usuario para la encuesta"
+
+#: admin/parameters.php:1240 admin/parameters.php:1248
+msgid ""
+"Modifie l'état du ticket en résolu si l'utilisateur à remplit et validé le "
+"sondage"
+msgstr ""
+"Cambia el estado del billete de resolverse si el usuario lleva a cabo la "
+"encuesta y validado"
+
+#: admin/parameters.php:1243
+msgid ""
+"Clôturer automatiquement le ticket lorsque le sondage a été validé par "
+"l'utilisateur"
+msgstr ""
+"Cerrar el billete de forma automática cuando la encuesta fue validado por el "
+"usuario"
+
+#: admin/parameters.php:1251
+msgid "Listes des questions du sondage"
+msgstr "Las listas de preguntas de la encuesta"
+
+#: admin/parameters.php:1262 admin/parameters.php:1291
+msgid "Oui/Non"
+msgstr "Si/no"
+
+#: admin/parameters.php:1263 admin/parameters.php:1292
+msgid "Texte"
+msgstr "Texto"
+
+#: admin/parameters.php:1264 admin/parameters.php:1293
+msgid "Liste déroulante"
+msgstr "Desplegable"
+
+#: admin/parameters.php:1265 admin/parameters.php:1294
+msgid "Échelle"
+msgstr "Escala"
+
+#: admin/parameters.php:1279
+msgid "Supprimer la question"
+msgstr "Suprimir la Cuestión"
+
+#: admin/parameters.php:1288
+msgid "Texte de la nouvelle question"
+msgstr "Texte de la nouvelle question"
+
+#: admin/parameters.php:1302
+msgid "Télécharger les résultats du sondage au format CSV"
+msgstr "Descargar los resultados de la encuesta en formato CSV"
+
+#: admin/parameters.php:1304
+msgid "Exporter les résultats"
+msgstr "Resultados de exportación"
+
+#: admin/profile.php:34
+msgid "Gestion des droits"
+msgstr "Gestión de derechos"
+
+#: admin/profile.php:44 asset.php:499 asset_list.php:425 asset_list.php:428
+#: core/auto_mail.php:101 core/export_assets.php:64 core/mail.php:263
+#: core/mail.php:269 ticket.php:662 ticket_print.php:123
+msgid "Description"
+msgstr "Descripción"
+
+#: admin/profile.php:46 admin/user.php:430 admin/user.php:852
+msgid "Utilisateur avec pouvoir"
+msgstr "Power User"
+
+#: admin/profile.php:47 admin/user.php:425 admin/user.php:847
+msgid "Superviseur"
+msgstr "Supervisor"
+
+#: admin/profile.php:48 admin/user.php:420 admin/user.php:842
+#: core/export_assets.php:64 core/export_tickets.php:100
+#: core/export_tickets.php:105 core/export_tickets.php:109 dashboard.php:643
+#: planning.php:142 ticket.php:429 ticket_print.php:86
+msgid "Technicien"
+msgstr "Técnico"
+
+#: admin/profile.php:49 admin/user.php:415 admin/user.php:837
+msgid "Administrateur"
+msgstr "Administrador"
+
+#: admin/profile.php:74
+msgid "Désactiver pour le profil utilisateur"
+msgstr "Off para el perfil de usuario"
+
+#: admin/profile.php:80
+msgid "Activer pour le profil utilisateur"
+msgstr "Habilitado para el perfil de usuario"
+
+#: admin/profile.php:97
+msgid "Désactiver pour le profil utilisateur avec pouvoir"
+msgstr "A un perfil de usuario con el poder"
+
+#: admin/profile.php:103
+msgid "Activer pour le profil utilisateur avec pouvoir"
+msgstr "Habilitado para el perfil de usuario con el poder"
+
+#: admin/profile.php:120
+msgid "Désactiver pour le profil superviseur"
+msgstr "A un supervisor de perfil"
+
+#: admin/profile.php:126
+msgid "Activer pour le profil superviseur"
+msgstr "Habilitar el perfil supervisor de"
+
+#: admin/profile.php:143
+msgid "Désactiver pour le profil technicien"
+msgstr "A un perfil técnico"
+
+#: admin/profile.php:149
+msgid "Activer pour le profil technicien"
+msgstr "En el perfil técnico"
+
+#: admin/profile.php:168
+msgid "Désactiver pour le profil administrateur"
+msgstr "A un perfil de administrador"
+
+#: admin/profile.php:174
+msgid "Activer pour le profil administrateur"
+msgstr "En el perfil de administrador"
+
+#: admin/system.php:15
+msgid "État du système"
+msgstr "Estado del sistema"
+
+#: admin/system.php:23
+msgid "Tous les paramètres PHP"
+msgstr "Todas las configuraciones de PHP"
+
+#: admin/update.php:56
+msgid "Vérification de la clé: ok"
+msgstr "Comprobación de las claves: ok"
+
+#: admin/update.php:59
+msgid "Votre clé est erronée l'installation automatique n'est pas possible"
+msgstr "Su clave es errónea instalación automática no es posible"
+
+#: admin/update.php:69
+msgid "Mise à jour de GestSup"
+msgstr "Actualización GestSup"
+
+#: admin/update.php:86
+msgid ""
+"Les fichiers serveur ne sont pas accessible en écriture, les installations "
+"automatique ou semi-automatique ne fonctionneront pas. <i>(Linux: chmod 777 -"
+"R /var/www/html/gestsup/*)</i>"
+msgstr ""
+"Los archivos del servidor no se pueden escribir, automático o semiautomático "
+"sistemas no funcionará. <I> (Linux: chmod -R 777 / var / www / html / "
+"gestsup / *) </ i>"
+
+#: admin/update.php:123
+msgid "Le serveur de mises à jour"
+msgstr "El servidor de actualización"
+
+#: admin/update.php:123
+msgid ""
+"est inaccessible, vérifier votre accès Internet ou l'ouverture de votre "
+"firewall sur le port 21"
+msgstr ""
+"es inaccesible, compruebe su conexión a Internet o abrir el servidor de "
+"seguridad en el puerto 21"
+
+#: admin/update.php:173
+msgid "avec patch"
+msgstr "con el parche"
+
+#: admin/update.php:177
+msgid "Serveur de mise à jour"
+msgstr "Servidor de actualización"
+
+#: admin/update.php:177
+msgid "est disponible"
+msgstr "está disponible"
+
+#: admin/update.php:188 admin/update.php:193 admin/update.php:265
+msgid "Votre version"
+msgstr "Su versión"
+
+#: admin/update.php:188
+msgid "est à jour"
+msgstr "se actualiza"
+
+#: admin/update.php:193
+msgid ""
+"est supérieur à la dernière version disponible, vous devez avoir changé de "
+"canal de mises à jour"
+msgstr ""
+"es mayor que la versión más reciente, debe tener canal de actualizaciones "
+"cambiada"
+
+#: admin/update.php:201
+msgid "Un nouveau patch"
+msgstr "Un nuevo parche"
+
+#: admin/update.php:201
+msgid "pour votre version"
+msgstr "para su versión"
+
+#: admin/update.php:201
+msgid "est disponible en téléchargement"
+msgstr "está disponible para su descarga"
+
+#: admin/update.php:207 admin/update.php:239
+msgid "La version"
+msgstr "La versión"
+
+#: admin/update.php:207
+msgid "est disponible au téléchargement"
+msgstr "está disponible para su descarga"
+
+#: admin/update.php:228
+msgid ""
+"Le téléchargement de la dernière version à échoué, vérifiez les droits "
+"d'écriture sur le répertoire ./download de votre serveur web"
+msgstr ""
+"La descarga de la última versión fallado, compruebe el permiso de escritura "
+"para el directorio ./download de su servidor web"
+
+#: admin/update.php:235
+msgid "Le téléchargement de la dernière version à échoué"
+msgstr "Descarga de la última versión fracasó"
+
+#: admin/update.php:239
+msgid "à été téléchargée dans le répertoire \"./download\" du serveur web"
+msgstr "se ha descargado en el \\ \"./ descarga \" servidor web"
+
+#: admin/update.php:250
+msgid "Le téléchargement du dernier patch à échoué. (connexion impossible)"
+msgstr "Al descargar la última revisión no. (No conectar)"
+
+#: admin/update.php:257
+msgid ""
+"Le téléchargement du dernier patch à échoué. (Téléchargement impossible)"
+msgstr "Al descargar la última revisión no. (No descarga)"
+
+#: admin/update.php:261
+msgid "Le patch"
+msgstr "El parche"
+
+#: admin/update.php:261
+msgid "à été téléchargé dans le répertoire"
+msgstr "se ha descargado en el directorio"
+
+#: admin/update.php:261
+msgid "du serveur web"
+msgstr "el servidor web"
+
+#: admin/update.php:265
+msgid "est à jour, pas de téléchargement nécessaire"
+msgstr "es hasta la fecha, sin necesidad de descargar"
+
+#: admin/update.php:273
+msgid "Installation impossible votre version est à jour"
+msgstr "No puede instalar su versión está actualizada"
+
+#: admin/update.php:280 admin/update.php:292
+msgid "Installation du fichier"
+msgstr "Archivo de instalación"
+
+#: admin/update.php:280 admin/update.php:292
+msgid "en cours..."
+msgstr "en curso..."
+
+#: admin/update.php:284
+msgid "Vous devez d'abord télécharger la dernière version"
+msgstr "Primero debe descargar la versión más reciente"
+
+#: admin/update.php:296
+msgid "Vous devez d'abord télécharger le dernier patch"
+msgstr "Primero debe descargar el último parche"
+
+#: admin/update.php:302
+msgid ""
+"Serveur de mise à jour GestSup indisponible, ou vous avez un problème de "
+"connection internet ou vous n'avez pas autorisé le port 21 sur votre firewall"
+msgstr ""
+"El servidor de actualizaciones GestSup disponible, o tiene un problema de "
+"conexión a Internet o que no está autorizado el puerto 21 en el cortafuegos"
+
+#: admin/update.php:309
+msgid "Version actuelle"
+msgstr "Versión actual"
+
+#: admin/update.php:315
+msgid "Canal"
+msgstr "Canal"
+
+#: admin/update.php:320
+msgid "Stable"
+msgstr "Estable"
+
+#: admin/update.php:321
+msgid "Bêta"
+msgstr "Beta"
+
+#: admin/update.php:328
+msgid "Serveur de MAJ"
+msgstr "Servidor de actualización"
+
+#: admin/update.php:340
+msgid ""
+"Vérifie sur le serveur FTP de GestSup si une version plus récente existe"
+msgstr ""
+"El control de la GestSup servidor FTP si existe una versión más reciente"
+
+#: admin/update.php:342
+msgid "Vérifier"
+msgstr "Comprobar"
+
+#: admin/update.php:344
+msgid ""
+"Lance le téléchargement depuis le serveur FTP de GestSup si une version plus "
+"récente existe"
+msgstr ""
+"Se inicia la descarga desde un servidor FTP GestSup si existe una versión "
+"más reciente"
+
+#: admin/update.php:346
+msgid "Télécharger"
+msgstr "Descargar"
+
+#: admin/update.php:348
+msgid "Lance l'installation de la version téléchargée"
+msgstr "Lanza de la instalación de la versión descargada"
+
+#: admin/update.php:350
+msgid "Installation semi-automatique"
+msgstr "Instalación semiautomática"
+
+#: admin/update.php:354 admin/update.php:358
+msgid "Lance le site web dans la section documentation"
+msgstr "Lanza página web en la sección de documentación"
+
+#: admin/update.php:356
+msgid "Installation manuelle"
+msgstr "Manual de instalación"
+
+#: admin/update.php:360
+msgid "Installation automatique"
+msgstr "Instalación automática"
+
+#: admin/update.php:362
+msgid "Redirige vers la section sauvegarde de l'application"
+msgstr "Redireccionado a la sección de copia de seguridad de la aplicación"
+
+#: admin/update.php:364 core/install_update.php:37
+msgid "Réaliser une sauvegarde"
+msgstr "Hacer una copia de seguridad"
+
+#: admin/user.php:278
+msgid "Gestion des utilisateurs"
+msgstr "Gestión de usuarios"
+
+#: admin/user.php:281
+msgid "Activés et"
+msgstr "Activado y"
+
+#: admin/user.php:281
+msgid "Désactivés"
+msgstr "Discapacitado"
+
+#: admin/user.php:300 index.php:601
+msgid "Fiche utilisateur"
+msgstr "Datos de usuario"
+
+#: admin/user.php:317 index.php:616 menu.php:533
+msgid "Informations"
+msgstr "Información"
+
+#: admin/user.php:323 index.php:608 menu.php:473
+msgid "Paramètres"
+msgstr "Parámetros"
+
+#: admin/user.php:332
+msgid "Rattachement à des utilisateurs"
+msgstr "El apego a los usuarios"
+
+#: admin/user.php:333
+msgid ""
+"Permet d'attribuer automatiquement un technicien lors de la création de "
+"ticket par un utilisateur"
+msgstr "Asigna automáticamente un técnico al crear un vale de usuario"
+
+#: admin/user.php:341
+msgid "Associer des utilisateurs à ce technicien"
+msgstr "Los usuarios asociados con este técnico"
+
+#: admin/user.php:356
+msgid "Liste des utilisateurs associés à ce technicien"
+msgstr "Lista de usuarios asociados con este técnico"
+
+#: admin/user.php:374
+msgid "Langue"
+msgstr "Langue"
+
+#: admin/user.php:377
+msgid "Français (France)"
+msgstr "Francés (Francia)"
+
+#: admin/user.php:378
+msgid "Anglais (États Unis)"
+msgstr "Inglés (Estados Unidos)"
+
+#: admin/user.php:379
+msgid "Allemand (Allemagne)"
+msgstr "Alemán (Alemania)"
+
+#: admin/user.php:380
+msgid "Espagnol (Espagne)"
+msgstr "Español (España)"
+
+#: admin/user.php:383 admin/user.php:820
+msgid "Thème"
+msgstr "Tema"
+
+#: admin/user.php:386 admin/user.php:822
+msgid "Bleu (Défaut)"
+msgstr "Azul (por defecto)"
+
+#: admin/user.php:387 admin/user.php:823
+msgid "Noir"
+msgstr "Negro"
+
+#: admin/user.php:388 admin/user.php:824
+msgid "Rose"
+msgstr "Rosa"
+
+#: admin/user.php:389 admin/user.php:825
+msgid "Gris"
+msgstr "Gris"
+
+#: admin/user.php:399
+msgid "Membre des groupes"
+msgstr "Miembro de los Grupos"
+
+#: admin/user.php:411 admin/user.php:833 admin/user.php:1175 index.php:530
+msgid "Profil"
+msgstr "Perfil"
+
+#: admin/user.php:440 admin/user.php:862
+msgid "Forcer le changement du mot de passe"
+msgstr "Fuerza de cambio de contraseña"
+
+#: admin/user.php:457 admin/user.php:880
+msgid "Vues personnelles"
+msgstr "Puntos de vista personales"
+
+#: admin/user.php:458 admin/user.php:880
+msgid "associe des catégories à l'utilisateur"
+msgstr "categorías asociadas al usuario"
+
+#: admin/user.php:480 admin/user.php:904
+msgid "Supprimer cette vue"
+msgstr "Eliminar esta vista"
+
+#: admin/user.php:530
+msgid "État par défaut"
+msgstr "Estado predeterminado"
+
+#: admin/user.php:531
+msgid ""
+"État qui est directement affiché, lors de la connexion à l'application, si "
+"ce paramètre n'est pas renseigner, alors l'état par défaut est (Attente de "
+"prise en charge)"
+msgstr ""
+"Estado que se muestra directamente al conectarse a la aplicación, si este "
+"parámetro no está informado, entonces el estado por defecto es (apoyo en "
+"espera)"
+
+#: admin/user.php:534 admin/user.php:553
+msgid "Aucun (Géré par l'administrateur)"
+msgstr "Ninguno (administrado por el administrador)"
+
+#: admin/user.php:535
+msgid "Mes tickets à traiter"
+msgstr "Mis entradas tratan"
+
+#: admin/user.php:543
+msgid "Tous les tickets à traiter"
+msgstr "Todas las entradas para ser tratados"
+
+#: admin/user.php:549
+msgid "Ordre de trie personnel par défaut"
+msgstr "El personal ordena orden predeterminado"
+
+#: admin/user.php:550
+msgid ""
+"Modifie l'ordre de trie des tickets dans la liste des tickets, si ce "
+"paramètre n'est pas renseigné, c'est le réglage par défaut dans la section "
+"administration qui est prit en compte"
+msgstr ""
+"Cambia el orden de las entradas ordena en la lista de entradas, si no se "
+"especifica este parámetro, el valor predeterminado en la sección de "
+"administración que tuvo en cuenta"
+
+#: admin/user.php:554
+msgid "État  > Priorité > Criticité > Date de création"
+msgstr "Estado> Prioridad> criticidad> Fecha de Creación"
+
+#: admin/user.php:556 core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 core/mail.php:278
+msgid "Date de résolution estimé"
+msgstr "Resolución Fecha estimada"
+
+#: admin/user.php:557 core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 dashboard.php:906 dashboard.php:908
+#: dashboard.php:1575 stats/tables.php:84 ticket.php:848
+msgid "Priorité"
+msgstr "Prioridad"
+
+#: admin/user.php:558 core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 dashboard.php:927 dashboard.php:929
+#: dashboard.php:1583 plugins/availability/admin/parameters.php:104
+#: stats/tables.php:132 ticket.php:893
+msgid "Criticité"
+msgstr "Criticidad"
+
+#: admin/user.php:569
+msgid "Limite de tickets"
+msgstr "Límite de boletos"
+
+#: admin/user.php:570
+msgid ""
+"Permet de limiter un utilisateur a un nombre de ticket définit, passer la "
+"limite l'ouverture de nouveau ticket n'est plus possible"
+msgstr ""
+"Puede limitar un usuario tiene un número de conjuntos de entradas, aumentar "
+"el límite de la apertura del nuevo billete ya no es posible"
+
+#: admin/user.php:572
+msgid "Nombre limite de ticket"
+msgstr "Número límite de boletos"
+
+#: admin/user.php:575
+msgid "Durée de validé jours"
+msgstr "Validado duración días"
+
+#: admin/user.php:578
+msgid "Date de début de validité (YYYY-MM-DD)"
+msgstr "Fecha de inicio de validez (AAAA-MM-DD)"
+
+#: admin/user.php:585 admin/user.php:745 register.php:170 ticket_useradd.php:60
+#: ticket_useradd.php:114
+msgid "Prénom"
+msgstr "Primer nombre"
+
+#: admin/user.php:594 admin/user.php:751 admin/user.php:1081 register.php:182
+msgid "Identifiant"
+msgstr "Identificador"
+
+#: admin/user.php:603 admin/user.php:760 admin/user.php:1163
+msgid "Téléphone"
+msgstr "Teléfono"
+
+#: admin/user.php:606 admin/user.php:763
+msgid "Fax"
+msgstr "Fax"
+
+#: admin/user.php:629
+msgid "Supprimer l'association de ce service avec cet utilisateur"
+msgstr "Eliminar la asociación de este servicio con este usuario"
+
+#: admin/user.php:657 admin/user.php:777 ticket.php:267
+msgid "Fonction"
+msgstr "Trabajo"
+
+#: admin/user.php:683 admin/user.php:686 admin/user.php:798 admin/user.php:801
+msgid "Adresse"
+msgstr "Dirección"
+
+#: admin/user.php:689 admin/user.php:804
+msgid "Ville"
+msgstr "Ciudad"
+
+#: admin/user.php:692 admin/user.php:807
+msgid "Code Postal"
+msgstr "Código postal"
+
+#: admin/user.php:695 admin/user.php:698 admin/user.php:810 admin/user.php:813
+msgid "Champ personnalisé"
+msgstr "Campo personalizado"
+
+#: admin/user.php:734
+msgid "Ajout d'un utilisateur"
+msgstr "Agregar usuario"
+
+#: admin/user.php:736 admin/user.php:1026 ticket.php:235
+msgid "Ajouter un utilisateur"
+msgstr "Agregar usuario"
+
+#: admin/user.php:1010
+msgid "Vous n'avez pas le droit d'accéder au profil d'un autre utilisateur"
+msgstr "Usted no tiene derecho a acceder al perfil de otro usuario"
+
+#: admin/user.php:1015
+msgid "Vous n'avez pas le droit d'ajouter des utilisateurs"
+msgstr "Usted no tiene el derecho de agregar usuarios"
+
+#: admin/user.php:1033
+msgid "Afficher les utilisateurs désactivés"
+msgstr "Mostrar a los usuarios con discapacidad"
+
+#: admin/user.php:1039
+msgid "Afficher les utilisateurs activés"
+msgstr "Ver permitido a los usuarios"
+
+#: admin/user.php:1048 index.php:622
+msgid "Synchronisation LDAP"
+msgstr "Sincronización LDAP"
+
+#: admin/user.php:1056
+msgid "Synchronisation des agences LDAP"
+msgstr "La sincronización de las agencias de LDAP"
+
+#: admin/user.php:1064
+msgid "Synchronisation des services LDAP"
+msgstr "Sincronización LDAP"
+
+#: admin/user.php:1093
+msgid "Nom Prénom"
+msgstr "Apellido nombre"
+
+#: admin/user.php:1187
+msgid "Dernière connexion"
+msgstr "Ultima visita"
+
+#: admin/user.php:1302
+msgid "Désactiver l'utilisateur"
+msgstr "Desactivar usuario"
+
+#: admin/user.php:1309
+msgid "Activer l'utilisateur"
+msgstr "Habilitar usuario"
+
+#: admin/user.php:1315
+msgid "Éditer l'utilisateur"
+msgstr "Editar usuario"
+
+#: asset.php:151
+msgid "Ajout d'un équipement"
+msgstr "Adición de un dispositivo"
+
+#: asset.php:159
+msgid "Édition de l'équipement"
+msgstr "Equipo de edición"
+
+#: asset.php:166
+msgid "L'équipement n'a jamais répondu sur réseau"
+msgstr "El equipo nunca ha respondido Red"
+
+#: asset.php:173
+msgid "Dernier ping réussi il y a plus de 60j le"
+msgstr "Último ping éxito allí durante el 60j"
+
+#: asset.php:175
+msgid "Dernier ping réussi le"
+msgstr "Último ping con éxito la"
+
+#: asset.php:187 asset_iface.php:46
+msgid "Ajouter une interface IP"
+msgstr "Añadir una interfaz IP"
+
+#: asset.php:197
+msgid "Ping de cet équipement sur l'adresse IP:"
+msgstr "Ping este equipo en la dirección IP:"
+
+#: asset.php:198
+msgid "Allumer cet équipement avec l'adresse MAC:"
+msgstr "Encienda el equipo con la dirección MAC:"
+
+#: asset.php:201
+msgid "Supprimer cet équipement"
+msgstr "Quitar este equipo"
+
+#: asset.php:202 procedure.php:171 procedure.php:384 ticket.php:172
+msgid "Sauvegarder"
+msgstr "Guardar"
+
+#: asset.php:203 ticket.php:174
+msgid "Sauvegarder et quitter"
+msgstr "Guardar y Salir"
+
+#: asset.php:309
+msgid "Équipement virtuel"
+msgstr "Equipos virtuales"
+
+#: asset.php:407
+msgid "Interface IP"
+msgstr "Interfaz IP"
+
+#: asset.php:411 asset.php:454
+msgid "Noter sans séparateurs : ou - "
+msgstr "Nota sin separadores: o - "
+
+#: asset.php:412 asset.php:440 asset.php:455
+msgid "Trouver une adresse IP pour cette interface"
+msgstr "Encuentra una dirección IP para esta interfaz"
+
+#: asset.php:413
+msgid "Modifier le rôle de l'interface"
+msgstr "Cambiar el papel de la interfaz"
+
+#: asset.php:414
+msgid "Supprimer l'interface"
+msgstr "Interfaz clara"
+
+#: asset.php:435
+msgid "Interface IP LAN"
+msgstr "Interfaz LAN IP"
+
+#: asset.php:439
+msgid "Noter sans les séparateurs : ou - "
+msgstr "Nota sin separadores "
+
+#: asset.php:450
+msgid "Interface IP WIFI"
+msgstr "Interfaz IP WIFI"
+
+#: asset.php:471
+msgid "Numéro de série fabricant"
+msgstr "Fabricante Número de serie"
+
+#: asset.php:487 core/export_assets.php:64
+msgid "Numéro de commande"
+msgstr "Nº de pedido"
+
+#: asset.php:513 asset_list.php:459 asset_list.php:462
+#: core/export_assets.php:64
+msgid "Localisation"
+msgstr "Ubicación"
+
+#: asset.php:543 core/export_assets.php:64
+msgid "Numéro de prise"
+msgstr "Número del grifo"
+
+#: asset.php:556
+msgid "Sélectionner un technicien"
+msgstr "Seleccionar un técnico"
+
+#: asset.php:557
+msgid "Installateur"
+msgstr "Ajustador"
+
+#: asset.php:581
+msgid "Maintenance"
+msgstr "Mantenimiento"
+
+#: asset.php:609 asset_list.php:477
+msgid "Date d'achat"
+msgstr "Fecha de compra"
+
+#: asset.php:623
+msgid "Date d'installation"
+msgstr "Fecha de instalación"
+
+#: asset.php:650
+msgid "La date d'achat n'est pas renseignée"
+msgstr "La fecha de compra no se ha establecido"
+
+#: asset.php:652
+msgid "Équipement sous garantie"
+msgstr "Garantía de los equipos"
+
+#: asset.php:656
+msgid "Équipement hors garantie"
+msgstr "Equipos fuera de garantía"
+
+#: asset.php:663 asset_list.php:496
+msgid "Date de fin de garantie"
+msgstr "Fecha de la garantía de buen fin"
+
+#: asset.php:679
+msgid "Date de standbye"
+msgstr "Fecha standbye"
+
+#: asset.php:695 core/export_assets.php:64
+msgid "Date de recyclage"
+msgstr "Fecha de reciclaje"
+
+#: asset.php:708 asset_list.php:514 asset_list.php:517
+#: core/export_assets.php:64 core/export_tickets.php:100
+#: core/export_tickets.php:105 core/export_tickets.php:109 core/mail.php:251
+#: dashboard.php:886 dashboard.php:889 ticket.php:958
+msgid "État"
+msgstr "Estado"
+
+#: asset.php:758
+msgid "Accédez à l'interface web de cet équipement:"
+msgstr "Acceder a la interfaz web de este equipo:"
+
+#: asset.php:777 asset_stock.php:189 ticket.php:1082
+msgid "Enregistrer"
+msgstr "Guardar"
+
+#: asset.php:782 ticket.php:1093
+msgid "Enregistrer et Fermer"
+msgstr "Guardar y cerrar"
+
+#: asset.php:787 asset_stock.php:194 event.php:240 ticket.php:1137
+msgid "Annuler"
+msgstr "Cancelar"
+
+#: asset.php:815 asset_stock.php:221 dashboard.php:1719 ticket.php:1176
+msgid "<Préc"
+msgstr "<Anterior"
+
+#: asset.php:816 asset_stock.php:222 dashboard.php:1720 ticket.php:1177
+msgid "Suiv>"
+msgstr "Siguiente>"
+
+#: asset.php:818 asset_stat.php:74 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:124
+msgid "Janvier"
+msgstr "Enero de 2008"
+
+#: asset.php:818 asset_stat.php:75 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:125
+msgid "Février"
+msgstr "Febrero 2009"
+
+#: asset.php:818 asset_stat.php:76 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:126
+msgid "Mars"
+msgstr "Marzo"
+
+#: asset.php:818 asset_stat.php:77 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:127
+msgid "Avril"
+msgstr "4 de abril de 2013"
+
+#: asset.php:818 asset_stat.php:78 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:128
+msgid "Mai"
+msgstr "Mayo de 2004"
+
+#: asset.php:818 asset_stat.php:79 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:129
+msgid "Juin"
+msgstr "Junio 2009"
+
+#: asset.php:818 asset_stat.php:80 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:130
+msgid "Juillet"
+msgstr "Julio 2008"
+
+#: asset.php:818 asset_stock.php:224 dashboard.php:1722 planning.php:93
+#: ticket.php:1179
+msgid "Août"
+msgstr "Agosto"
+
+#: asset.php:818 asset_stat.php:82 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:132
+msgid "Septembre"
+msgstr "Septiembre"
+
+#: asset.php:818 asset_stat.php:83 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:133
+msgid "Octobre"
+msgstr ""
+"La autenticidad de este certificado puede ser verificado con la autoridad "
+"expedidora"
+
+#: asset.php:818 asset_stat.php:84 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:134
+msgid "Novembre"
+msgstr "Noviembre"
+
+#: asset.php:818 asset_stat.php:85 asset_stock.php:224 dashboard.php:1722
+#: planning.php:93 stat.php:57 ticket.php:1179 ticket_stat.php:135
+msgid "Décembre"
+msgstr "Diciembre 2009"
+
+#: asset.php:823 asset_stock.php:229 dashboard.php:1727 ticket.php:1184
+msgid "Di"
+msgstr "001-0000000232: Do"
+
+#: asset.php:823 asset_stock.php:229 dashboard.php:1727 ticket.php:1184
+msgid "Lu"
+msgstr "Leer"
+
+#: asset.php:823 asset_stock.php:229 dashboard.php:1727 ticket.php:1184
+msgid "Ma"
+msgstr "Mi"
+
+#: asset.php:823 asset_stock.php:229 dashboard.php:1727 ticket.php:1184
+msgid "Me"
+msgstr "001-0000000228: Mi"
+
+#: asset.php:823 asset_stock.php:229 dashboard.php:1727 ticket.php:1184
+msgid "Je"
+msgstr "Yo"
+
+#: asset.php:823 asset_stock.php:229 dashboard.php:1727 ticket.php:1184
+msgid "Ve"
+msgstr "001-0000000230: Vi"
+
+#: asset.php:823 asset_stock.php:229 dashboard.php:1727 ticket.php:1184
+msgid "Sa"
+msgstr "001-0000000231: Sa"
+
+#: asset_findip.php:76
+msgid "Recherche d'adresse IP"
+msgstr "Búsqueda de direcciones IP"
+
+#: asset_findip.php:80
+msgid "Réseau"
+msgstr "Red"
+
+#: asset_iface.php:50 asset_iface.php:77
+msgid "Rôle de l'interface"
+msgstr "Papel de la interfaz"
+
+#: asset_iface.php:73
+msgid "Modifier une interface IP"
+msgstr "Editar una interfaz IP"
+
+#: asset_list.php:233
+msgid "Un seul équipement trouvé, ouverture de l'équipement en cours..."
+msgstr "Un equipo que se encuentre, la apertura del ser equipos ..."
+
+#: asset_list.php:251
+msgid "Recherche d'équipements:"
+msgstr "Equipo de reparaciones:"
+
+#: asset_list.php:251
+msgid "Liste des équipements"
+msgstr "Lista de equipo"
+
+#: asset_list.php:259
+msgid " du service"
+msgstr " del servicio"
+
+#: asset_list.php:280 index.php:605 menu.php:359 stat.php:125 stat_line.php:16
+#: stats/pie_assets_service.php:19 stats/pie_assets_type.php:19
+msgid "Équipements"
+msgstr "Comodidades"
+
+#: asset_list.php:282
+msgid "Physiques et virtuels"
+msgstr "Físicos y virtuales"
+
+#: asset_list.php:283
+msgid "Physiques"
+msgstr "Físico"
+
+#: asset_list.php:284
+msgid "Virtuels"
+msgstr "Virtual"
+
+#: asset_list.php:329
+msgid "Identifiant de l'équipement"
+msgstr "Identificador de equipo"
+
+#: asset_list.php:347 asset_list.php:349
+msgid "Adresse IP"
+msgstr "Dirección IP"
+
+#: asset_list.php:364
+msgid "Nom de l'équipement"
+msgstr "Nombre del equipo"
+
+#: asset_list.php:480
+msgid "Date achat"
+msgstr "Fecha de compra"
+
+#: asset_list.php:498
+msgid "Date fin garantie"
+msgstr "Fecha de finalización de garantía"
+
+#: asset_list.php:627 menu.php:373 planning.php:155
+msgid "Tous"
+msgstr "Todos"
+
+#: asset_list.php:628
+msgid "Garanties prenant fin dans 1 mois"
+msgstr "Garantías que terminan en un mes"
+
+#: asset_list.php:629
+msgid "Garanties prenant fin dans les 2 mois"
+msgstr "Garantías que terminan en 2 meses"
+
+#: asset_list.php:630
+msgid "Garanties prenant fin dans les 6 mois"
+msgstr "Garantías que terminan dentro de los 6 meses"
+
+#: asset_list.php:631
+msgid "Garanties prenant fin dans les 1 an "
+msgstr "Garantiza que expira dentro de 1 año "
+
+#: asset_list.php:632
+msgid "Garanties prenant fin dans les 2 ans"
+msgstr "Garantías que terminan en 2 años"
+
+#: asset_list.php:633
+msgid "Garanties prenant fin dans les 3 ans"
+msgstr "Garantías que terminan dentro de los 3 años"
+
+#: asset_list.php:635
+msgid "Garanties ayant pris fin il y a moins d'1 mois"
+msgstr "Garantías terminaron ahí, a menos de 1 mes"
+
+#: asset_list.php:636
+msgid "Garanties ayant pris fin il y a moins de 2 mois"
+msgstr "Garantías terminaron allí menos de 2 meses"
+
+#: asset_list.php:637
+msgid "Garanties ayant pris fin il y a moins 6 mois"
+msgstr "Garantías terminaron allí 6 meses"
+
+#: asset_list.php:638
+msgid "Garanties ayant pris fin il y a moins 1 an"
+msgstr "Garantías terminaron allí menos 1 año"
+
+#: asset_list.php:639
+msgid "Garanties ayant pris fin il y a moins 2 ans"
+msgstr "Garantías terminaron ahí, a menos de 2 años"
+
+#: asset_list.php:640
+msgid "Garanties ayant pris fin il y a moins 3 ans"
+msgstr "Garantías terminaron allí menos 3 años"
+
+#: asset_list.php:642
+msgid "Garanties expirées"
+msgstr "Garantías caducadas"
+
+#: asset_list.php:846 dashboard.php:1637
+msgid "Page précédente"
+msgstr "Página anterior"
+
+#: asset_list.php:850 dashboard.php:1641
+msgid "Première page"
+msgstr "Página delantera"
+
+#: asset_list.php:859 asset_list.php:869 dashboard.php:1650 dashboard.php:1660
+msgid "Pages masqués"
+msgstr "Páginas ocultas"
+
+#: asset_list.php:866 dashboard.php:1657
+msgid "Page"
+msgstr "Página"
+
+#: asset_list.php:879 dashboard.php:1670
+msgid "Dernière page"
+msgstr "Ultima página"
+
+#: asset_list.php:884 dashboard.php:1675
+msgid "Page suivante"
+msgstr "Página siguiente"
+
+#: asset_stat.php:19 ticket_stat.php:18
+msgid "Filtre global"
+msgstr "Filtro global"
+
+#: asset_stat.php:30 ticket_stat.php:21
+msgid "Tous les techniciens"
+msgstr "Todos los técnicos"
+
+#: asset_stat.php:42 ticket_stat.php:42
+msgid "Tous les services"
+msgstr "Todos los servicios"
+
+#: asset_stat.php:55 ticket_stat.php:76
+msgid "Tous les types"
+msgstr "Todos los tipos"
+
+#: asset_stat.php:68
+msgid "Tous les modèles"
+msgstr "Todos los modelos"
+
+#: asset_stat.php:73 ticket_stat.php:123
+msgid "Tous les mois"
+msgstr "Todos los meses"
+
+#: asset_stat.php:81 stat.php:57 ticket_stat.php:131
+msgid "Aout"
+msgstr "Agosto 2008"
+
+#: asset_stat.php:99 ticket_stat.php:139
+msgid "Toutes les années"
+msgstr "Todos los años"
+
+#: asset_stock.php:83
+msgid "Entrées en stock"
+msgstr "Entradas en stock"
+
+#: asset_stock.php:167
+msgid "N° de commande"
+msgstr "Nº de pedido"
+
+#: asset_stock.php:176
+msgid "Numéros de séries"
+msgstr "Número de serie"
+
+#: attachement.php:57
+msgid "Charger le fichier"
+msgstr "Cargar archivo"
+
+#: attachement.php:83 attachement.php:110 attachement.php:137
+#: attachement.php:164 attachement.php:190
+msgid "Le fichier à été supprimé du serveur"
+msgstr "El archivo se ha eliminado del servidor"
+
+#: attachement.php:85 attachement.php:112 attachement.php:139
+#: attachement.php:166 attachement.php:192
+msgid "Le repertoire de ce ticket à été supprimé du serveur"
+msgstr "El repertorio de este billete ha sido eliminado del servidor"
+
+#: core/asset.php:93
+msgid "Équipement supprimé"
+msgstr "Equipos eliminados"
+
+#: core/asset.php:154
+msgid "Interface supprimé"
+msgstr "Interfaz de borrado"
+
+#: core/asset.php:225
+msgid "Un autre équipement possède déjà cet identifiant"
+msgstr "Otros equipos ya cuenta con este identificador"
+
+#: core/asset.php:225 core/asset.php:231 core/asset.php:270 core/asset.php:276
+#: core/asset.php:332 core/asset.php:338 core/asset.php:369 core/asset.php:375
+msgid "Voir sa fiche"
+msgstr "Ver perfil"
+
+#: core/asset.php:231
+msgid "Un autre équipement possède déjà ce numéro de série fabriquant"
+msgstr "Otros equipos ya cuenta con este número de serie del fabricante"
+
+#: core/asset.php:270
+msgid "Un autre équipement possède déjà cette l'adresse IP"
+msgstr "Otros equipos que ya tiene la dirección IP"
+
+#: core/asset.php:276
+msgid "Un autre équipement possède déjà cette adresse MAC"
+msgstr "Otro equipo que ya tiene la dirección MAC"
+
+#: core/asset.php:279 core/asset.php:341 core/asset.php:378
+msgid "Les adresses MAC doivent contenir 12 caractères"
+msgstr "Las direcciones MAC son 12 caracteres"
+
+#: core/asset.php:279 core/asset.php:282 core/asset.php:341 core/asset.php:344
+#: core/asset.php:378 core/asset.php:381
+msgid "caractères détectés"
+msgstr "caracteres detectados"
+
+#: core/asset.php:282 core/asset.php:344 core/asset.php:381
+msgid "Les adresses IP doivent contenir au moins 7 caractères"
+msgstr "Las direcciones IP deben contener al menos 7 caracteres"
+
+#: core/asset.php:332 core/asset.php:369
+msgid "Un autre équipement possède déjà  l'adresse IP"
+msgstr "Otro equipo ya tiene la dirección IP"
+
+#: core/asset.php:338 core/asset.php:375
+msgid "Un autre équipement possède déjà  l'adresse MAC"
+msgstr "Otro equipo ya tiene la dirección MAC"
+
+#: core/asset.php:486
+msgid "Équipement sauvegardé"
+msgstr "Equipos guardados"
+
+#: core/asset.php:524 core/ticket.php:466
+msgid "Annulation pas de modification"
+msgstr "Cancelación sin cambios"
+
+#: core/auto_mail.php:94
+msgid "Un nouveau ticket à été déclaré par "
+msgstr "Un nuevo billete ha sido declarado por "
+
+#: core/auto_mail.php:96 core/auto_mail.php:141
+msgid "Le ticket"
+msgstr "El billete"
+
+#: core/auto_mail.php:96
+msgid "à été déclaré par l'utilisateur"
+msgstr "ha sido declarado por el usuario"
+
+#: core/auto_mail.php:98 core/auto_mail.php:143 preview_mail.php:225
+msgid "Objet"
+msgstr "Objeto"
+
+#: core/auto_mail.php:104 core/auto_mail.php:149
+msgid "Pour plus d'informations vous pouvez consulter le ticket sur"
+msgstr "Para más información puede consultar el billete en"
+
+#: core/auto_mail.php:136
+msgid "Votre ticket"
+msgstr "Su billete"
+
+#: core/auto_mail.php:136
+msgid "à été modifié par"
+msgstr "ha sido modificado por"
+
+#: core/auto_mail.php:141
+msgid "à été modifié par l'utilisateur"
+msgstr "ha sido modificado por el usuario"
+
+#: core/auto_mail.php:146
+msgid "Ajout du commentaire"
+msgstr "Añadido comentario"
+
+#: core/auto_mail.php:183
+msgid "Sondage concernant votre ticket n°"
+msgstr "Encuesta sobre su boleto No"
+
+#: core/auto_mail.php:186
+msgid "Répondre au sondage"
+msgstr "Participar en encuesta"
+
+#: core/export_assets.php:64
+msgid "Numéro de l'équipement"
+msgstr "Número de equipos"
+
+#: core/export_assets.php:64
+msgid "Numéro de série constructeur"
+msgstr "Fabricante de serie"
+
+#: core/export_assets.php:64
+msgid "Nom NetBIOS"
+msgstr "Nombre NetBIOS"
+
+#: core/export_assets.php:64
+msgid "IP"
+msgstr "IP"
+
+#: core/export_assets.php:64
+msgid "MAC"
+msgstr "MAC"
+
+#: core/export_assets.php:64
+msgid "Date installation"
+msgstr "Fecha de instalación"
+
+#: core/export_assets.php:64
+msgid "Date fin de garantie"
+msgstr "Garantía fecha de finalización"
+
+#: core/export_assets.php:64
+msgid "Date stock"
+msgstr "Fecha disponible"
+
+#: core/export_assets.php:64
+msgid "Date de Standbye"
+msgstr "Fecha standbye"
+
+#: core/export_assets.php:64
+msgid "Date du dernier ping"
+msgstr "Fecha de la última mesa de ping"
+
+#: core/export_assets.php:64
+msgid "Service de maintenance"
+msgstr "Servicio de mantenimiento"
+
+#: core/export_assets.php:156 core/export_survey.php:120
+#: core/export_tickets.php:241
+msgid "Accès à cette page interdite, contactez votre administrateur"
+msgstr "El acceso a esta página prohibido, contacte con el administrador"
+
+#: core/export_survey.php:62 event.php:113 test.php:3 test.php:18
+msgid "Date"
+msgstr "Fecha"
+
+#: core/export_survey.php:63 test.php:4 test.php:18
+msgid "N° Ticket"
+msgstr "N ° Ticket"
+
+#: core/export_survey.php:64 test.php:5 test.php:18
+msgid "Titre ticket"
+msgstr "Título billete"
+
+#: core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 dashboard.php:622
+msgid "Numéro du ticket"
+msgstr "Número de ticket"
+
+#: core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 core/mail.php:240 core/mail.php:242
+#: dashboard.php:683 ticket.php:185 ticket_print.php:68
+msgid "Demandeur"
+msgstr "Solicitante"
+
+#: core/export_tickets.php:100 core/ldap_agencies.php:195
+#: core/ldap_agencies.php:208 core/ldap_agencies.php:449 dashboard.php:795
+#: dashboard.php:797 preview_mail.php:131 preview_mail.php:155 ticket.php:289
+#: ticket.php:574
+msgid "Agence"
+msgstr "Agencia"
+
+#: core/export_tickets.php:100
+msgid "Date de première réponse"
+msgstr "Fecha de la primera respuesta"
+
+#: core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109
+msgid "Créateur"
+msgstr "Creador"
+
+#: core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 core/mail.php:233 dashboard.php:815
+#: ticket.php:654 ticket_print.php:120
+msgid "Titre"
+msgstr "Título"
+
+#: core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 stats/tables.php:477 ticket.php:788
+msgid "Temps passé"
+msgstr "Tiempo pasado"
+
+#: core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109 dashboard.php:833
+msgid "Date de création"
+msgstr "Fecha de creación"
+
+#: core/export_tickets.php:100 core/export_tickets.php:105
+#: core/export_tickets.php:109
+msgid "Date de clôture"
+msgstr "Fecha de Clausura"
+
+#: core/import_assets.php:193
+msgid "Import de"
+msgstr "Importación"
+
+#: core/import_assets.php:193
+msgid "équipements effectué avec succès."
+msgstr "equipos completada con éxito."
+
+#: core/import_assets.php:195
+msgid "Le fichier d'import des équipements n'existe pas"
+msgstr "La importación de equipo fichero no existe"
+
+#: core/install_update.php:42
+msgid ""
+"Il est recommandé de réaliser une sauvegarde avant lancer la mise à jour "
+"(base de donnée et fichiers)"
+msgstr ""
+"Se recomienda hacer una copia de seguridad antes de iniciar la actualización "
+"(base de datos y archivos)"
+
+#: core/install_update.php:45
+msgid "Plus d'informations"
+msgstr "Más información"
+
+#: core/install_update.php:57
+msgid "Lancement de l'installation"
+msgstr "Inicio de la instalación"
+
+#: core/install_update.php:62
+msgid "Voulez-vous lancer l'installation de "
+msgstr "¿Quieres empezar a instalar "
+
+#: core/install_update.php:65
+msgid "Lancer"
+msgstr "Lanzamiento"
+
+#: core/install_update.php:86 core/install_update.php:89
+msgid "Extraction des fichiers"
+msgstr "La extracción de archivos"
+
+#: core/install_update.php:137 core/install_update.php:140
+#: core/install_update.php:159 core/install_update.php:162
+msgid "Modification base de données"
+msgstr "El cambio de base de datos"
+
+#: core/install_update.php:191
+msgid "Copie des nouveaux fichiers"
+msgstr "Copiando nuevos archivos"
+
+#: core/install_update.php:214
+msgid "Nettoyage de l'installation"
+msgstr "Limpieza de la instalación"
+
+#: core/install_update.php:219 core/install_update.php:235
+msgid "Rapport d'installation"
+msgstr "Informe de instalación"
+
+#: core/install_update.php:223
+msgid "L'installation c'est correctement déroulée"
+msgstr "La instalación se completa con éxito"
+
+#: core/install_update.php:225
+msgid ""
+"Afin de finaliser la procédure, déconnectez vous, videz le cache de votre "
+"navigateur, et relancer l'application"
+msgstr ""
+"Para completar el procedimiento, desconectar, vaciar la caché del navegador "
+"y reiniciar la aplicación"
+
+#: core/install_update.php:239
+msgid ""
+"Une erreur est survenue pendant l'installation, il est recommandé de "
+"restaurer votre base de données et vos fichiers, puis de lancer la procédure "
+"manuellement"
+msgstr ""
+"Se ha producido un error durante la instalación, debe restaurar su base de "
+"datos y archivos, a continuación, se inicia el proceso manualmente"
+
+#: core/ldap.php:92
+msgid "Synchronisation"
+msgstr "Sincronización"
+
+#: core/ldap.php:105 core/ldap_agencies.php:117 core/ldap_services.php:117
+msgid "Connecteur opérationnel"
+msgstr "Conector operativa"
+
+#: core/ldap.php:105 core/ldap_agencies.php:117 core/ldap_services.php:117
+msgid "Le connecteur ne fonctionne pas vérifier vos paramètres"
+msgstr "El conector no funciona verifica la configuracion"
+
+#: core/ldap.php:132 core/ldap_agencies.php:143 core/ldap_services.php:142
+msgid "Vérification des Annuaires"
+msgstr "Comprobación de Directorios"
+
+#: core/ldap.php:133
+msgid "Nombre d'utilisateurs trouvés dans l'annuaire"
+msgstr "La mayoría de los usuarios encuentran en el directorio"
+
+#: core/ldap.php:134
+msgid "Nombre d'utilisateurs actif trouvés dans GestSup"
+msgstr "Número de usuarios activos que se encuentran GestSup"
+
+#: core/ldap.php:135 core/ldap_agencies.php:146 core/ldap_services.php:145
+msgid "Modifications à apporter dans GestSup"
+msgstr "Modificaciones en GestSup"
+
+#: core/ldap.php:217 core/ldap.php:454 core/ldap_services.php:204
+msgid "désactivé"
+msgstr "desactivado"
+
+#: core/ldap.php:220 core/ldap.php:457
+msgid "Désactivation de l'utilisateur"
+msgstr "La desactivación del usuario"
+
+#: core/ldap.php:220 core/ldap.php:457 core/ldap_agencies.php:187
+#: core/ldap_agencies.php:208 core/ldap_agencies.php:407
+#: core/ldap_agencies.php:410 core/ldap_agencies.php:422
+#: core/ldap_agencies.php:425 core/ldap_agencies.php:446
+#: core/ldap_agencies.php:449 core/ldap_services.php:183
+#: core/ldap_services.php:204 core/ldap_services.php:403
+#: core/ldap_services.php:406 core/ldap_services.php:418
+#: core/ldap_services.php:421 core/ldap_services.php:441
+#: core/ldap_services.php:444
+msgid "Raison"
+msgstr "Razón"
+
+#: core/ldap.php:220
+msgid "Utilisateur désactivé dans l'annuaire LDAP"
+msgstr "Usuario deshabilitada en el directorio LDAP"
+
+#: core/ldap.php:228
+msgid "activé"
+msgstr "activado"
+
+#: core/ldap.php:231
+msgid "Activation de l'utilisateur"
+msgstr "La activación de usuario"
+
+#: core/ldap.php:239
+msgid "du prénom"
+msgstr "nombre"
+
+#: core/ldap.php:247
+msgid "du nom"
+msgstr "nombre"
+
+#: core/ldap.php:255
+msgid "de l'adresse mail"
+msgstr "la dirección de correo electrónico"
+
+#: core/ldap.php:262
+msgid "du numéro de téléphone"
+msgstr "número telefónico"
+
+#: core/ldap.php:269
+msgid "de l'adresse"
+msgstr "dirección"
+
+#: core/ldap.php:277
+msgid "du code postal"
+msgstr "código postal"
+
+#: core/ldap.php:284
+msgid "de la ville"
+msgstr "de la ciudad"
+
+#: core/ldap.php:292
+msgid "du FAX"
+msgstr "del FAX"
+
+#: core/ldap.php:299
+msgid "de la fonction"
+msgstr "función"
+
+#: core/ldap.php:313
+msgid "de la Société"
+msgstr "de la sociedad"
+
+#: core/ldap.php:340 core/ldap.php:381 core/ldap_agencies.php:195
+#: core/ldap_agencies.php:353 core/ldap_services.php:191
+#: core/ldap_services.php:349
+msgid "crée"
+msgstr "crea"
+
+#: core/ldap.php:363
+msgid "Création de la Société"
+msgstr "Creación de la Compañía"
+
+#: core/ldap.php:383 core/ldap_services.php:177
+msgid "Création du service"
+msgstr "La creación de servicios"
+
+#: core/ldap.php:392
+msgid "du Service"
+msgstr "servicio"
+
+#: core/ldap.php:409 core/ldap_agencies.php:341 core/ldap_services.php:337
+msgid "mis à jour"
+msgstr "actualizado"
+
+#: core/ldap.php:411 index.php:614 menu.php:521
+msgid "Mise à jour"
+msgstr "Actualización"
+
+#: core/ldap.php:411 planning.php:108
+msgid "pour"
+msgstr "para"
+
+#: core/ldap.php:432
+msgid "à été crée"
+msgstr "fue creado"
+
+#: core/ldap.php:435 core/ldap_agencies.php:350 core/ldap_services.php:346
+msgid "Création de l'utilisateur"
+msgstr "Creación de usuarios"
+
+#: core/ldap.php:457
+msgid "Utilisateur non présent dans l'annuaire LDAP"
+msgstr "No está presente de usuario en el directorio LDAP"
+
+#: core/ldap.php:462
+msgid "Aucune modification à apporter, les annuaires sont à jour"
+msgstr "Para realizar cualquier cambio, los directorios se actualizan"
+
+#: core/ldap.php:465
+msgid "Nombre de d'utilisateurs à créer dans GestSup"
+msgstr "Número de usuarios para crear en GestSup"
+
+#: core/ldap.php:466
+msgid "Nombre de d'utilisateurs à mettre à jour dans GestSup"
+msgstr "Número de usuarios para actualizar en GestSup"
+
+#: core/ldap.php:467
+msgid "Nombre de d'utilisateurs à désactiver dans GestSup"
+msgstr "Número de usuarios deshabilitar en GestSup"
+
+#: core/ldap.php:468
+msgid "Nombre de d'utilisateurs à activer dans GestSup"
+msgstr "Número de usuarios para activar en GestSup"
+
+#: core/ldap.php:470
+msgid "Informations de Synchronisation"
+msgstr "Información de Sincronización"
+
+#: core/ldap.php:471
+msgid ""
+"La jointure inter-annuaires est réalisée sur le login, les comptes existant "
+"dans GestSup qui possèdent un login doivent être existant dans l'annuaire "
+"LDAP"
+msgstr ""
+"Las interrelaciones directorios unión se realiza en el inicio de sesión, las "
+"cuentas existentes que tienen una entrada GestSup deben existir en el "
+"directorio LDAP"
+
+#: core/ldap.php:480 core/ldap_agencies.php:467 core/ldap_services.php:462
+msgid "Lancer une simulation"
+msgstr "Iniciar una simulación"
+
+#: core/ldap.php:484 core/ldap_agencies.php:471 core/ldap_services.php:466
+msgid "Lancer la synchronisation"
+msgstr "Iniciar sincronización"
+
+#: core/ldap.php:505
+msgid ""
+"La connection LDAP n'est pas disponible, vérifier si votre serveur LDAP est "
+"joignable ou vérifier vos paramètres de connection"
+msgstr ""
+"La conexión LDAP no está disponible, compruebe si su servidor LDAP es "
+"alcanzable o comprobar la configuración de conexión"
+
+#: core/ldap_agencies.php:105
+msgid "Synchronisation des groupes d'agence"
+msgstr "La sincronización de grupos de agencias"
+
+#: core/ldap_agencies.php:144
+msgid "Nombre de groupes d'agences trouvés dans l'annuaire LDAP"
+msgstr "Número de grupos de agencias encuentra en el directorio LDAP"
+
+#: core/ldap_agencies.php:145
+msgid "Nombre d'agences trouvés dans GestSup"
+msgstr "Número de ramas encuentra en GestSup"
+
+#: core/ldap_agencies.php:145
+msgid "activées et"
+msgstr "activado y"
+
+#: core/ldap_agencies.php:145
+msgid "désactivées"
+msgstr "discapacitado"
+
+#: core/ldap_agencies.php:181
+msgid "Création de l'agence"
+msgstr "Creación de la Agencia"
+
+#: core/ldap_agencies.php:181 core/ldap_agencies.php:195
+msgid ""
+"Raison: Le guid du groupe LDAP n'a pas été trouvé dans la liste des agences "
+"GestSup"
+msgstr ""
+"Motivo: El grupo LDAP GUID no se encontró en la lista de agencias GestSup"
+
+#: core/ldap_agencies.php:186
+msgid "Mise à jour du nom de l'agence"
+msgstr "La actualización del nombre de la agencia"
+
+#: core/ldap_agencies.php:187 core/ldap_agencies.php:446
+msgid "Désactivation de l'agence"
+msgstr "Desactivación de la agencia"
+
+#: core/ldap_agencies.php:187 core/ldap_agencies.php:208
+msgid "Le nom de l'agence comporte les lettres _OLD"
+msgstr "Nombre de la agencia incluye las letras _OLD"
+
+#: core/ldap_agencies.php:203
+msgid "Le nom de l'agence"
+msgstr "El nombre de la agencia"
+
+#: core/ldap_agencies.php:203
+msgid "à été mise à jour"
+msgstr "se ha actualizado"
+
+#: core/ldap_agencies.php:208 core/ldap_agencies.php:449
+#: core/ldap_services.php:444
+msgid "désactivée"
+msgstr "discapacitado"
+
+#: core/ldap_agencies.php:285 core/ldap_agencies.php:313
+#: core/ldap_services.php:283 core/ldap_services.php:309
+msgid "l'identifiant"
+msgstr "identificación"
+
+#: core/ldap_agencies.php:286 core/ldap_agencies.php:314
+#: core/ldap_services.php:284 core/ldap_services.php:310
+msgid "le prénom"
+msgstr "el nombre"
+
+#: core/ldap_agencies.php:287 core/ldap_agencies.php:315
+#: core/ldap_services.php:285 core/ldap_services.php:311
+msgid "le nom"
+msgstr "el apellido"
+
+#: core/ldap_agencies.php:288 core/ldap_agencies.php:316
+#: core/ldap_services.php:286 core/ldap_services.php:312
+msgid "le mail"
+msgstr "correo"
+
+#: core/ldap_agencies.php:289 core/ldap_agencies.php:317
+#: core/ldap_services.php:287 core/ldap_services.php:313
+msgid "le téléphone"
+msgstr "el teléfono"
+
+#: core/ldap_agencies.php:290 core/ldap_agencies.php:318
+#: core/ldap_services.php:288 core/ldap_services.php:314
+msgid "l'adresse"
+msgstr "dirección"
+
+#: core/ldap_agencies.php:291 core/ldap_agencies.php:319
+#: core/ldap_services.php:289 core/ldap_services.php:315
+msgid "le code postal"
+msgstr "el código postal"
+
+#: core/ldap_agencies.php:292 core/ldap_agencies.php:320
+#: core/ldap_services.php:290 core/ldap_services.php:316
+msgid "la ville"
+msgstr "la ciudad"
+
+#: core/ldap_agencies.php:293 core/ldap_agencies.php:321
+#: core/ldap_services.php:291 core/ldap_services.php:317
+msgid "le FAX"
+msgstr "el FAX"
+
+#: core/ldap_agencies.php:294 core/ldap_agencies.php:322
+#: core/ldap_services.php:292 core/ldap_services.php:318
+msgid "la fonction"
+msgstr "la funcion"
+
+#: core/ldap_agencies.php:306 core/ldap_agencies.php:336
+msgid "l'association avec l'agence."
+msgstr "la asociación con la agencia."
+
+#: core/ldap_agencies.php:309 core/ldap_services.php:305
+msgid "Mise à jour de l'utilisateur"
+msgstr "Actualizar usuario"
+
+#: core/ldap_agencies.php:309 core/ldap_agencies.php:341
+#: core/ldap_services.php:337
+msgid ""
+"Raison: Le guid LDAP est identique à celui de GestSup et une différence à "
+"été trouvé dans "
+msgstr ""
+"Motivo: El GUID LDAP es el mismo que GestSup y no se encontró una diferencia "
+"en "
+
+#: core/ldap_agencies.php:350 core/ldap_agencies.php:353
+#: core/ldap_services.php:346 core/ldap_services.php:349
+msgid ""
+"Raison: Le guid de l'utilisateur trouvé dans l'annuaire LDAP n'est pas "
+"présent dans GestSup"
+msgstr ""
+"Motivo: el GUID del usuario que se encuentra en el directorio LDAP no está "
+"presente en GestSup"
+
+#: core/ldap_agencies.php:407 core/ldap_services.php:403
+msgid "Suppression de l'utilisateur "
+msgstr "Eliminación de usuario "
+
+#: core/ldap_agencies.php:407 dashboard.php:550
+msgid "de l'agence"
+msgstr "agencia"
+
+#: core/ldap_agencies.php:407 core/ldap_agencies.php:410
+msgid "Utilisateur présent dans l'agence GestSup mais pas dans l'agence LDAP"
+msgstr "Usuario presente en la agencia GestSup pero no en la agencia de LDAP"
+
+#: core/ldap_agencies.php:410 core/ldap_agencies.php:425
+#: core/ldap_services.php:406 core/ldap_services.php:421
+msgid "L'utilisateur "
+msgstr "Usuario "
+
+#: core/ldap_agencies.php:410
+msgid "à été supprimé de l'agence"
+msgstr "ha sido retirado de la agencia"
+
+#: core/ldap_agencies.php:422 core/ldap_services.php:418
+msgid "Désactivation de l'utilisateur "
+msgstr "Desactivar usuario "
+
+#: core/ldap_agencies.php:422 core/ldap_agencies.php:425
+#: core/ldap_services.php:418 core/ldap_services.php:421
+msgid "Utilisateur présent dans GestSup mais pas dans l'annuaire LDAP"
+msgstr "Usuario presente en GestSup pero no en el directorio LDAP"
+
+#: core/ldap_agencies.php:425 core/ldap_services.php:421
+msgid "à été désactivé "
+msgstr "deshabilitado en "
+
+#: core/ldap_agencies.php:446 core/ldap_agencies.php:449
+msgid "Agence non présente dans l'annuaire LDAP ou renommé en OLD"
+msgstr "Agencia no está presente en el directorio LDAP o renombrado VIEJO"
+
+#: core/ldap_services.php:105
+msgid "Synchronisation des groupes de service"
+msgstr "Grupos de servicio de sincronización"
+
+#: core/ldap_services.php:143
+msgid "Nombre de groupes de services trouvés dans l'annuaire LDAP"
+msgstr "Número de grupos de servicio que se incluyen en el directorio LDAP"
+
+#: core/ldap_services.php:144
+msgid "Nombre de services trouvés dans GestSup"
+msgstr "Número de servicios que se encuentran en GestSup"
+
+#: core/ldap_services.php:144
+msgid "activés et"
+msgstr "activado y"
+
+#: core/ldap_services.php:144
+msgid "désactivés"
+msgstr "discapacitado"
+
+#: core/ldap_services.php:177 core/ldap_services.php:191
+msgid ""
+"Raison: Le guid du groupe LDAP n'a pas été trouvé dans la liste des services "
+"GestSup"
+msgstr ""
+"Motivo: El grupo LDAP GUID no se encontró en la lista de servicios GestSup"
+
+#: core/ldap_services.php:182
+msgid "Mise à jour du nom du service"
+msgstr "Actualizar el nombre del servicio"
+
+#: core/ldap_services.php:183 core/ldap_services.php:441
+msgid "Désactivation du service"
+msgstr "Inhabilitar servicio"
+
+#: core/ldap_services.php:183 core/ldap_services.php:204
+msgid "Le nom du service comporte les lettres _OLD"
+msgstr "El nombre del servicio contiene las letras _OLD"
+
+#: core/ldap_services.php:199
+msgid "Le nom du service"
+msgstr "El nombre del servicio"
+
+#: core/ldap_services.php:199
+msgid "à été mis à jour"
+msgstr "actualizado a"
+
+#: core/ldap_services.php:304 core/ldap_services.php:332
+msgid "l'association avec le service."
+msgstr "la asociación con el servicio."
+
+#: core/ldap_services.php:305
+msgid ""
+"Raison: Le guid LDAP du service est identique à celui de GestSup et une "
+"différence à été trouvé dans "
+msgstr ""
+"Motivo: El servicio LDAP GUID es el mismo que GestSup y se encontró que la "
+"diferencia "
+
+#: core/ldap_services.php:403 dashboard.php:532
+msgid "du service"
+msgstr "servicio"
+
+#: core/ldap_services.php:403 core/ldap_services.php:406
+msgid ""
+"Utilisateur présent dans le service GestSup mais pas dans le service LDAP"
+msgstr "Usuario presente en el servicio GestSup pero no en el servicio LDAP"
+
+#: core/ldap_services.php:406
+msgid "à été supprimé du service"
+msgstr "tiene servicio de borrado sido"
+
+#: core/ldap_services.php:441 core/ldap_services.php:444
+msgid "Service non présent dans l'annuaire LDAP ou renommé en OLD"
+msgstr "El servicio no está presente en el directorio LDAP o renombrado VIEJO"
+
+#: core/mail.php:87 dashboard.php:759 ticket.php:621
+msgid "Lieu"
+msgstr "Lugar"
+
+#: core/mail.php:133
+msgid "Attribution du ticket au groupe"
+msgstr "Premio del billete de grupo"
+
+#: core/mail.php:138
+msgid "Attribution du ticket à"
+msgstr "Adjudicación de entradas"
+
+#: core/mail.php:152
+msgid "Transfert du ticket du groupe"
+msgstr "Transferencia de entradas de grupo"
+
+#: core/mail.php:152
+msgid "au groupe "
+msgstr "grupo "
+
+#: core/mail.php:174 core/mail.php:182
+msgid "Transfert du ticket de"
+msgstr "Transferir el billete"
+
+#: core/mail.php:174
+msgid "à "
+msgstr "100 hasta 1000 "
+
+#: core/mail.php:198
+msgid "pour le ticket"
+msgstr "por el boleto"
+
+#: core/mail.php:208
+msgid "ou consultez votre ticket sur ce lien"
+msgstr "o consulte a su billete en él"
+
+#: core/mail.php:212 mail2ticket.php:226
+msgid ""
+"Vous pouvez répondre à ce ticket via ce mail, écrivez au dessus de cette "
+"ligne"
+msgstr ""
+"Puede responder a esta entrada a través de este mail, escribir encima de "
+"esta línea"
+
+#: core/mail.php:245
+msgid "Groupe de technicien en charge"
+msgstr "Grupo técnico encargado"
+
+#: core/mail.php:247
+msgid "Technicien en charge"
+msgstr "Soporte Técnico"
+
+#: core/mail.php:252 ticket.php:729
+msgid "Date de la demande"
+msgstr "Fecha de la solicitud"
+
+#: core/mail.php:260 core/mail.php:272 ticket.php:691 ticket_print.php:126
+msgid "Résolution"
+msgstr "Resolución"
+
+#: core/mail.php:279 dashboard.php:871 ticket.php:780
+msgid "Date de résolution"
+msgstr "Resolución de fecha"
+
+#: core/mail.php:287
+msgid ""
+"Pour toutes informations complémentaires sur votre ticket, vous pouvez "
+"joindre"
+msgstr "Para más información en su billete, puede unirse"
+
+#: core/mail.php:287 dashboard.php:503 dashboard.php:597 index.php:452
+#: planning.php:123
+msgid "au"
+msgstr "al"
+
+#: core/mail.php:289
+msgid "Vous pouvez suivre l'état d'avancement de votre ticket sur ce lien:"
+msgstr "Usted puede seguir el estado de su ticket en este enlace:"
+
+#: core/mail.php:300 mail2ticket.php:225
+msgid ""
+"Vous pouvez répondre à ce ticket via ce mail, écrivez au dessus du ticket"
+msgstr ""
+"Puede responder a esta entrada a través de este mail, escribir encima del "
+"billete"
+
+#: core/message.php:38
+msgid ""
+"Message non envoyé, vérifier la configuration de votre serveur de messagerie"
+msgstr "Mensaje no enviado, compruebe la configuración del servidor de correo"
+
+#: core/ping.php:131 core/ping.php:137 core/ping.php:145 core/ping.php:151
+#: core/ping.php:155
+msgid "PING"
+msgstr "PING"
+
+#: core/ticket.php:50
+msgid "Ticket supprimé"
+msgstr "Billete de borrado"
+
+#: core/ticket.php:108
+msgid "Merci de renseigner la Date de résolution estimé"
+msgstr "Gracias a llenar la fecha estimada de resolución"
+
+#: core/ticket.php:109
+msgid "Merci de renseigner la priorité"
+msgstr "Gracias a llenar prioridad"
+
+#: core/ticket.php:110
+msgid "Merci de renseigner la criticité"
+msgstr "Gracias a llenar la criticidad"
+
+#: core/ticket.php:111
+msgid "Merci de renseigner le service"
+msgstr "Gracias a llenar el servicio"
+
+#: core/ticket.php:136
+msgid ""
+"Votre limite de ticket est atteinte, prenez contact avec votre "
+"administrateur pour créditer votre compte"
+msgstr ""
+"Que se alcance el límite de boletos, contacte con el administrador de su "
+"cuenta de crédito"
+
+#: core/ticket.php:168
+msgid ""
+"La limite de ticket attribué pour votre société est atteinte, prenez contact "
+"avec votre administrateur pour créditer votre compte."
+msgstr ""
+"Se ha alcanzado el límite de boletos asignado a su empresa, póngase en "
+"contacto con el administrador para acreditar su cuenta."
+
+#: core/ticket.php:396
+msgid "Ticket sauvegardé"
+msgstr "Billete de salvado"
+
+#: core/ticket.php:451
+msgid "Ticket clôturé"
+msgstr "Billete cerrado"
+
+#: core/upload.php:67 core/upload.php:90 core/upload.php:113
+#: core/upload.php:136 core/upload.php:159
+msgid "Erreur de transfert vérifier le chemin "
+msgstr "Error de transferencia de comprobar la ruta "
+
+#: core/wol.php:28
+msgid "Allumage de"
+msgstr "Ignición"
+
+#: core/wol.php:31
+msgid ""
+"Vérifier le wake on lan est bien installé (LINUX: apt-get install wakeonlan)"
+msgstr "Se instala comprobar Wake on LAN (LINUX: apt-get install WakeOnLAN)"
+
+#: dashboard.php:261
+msgid "Chargement..."
+msgstr "Cargando ..."
+
+#: dashboard.php:457 dashboard.php:460 plugins/availability/index.php:121
+#: plugins/availability/index.php:141 plugins/availability/index.php:165
+#: plugins/availability/index.php:185 plugins/availability/index.php:266
+#: plugins/availability/index.php:287 plugins/availability/index.php:312
+#: plugins/availability/index.php:333 survey.php:188
+msgid "Ticket"
+msgstr "Billete"
+
+#: dashboard.php:457
+msgid "supprimé"
+msgstr "suprimido"
+
+#: dashboard.php:460
+msgid "modifié"
+msgstr "modificado"
+
+#: dashboard.php:491
+msgid "Recherche de tickets"
+msgstr "Buscar tickets"
+
+#: dashboard.php:503
+msgid ""
+"Liste des tickets ouverts ou fermés ou sur lesquels un élément de résolution "
+"à été ajouté, sur la période sélectionnée"
+msgstr ""
+"Lista de entradas abiertas o cerradas o sobre las que se añadió a un "
+"elemento de resolución en el período seleccionado"
+
+#: dashboard.php:503 index.php:395
+msgid "Activité"
+msgstr "Activité"
+
+#: dashboard.php:503 planning.php:122
+msgid "du"
+msgstr "de"
+
+#: dashboard.php:505
+msgid ""
+"Liste des tickets ouverts ou fermés ou sur lesquels un élément de résolution "
+"à été ajouté aujourd'hui"
+msgstr ""
+"Lista de entradas abiertas y cerradas, o en la que se añadió un elemento de "
+"resolución de hoy"
+
+#: dashboard.php:505
+msgid "Activité du jour"
+msgstr "Actividad del día"
+
+#: dashboard.php:514
+msgid "tickets non lus"
+msgstr "entradas sin leer"
+
+#: dashboard.php:515
+msgid "tickets à traiter"
+msgstr "las entradas para hacer frente"
+
+#: dashboard.php:530 dashboard.php:548
+msgid "et"
+msgstr "y"
+
+#: dashboard.php:557
+msgid "tickets de la vue"
+msgstr "ver ticket"
+
+#: dashboard.php:558
+msgid "Tickets de la vue"
+msgstr "Los boletos de la vista"
+
+#: dashboard.php:562 menu.php:254
+msgid "Tous les tickets"
+msgstr "Todas las entradas"
+
+#: dashboard.php:562
+msgid "Tous les"
+msgstr "Todos los"
+
+#: dashboard.php:566
+msgid "Tous les tickets de ma société"
+msgstr "Todos mis billetes de la compañía"
+
+#: dashboard.php:566
+msgid "de ma société"
+msgstr "mi empresa"
+
+#: dashboard.php:570
+msgid "Tous vos tickets"
+msgstr "Todas sus entradas"
+
+#: dashboard.php:570
+msgid "Vos"
+msgstr "Su"
+
+#: dashboard.php:578
+msgid "Vos tickets du groupe"
+msgstr "Sus boletos de grupo"
+
+#: dashboard.php:580
+msgid "Tous les tickets non attribués"
+msgstr "Todas las entradas no asignados"
+
+#: dashboard.php:595
+msgid "Selection de la période du"
+msgstr "Selección del período"
+
+#: dashboard.php:641
+msgid "Technicien en charge du ticket"
+msgstr "Técnico de carga de entradas"
+
+#: dashboard.php:661
+msgid "Société du demandeur"
+msgstr "La empresa solicitante"
+
+#: dashboard.php:681
+msgid "Demandeur associé au ticket"
+msgstr "El solicitante asociado con el billete"
+
+#: dashboard.php:700
+msgid "Type de ticket"
+msgstr "Tipo de entradas"
+
+#: dashboard.php:756
+msgid "Emplacement du ticket"
+msgstr "El sitio de entradas"
+
+#: dashboard.php:812
+msgid "Titre du ticket"
+msgstr "Título de la solicitud"
+
+#: dashboard.php:831
+msgid "Date de création du ticket"
+msgstr "Fecha del billete"
+
+#: dashboard.php:850
+msgid "Date de résolution estimée du ticket"
+msgstr "Fecha estimada de entradas resolución"
+
+#: dashboard.php:852 ticket.php:752
+msgid "Date de résolution estimée"
+msgstr "Fecha estimada de la resolución"
+
+#: dashboard.php:869
+msgid "Date de résolution du ticket"
+msgstr "Fecha de la resolución de entradas"
+
+#: dashboard.php:1271 index.php:409 menu.php:218 menu.php:288
+msgid "A traiter"
+msgstr "A tratar"
+
+#: dashboard.php:1498 ticket_useradd.php:66 ticket_useradd.php:120
+msgid "Tel"
+msgstr "Teléfono"
+
+#: dashboard.php:1605
+msgid ""
+"Effectue des actions pour les tickets sélectionnés dans la liste des tickets"
+msgstr ""
+"Lleva a cabo acciones para las entradas seleccionadas en la lista de entradas"
+
+#: dashboard.php:1606
+msgid "Sélectionner tout"
+msgstr "Seleccionar todo"
+
+#: dashboard.php:1607
+msgid "Pour la selection"
+msgstr "Para la selección"
+
+#: dashboard.php:1616
+msgid "Marquer comme"
+msgstr "Marcar como"
+
+#: event.php:110
+msgid "Ajouter un rappel"
+msgstr "Añadir Recordatorio"
+
+#: event.php:117
+msgid "Heure"
+msgstr "Hora"
+
+#: event.php:144
+msgid "Demain"
+msgstr "Mañana"
+
+#: event.php:145
+msgid "Après demain"
+msgstr "Pasado mañana"
+
+#: event.php:146
+msgid "Dans une semaine"
+msgstr "En una semana"
+
+#: event.php:147
+msgid "Dans un mois"
+msgstr "En un mes"
+
+#: event.php:148
+msgid "Dans un an"
+msgstr "En un año"
+
+#: event.php:151
+msgid "Planifier une intervention"
+msgstr "Planificar una intervención"
+
+#: event.php:154
+msgid "Date début"
+msgstr "Fecha de inicio"
+
+#: event.php:158
+msgid "Heure début"
+msgstr "La hora de inicio"
+
+#: event.php:185
+msgid "Date de fin"
+msgstr "Fecha final"
+
+#: event.php:188
+msgid "Heure de fin"
+msgstr "Hora de finalización"
+
+#: index.php:165 monitor.php:64
+msgid "Gestion de Support"
+msgstr "Apoyo a la gestión"
+
+#: index.php:374
+msgid "Ticket en attente d'attribution"
+msgstr "La asignación a la espera de entradas"
+
+#: index.php:384
+msgid "Tickets en attente de lecture"
+msgstr "La lectura de entradas de espera"
+
+#: index.php:392
+msgid ""
+"Tickets ouverts, fermés ou sur lesquels un élément de résolution a été ajouté"
+msgstr ""
+"Billetes abiertos, cerrados, o en la que se añadió un elemento de resolución"
+
+#: index.php:405 index.php:413
+msgid ""
+"Vos tickets en attente de prise en charge, en cours et en attente de retour"
+msgstr "Su espera de tickets de soporte, actuales y pendientes de devolución"
+
+#: index.php:410
+msgid "Vos tickets en attente de prise en charge et en cours"
+msgstr "Sus entradas en espera de apoyo y en curso"
+
+#: index.php:417
+msgid "Nombre d'heures de travail estimé dans vos tickets ouverts"
+msgstr "Número de horas estimadas en sus entradas abiertas"
+
+#: index.php:420
+msgid "Charge"
+msgstr "Carga"
+
+#: index.php:452 index.php:491
+msgid "Nombre de tickets restants disponible, valable du"
+msgstr "Número de entradas restantes disponibles, válido a partir de"
+
+#: index.php:454 index.php:493
+msgid "Tickets disponible"
+msgstr "Entradas disponibles"
+
+#: index.php:491
+msgid "jusqu'au"
+msgstr "hasta"
+
+#: index.php:502
+msgid "Vos tickets résolus"
+msgstr "Resuelven sus entradas"
+
+#: index.php:505 monitor.php:86
+msgid "Résolus"
+msgstr "Determinado"
+
+#: index.php:521
+msgid "Bienvenue"
+msgstr "Bienvenido"
+
+#: index.php:537
+msgid "Déconnexion"
+msgstr "Cerrar sesión"
+
+#: index.php:575 index.php:593
+msgid "Retour à la liste"
+msgstr "Volver a la lista"
+
+#: index.php:600 menu.php:451 stat.php:73
+msgid "Statistiques"
+msgstr "Estadística"
+
+#: index.php:602 menu.php:442 plugins/availability/admin/parameters.php:20
+#: stat_bar_stacked.php:27 stat_bar_stacked.php:76
+msgid "Disponibilité"
+msgstr "Disponibilidad"
+
+#: index.php:603 menu.php:464
+msgid "Administration"
+msgstr "Administración"
+
+#: index.php:604
+msgid "Vues"
+msgstr "Vistas"
+
+#: index.php:606
+msgid "Entrée en stock"
+msgstr "Entrada en stock"
+
+#: index.php:610 menu.php:488
+msgid "Groupes"
+msgstr "Grupos"
+
+#: index.php:611 menu.php:497
+msgid "Droits"
+msgstr "Derechos"
+
+#: index.php:612 menu.php:506
+msgid "Listes"
+msgstr "Listas"
+
+#: index.php:613 menu.php:515
+msgid "Sauvegardes"
+msgstr "Las copias de seguridad"
+
+#: index.php:615 menu.php:527
+msgid "Système"
+msgstr "Sistema"
+
+#: index.php:617 index.php:620 monitor.php:84
+msgid "Nouveau"
+msgstr "Nuevo"
+
+#: index.php:618 index.php:619
+msgid "Édition"
+msgstr "Edición"
+
+#: index.php:623 thread.php:230 thread.php:232
+msgid "Envoi de mail"
+msgstr "Envío de correo"
+
+#: index.php:624
+msgid "Changelog"
+msgstr "Historial de cambios"
+
+#: index.php:647
+msgid "Lance une recherche dans la liste des utilisateurs"
+msgstr "Iniciar una búsqueda en la lista de usuarios"
+
+#: index.php:647
+msgid "Recherche util..."
+msgstr "Buscar util ..."
+
+#: index.php:649
+msgid "Lance une recherche dans la liste des équipements"
+msgstr "LANCE buscar en la lista de instalaciones"
+
+#: index.php:649
+msgid "Recherche équipe..."
+msgstr "Buscar equipo de ..."
+
+#: index.php:651
+msgid "Lance une recherche dans la liste des tickets"
+msgstr "Iniciar una búsqueda en la lista de entradas"
+
+#: index.php:651
+msgid "Recherche ticket..."
+msgstr "Búsqueda de entradas ..."
+
+#: index.php:702
+msgid ""
+"Vous n'avez pas les droits d'accès pour modifier le ticket de ce service, "
+"contacter votre administrateur"
+msgstr ""
+"Usted no tiene derechos de acceso para cambiar el billete para este "
+"servicio, contacto con el administrador"
+
+#: index.php:713
+msgid ""
+"Vous n'avez pas les droits d'accès pour modifier le ticket de cette agence, "
+"contacter votre administrateur"
+msgstr ""
+"Usted no tiene derechos de acceso para cambiar el billete de este organismo, "
+"contacte con el administrador"
+
+#: index.php:731
+msgid ""
+"Vous n'avez pas les droits de consulter ce ticket, contacter votre "
+"administrateur"
+msgstr "No tiene derechos para ver este billete, contacte con el administrador"
+
+#: index.php:735 index.php:749
+msgid ""
+"Vous n'avez pas les droits d'accès à cette page, contacter votre "
+"administrateur"
+msgstr ""
+"Usted no tiene los derechos de acceso a esta página, contacto con el "
+"administrador"
+
+#: index.php:738
+msgid ""
+"Vous n'avez pas les droits d'accès aux procédures, contacter votre "
+"administrateur"
+msgstr ""
+"Usted no tiene derechos de acceso a los procedimientos, contacto con el "
+"administrador"
+
+#: index.php:739
+msgid ""
+"Vous n'avez pas les droits d'accès aux modèles de tickets, contacter votre "
+"administrateur"
+msgstr ""
+"Usted no tiene derechos de acceso a las plantillas de tickets, contacto con "
+"el administrador"
+
+#: index.php:740
+msgid ""
+"Vous n'avez pas les droits d'accès à la prévisualisation des mails, "
+"contacter votre administrateur"
+msgstr ""
+"Usted no tiene derechos de acceso a los correos electrónicos de vista "
+"previa, contacto con el administrador"
+
+#: index.php:741 index.php:742 index.php:744
+msgid ""
+"Vous n'avez pas les droits d'accès aux équipements, contacter votre "
+"administrateur"
+msgstr ""
+"Usted no tiene los derechos de acceso al equipo, contacto con el "
+"administrador"
+
+#: index.php:743
+msgid ""
+"Vous n'avez pas les droits d'accès à la fiche de cet équipement, contacter "
+"votre administrateur"
+msgstr ""
+"Usted no tiene los derechos de acceso al registro de este equipo, contacto "
+"con el administrador"
+
+#: index.php:745
+msgid ""
+"Vous n'avez pas les droits d'accès aux calendrier, contacter votre "
+"administrateur"
+msgstr ""
+"Usted no tiene derechos de acceso al calendario, contacto con el "
+"administrador"
+
+#: index.php:746
+msgid ""
+"Vous n'avez pas le droit de modifier un autre utilisateur, contacter votre "
+"administrateur"
+msgstr ""
+"Usted no tiene el derecho de modificar otro usuario, contacto con el "
+"administrador"
+
+#: index.php:747
+msgid ""
+"Vous n'avez pas les droits d'accès à l'administration du logiciel, contacter "
+"votre administrateur"
+msgstr ""
+"Usted no tiene los derechos de acceso a la administración del software, "
+"contacto con el administrador"
+
+#: index.php:748
+msgid ""
+"Vous n'avez pas les droits d'accès aux statistiques du logiciel, contacter "
+"votre administrateur"
+msgstr ""
+"Usted no tiene derechos de acceso al software estadístico, contacto con el "
+"administrador"
+
+#: index.php:750
+msgid ""
+"Vous n'avez pas les droits d'accès au module de disponibilité, contacter "
+"votre administrateur"
+msgstr ""
+"Usted no tiene los derechos de acceso al módulo de disponibilidad, contacte "
+"con su administrador"
+
+#: index.php:757
+msgid ""
+"Vous n'avez pas les droits de consulter le ticket de ce service, contacter "
+"votre administrateur"
+msgstr ""
+"Usted no tiene permiso para comprobar el billete para este servicio, póngase "
+"en contacto con el administrador"
+
+#: index.php:805
+msgid "à"
+msgstr "100 hasta 1000"
+
+#: install/index.php:134
+msgid "Vérifier vos paramètres de connexion à la base de donnée"
+msgstr "Compruebe la configuración de conexión en la base de datos"
+
+#: install/index.php:148
+msgid "Installation"
+msgstr "Instalación"
+
+#: install/index.php:177
+msgid "Installation de l'application"
+msgstr "Instalación de la aplicación"
+
+#: install/index.php:185
+msgid "Base de données"
+msgstr "Base de datos"
+
+#: install/index.php:189 install/index.php:266
+msgid "Vérification de la configuration serveur"
+msgstr "Comprobación de la configuración del servidor"
+
+#: install/index.php:193
+msgid "Fin"
+msgstr "Final"
+
+#: install/index.php:208
+msgid "Entrer les paramètres de connexion à votre base de données"
+msgstr "Introduzca la configuración de conexión a la base de datos"
+
+#: install/index.php:212
+msgid "Serveur de base données"
+msgstr "La base de datos del servidor"
+
+#: install/index.php:219
+msgid "Nom netbios ou adresse IP du serveur de base de données"
+msgstr "Nombre NetBIOS o IP dirección del servidor de base de datos"
+
+#: install/index.php:222
+msgid "Nom de la base données"
+msgstr "Nombre de la base de datos"
+
+#: install/index.php:231
+msgid "Port de la base données"
+msgstr "Puerto de la base de datos"
+
+#: install/index.php:238
+msgid "Pour MySQL 3306 pour MariaDB 3307"
+msgstr "Para MySQL a MariaDB 3306 3307"
+
+#: install/index.php:241
+msgid "Utilisateur de la base données"
+msgstr "Los usuarios de la base de datos"
+
+#: install/index.php:251
+msgid "Mot de passe de la base données"
+msgstr "Contraseña para la base de datos"
+
+#: install/index.php:258
+msgid "Pour WAMP laisser vide"
+msgstr "WAMP para dejar vacía"
+
+#: install/index.php:275
+msgid "Installation terminée"
+msgstr "Instalación completa"
+
+#: install/index.php:286
+msgid "L'application à été installée avec succès"
+msgstr "La aplicación se ha instalado correctamente"
+
+#: install/index.php:287
+msgid "Les identifiants initiaux sont"
+msgstr "La contraseña inicial es"
+
+#: install/index.php:288
+msgid "Vous pouvez vous connecter via l'url"
+msgstr "Puede conectarse a través de la URL"
+
+#: install/index.php:289
+msgid ""
+"Attention pour des raisons de sécurité nous vous conseillons de supprimer le "
+"répertoire /install, et de modifier les mots de passes des utilisateurs "
+"existants"
+msgstr ""
+"Advertencia por razones de seguridad, se recomienda que elimine el / "
+"instalar y cambiar las palabras a los usuarios existentes pases"
+
+#: install/index.php:302
+msgid "Actualiser"
+msgstr "Actualizar"
+
+#: install/index.php:309 survey.php:342
+msgid "Suivant"
+msgstr "Siguiente"
+
+#: locale/local_sql_data.php:14
+msgid "Attente PEC"
+msgstr "Espera PEC"
+
+#: locale/local_sql_data.php:15
+msgid "En cours"
+msgstr "En curso"
+
+#: locale/local_sql_data.php:16
+msgid "Attente Retour"
+msgstr "Volver a la espera"
+
+#: locale/local_sql_data.php:17
+msgid "Non attribué"
+msgstr "Sin asignar"
+
+#: locale/local_sql_data.php:18 monitor.php:86
+msgid "Résolu"
+msgstr "Resuelto"
+
+#: locale/local_sql_data.php:19
+msgid "Rejeté"
+msgstr "Rechazado"
+
+#: locale/local_sql_data.php:20
+msgid "En cours "
+msgstr "En curso "
+
+#: locale/local_sql_data.php:22
+msgid "tickets en attente de prise en charge"
+msgstr "entradas en espera de apoyo"
+
+#: locale/local_sql_data.php:23
+msgid "tickets en cours de traitement"
+msgstr "entradas se procesan"
+
+#: locale/local_sql_data.php:24
+msgid "tickets résolus"
+msgstr "boletos resueltos"
+
+#: locale/local_sql_data.php:25
+msgid "tickets rejetés"
+msgstr "billetes puestos en libertad"
+
+#: locale/local_sql_data.php:26
+msgid "tickets pas encore associés à un technicien"
+msgstr "entradas aún no asociados con un técnico"
+
+#: locale/local_sql_data.php:27
+msgid "tickets en attente d'éléments de la part du demandeur"
+msgstr "boletos de espera por artículos de la solicitante"
+
+#: locale/local_sql_data.php:29
+msgid "Notification d'ouverture"
+msgstr "Notificación de apertura"
+
+#: locale/local_sql_data.php:30
+msgid "Notification de clôture"
+msgstr "La notificación de cierre"
+
+#: locale/local_sql_data.php:31
+msgid "Notification de rejet"
+msgstr "Notificación de rechazo"
+
+#: locale/local_sql_data.php:32
+msgid "Notification de déclaration"
+msgstr "Declaración de notificación"
+
+#: locale/local_sql_data.php:33
+msgid "Notification d'attente de retour"
+msgstr "Reserva de retorno pendiente"
+
+#: locale/local_sql_data.php:36
+msgid " Aucun"
+msgstr " Nningún"
+
+#: locale/local_sql_data.php:37 ticket.php:603
+msgid "Aucune"
+msgstr "Ninguna"
+
+#: locale/local_sql_data.php:38
+msgid " Aucune"
+msgstr " Ninguna"
+
+#: locale/local_sql_data.php:39
+msgid "Urgent"
+msgstr "Urgente"
+
+#: locale/local_sql_data.php:40
+msgid "Très haute"
+msgstr "Muy alto"
+
+#: locale/local_sql_data.php:41
+msgid "Haute"
+msgstr "Alto"
+
+#: locale/local_sql_data.php:42 locale/local_sql_data.php:47
+msgid "Moyenne"
+msgstr "Promedio"
+
+#: locale/local_sql_data.php:43 locale/local_sql_data.php:48
+msgid "Basse"
+msgstr "Bajo"
+
+#: locale/local_sql_data.php:44
+msgid "Très basse"
+msgstr "Muy baja"
+
+#: locale/local_sql_data.php:45
+msgid "Critique"
+msgstr "Crítico"
+
+#: locale/local_sql_data.php:46
+msgid "Grave"
+msgstr "Grave"
+
+#: locale/local_sql_data.php:50
+msgid "Demande"
+msgstr "Solicitud"
+
+#: locale/local_sql_data.php:51
+msgid "Incident"
+msgstr "Incidente"
+
+#: locale/local_sql_data.php:53 locale/local_sql_data.php:223
+msgid "Bonjour, <br />Vous avez fait la demande suivante auprès du support:"
+msgstr "Hola, <br /> Usted ha tomado la siguiente petición para apoyar:"
+
+#: locale/local_sql_data.php:55
+msgid "Affiche le champ de recherche"
+msgstr "Muestra el campo de búsqueda"
+
+#: locale/local_sql_data.php:56
+msgid ""
+"Autorise les actions sur la sélection de plusieurs tickets, dans la liste "
+"des tickets"
+msgstr ""
+"Admite una acción sobre la selección de múltiples entradas en la lista de "
+"entradas"
+
+#: locale/local_sql_data.php:57
+msgid "Affiche le menu procédure"
+msgstr "Muestra el procedimiento del menú"
+
+#: locale/local_sql_data.php:58
+msgid "Affiche le menu Statistiques"
+msgstr "Muestra el menú de Estadísticas"
+
+#: locale/local_sql_data.php:59
+msgid "Affiche le menu Planning"
+msgstr "Muestra el menú de Planificación"
+
+#: locale/local_sql_data.php:60
+msgid "Affiche le menu Disponibilité"
+msgstr "Disponibilidad Muestra el menú"
+
+#: locale/local_sql_data.php:61
+msgid "Affiche le menu équipement"
+msgstr "Muestra el menú de equipos"
+
+#: locale/local_sql_data.php:62 locale/local_sql_data.php:169
+msgid ""
+"Affiche uniquement les équipements du service auquel est rattaché "
+"l'utilisateur"
+msgstr ""
+"Muestra únicamente los equipos de servicio al que está unido el usuario"
+
+#: locale/local_sql_data.php:63 locale/local_sql_data.php:170
+msgid ""
+"Affiche uniquement la liste des équipements, sans droit d'éditer une fiche"
+msgstr ""
+"Muestra únicamente los equipos de servicio al que está unido el usuario"
+
+#: locale/local_sql_data.php:64
+msgid "Affiche le menu Administration"
+msgstr "Muestra el menú de administración"
+
+#: locale/local_sql_data.php:65
+msgid "Droit de modification de profil des utilisateurs"
+msgstr "Perfil modificación derecho de los usuarios"
+
+#: locale/local_sql_data.php:66
+msgid "Droit de modification des vues des utilisateurs"
+msgstr "Vistas pueden modificar los usuarios"
+
+#: locale/local_sql_data.php:67 locale/local_sql_data.php:172
+msgid "Affiche la colonne type dans la liste des tickets"
+msgstr "Muestra el tipo de columna en la lista de entradas"
+
+#: locale/local_sql_data.php:68 locale/local_sql_data.php:173
+msgid "Affiche la colonne criticité dans la liste des tickets"
+msgstr "Muestra la columna de la criticidad en la lista de entradas"
+
+#: locale/local_sql_data.php:69 locale/local_sql_data.php:174
+msgid "Affiche la colonne priorité dans la liste des tickets"
+msgstr "Muestra la columna prioridad en la lista de entradas"
+
+#: locale/local_sql_data.php:70 locale/local_sql_data.php:156
+msgid "Affiche la colonne date de création dans la liste des tickets"
+msgstr "Muestra la columna de la fecha de creación de la lista de entradas"
+
+#: locale/local_sql_data.php:71
+msgid "Affiche la colonne date de résolution estimé dans la liste des tickets"
+msgstr ""
+"Muestra la columna de la fecha estimada de resolución en la lista de entradas"
+
+#: locale/local_sql_data.php:72 locale/local_sql_data.php:155
+msgid "Affiche la colonne date de résolution dans la liste des tickets"
+msgstr "Muestra la fecha de la columna de resolución en la lista de entradas"
+
+#: locale/local_sql_data.php:73
+msgid "Affiche les propriétés étendue de la barre utilisateur"
+msgstr "Muestra las propiedades de la barra del usuario ampliada"
+
+#: locale/local_sql_data.php:74
+msgid "Affiche la colonne de gauche"
+msgstr "Muestra la columna de la izquierda"
+
+#: locale/local_sql_data.php:75
+msgid "Affiche le bouton Ouvrir un nouveau ticket"
+msgstr "Muestra el botón de abrir un nuevo ticket"
+
+#: locale/local_sql_data.php:76
+msgid "Affiche le bouton ajouter équipement"
+msgstr "Muestra el botón de añadir equipos"
+
+#: locale/local_sql_data.php:77
+msgid "Affiche tous les états des équipements dans le menu de gauche"
+msgstr "Muestra todos los estados de los equipos en el menú de la izquierda"
+
+#: locale/local_sql_data.php:78
+msgid "Affiche la section vos demandes"
+msgstr "Muestra la sección de sus peticiones"
+
+#: locale/local_sql_data.php:79
+msgid "Affiche vos demande non lu"
+msgstr "Muestra su solicitud sin leer"
+
+#: locale/local_sql_data.php:80 locale/local_sql_data.php:157
+#: locale/local_sql_data.php:176
+msgid "Affiche vos demande non attribué"
+msgstr "Muestra su solicitud sin asignar"
+
+#: locale/local_sql_data.php:81
+msgid "Affiche le meta état à traiter personnel"
+msgstr "Muestra el estado meta de tratar al personal"
+
+#: locale/local_sql_data.php:82 locale/local_sql_data.php:177
+msgid ""
+"Affiche les tickets associés à un groupe de technicien dans lequel vous êtes "
+"présent"
+msgstr ""
+"Muestra las entradas asociadas a un grupo de técnicos en los que está "
+"presente"
+
+#: locale/local_sql_data.php:83
+msgid "Affiche la section toutes les demandes"
+msgstr "Muestra la sección de todas las solicitudes"
+
+#: locale/local_sql_data.php:84
+msgid "Affiche la vue Nouvelles demandes dans toutes les demandes"
+msgstr "Muestra la vista en Nueva solicita a todas las solicitudes"
+
+#: locale/local_sql_data.php:85
+msgid "Affiche le meta état à traiter pour tous les techniciens"
+msgstr "Muestra el estado meta a ser tratado por todos los técnicos"
+
+#: locale/local_sql_data.php:86
+msgid "Affiche la section tous les tickets de ma société"
+msgstr "Muestra la sociedad toda mi sección de entradas"
+
+#: locale/local_sql_data.php:87
+msgid "Affiche les vues personnelles"
+msgstr "Muestra puntos de vista personales"
+
+#: locale/local_sql_data.php:88
+msgid "Affiche les flèches ticket suivant et précédent"
+msgstr "Muestra anteriores y próximos flechas de entradas"
+
+#: locale/local_sql_data.php:89
+msgid "Impression des tickets"
+msgstr "Boletos de impresión"
+
+#: locale/local_sql_data.php:90
+msgid "Affiche le bouton modèle de ticket"
+msgstr "Muestra el botón de plantilla de etiqueta"
+
+#: locale/local_sql_data.php:91
+msgid "Planifier un ticket"
+msgstr "La planificación de un billete"
+
+#: locale/local_sql_data.php:92
+msgid "Créer un rappel de ticket"
+msgstr "Crear un billete de vuelta"
+
+#: locale/local_sql_data.php:93
+msgid "Sauvegarde de ticket"
+msgstr "Copia de seguridad de entradas"
+
+#: locale/local_sql_data.php:94
+msgid "Modification du type dans le ticket"
+msgstr "Al cambiar el tipo en el billete"
+
+#: locale/local_sql_data.php:95
+msgid "Affiche le champ type dans le ticket"
+msgstr "Muestra el tipo de campo en el billete"
+
+#: locale/local_sql_data.php:96
+msgid "Modification du demandeur"
+msgstr "Cambio del solicitante"
+
+#: locale/local_sql_data.php:97
+msgid "Affiche le champ utilisateur dans le ticket"
+msgstr "Muestra el campo de usuario en el billete"
+
+#: locale/local_sql_data.php:98
+msgid "Affiche les boutons actions pour le demandeur"
+msgstr "Muestra los botones de acción para el solicitante"
+
+#: locale/local_sql_data.php:99
+msgid "Modification du technicien"
+msgstr "El cambio técnico"
+
+#: locale/local_sql_data.php:100
+msgid "Affiche le champ technicien dans le ticket"
+msgstr "Muestra el técnico de campo en el billete"
+
+#: locale/local_sql_data.php:101
+msgid "Modification des catégories"
+msgstr "Al cambiar de categoría"
+
+#: locale/local_sql_data.php:102
+msgid "Affiche le champ catégorie dans le ticket"
+msgstr "Muestra el campo de categoría en el billete"
+
+#: locale/local_sql_data.php:103
+msgid "Affiche les boutons actions pour les catégories"
+msgstr "Muestra los botones de acción para las categorías"
+
+#: locale/local_sql_data.php:104
+msgid "Modification du lieu"
+msgstr "Cambio de sede"
+
+#: locale/local_sql_data.php:105
+msgid "Modification du titre dans le ticket"
+msgstr "Cambiar el título en el billete"
+
+#: locale/local_sql_data.php:106
+msgid "Affiche le champ titre dans le ticket"
+msgstr "Muestra el campo de título en el billete"
+
+#: locale/local_sql_data.php:107
+msgid "Modification de la description"
+msgstr "Cambio de la descripción"
+
+#: locale/local_sql_data.php:108
+msgid "Affiche le champ description dans le ticket"
+msgstr "Muestra el campo de descripción en el billete"
+
+#: locale/local_sql_data.php:109
+msgid "Affiche le champ resolution dans le ticket"
+msgstr "Muestra el campo de la resolución en el billete"
+
+#: locale/local_sql_data.php:110
+msgid "Ajouter des pièces jointes"
+msgstr "Agregar archivos adjuntos"
+
+#: locale/local_sql_data.php:111
+msgid "Modification de la date de création"
+msgstr "Cambio de la fecha de creación"
+
+#: locale/local_sql_data.php:112
+msgid "Affiche le champ date de création dans le ticket"
+msgstr "Muestra el campo de fecha de creación en el billete"
+
+#: locale/local_sql_data.php:113
+msgid "Modification de la date de résolution estimée"
+msgstr "Cambio de la fecha estimada de resolución"
+
+#: locale/local_sql_data.php:114
+msgid "Affiche le champ date de de résolution estimé dans le ticket"
+msgstr "Muestra el campo de la fecha de la resolución en el billete estimado"
+
+#: locale/local_sql_data.php:115
+msgid "Oblige la saisie du champ date de résolution estimé"
+msgstr "Requiere la entrada del campo de la fecha de resolución estimado"
+
+#: locale/local_sql_data.php:116
+msgid "Modification de la date de résolution dans le ticket"
+msgstr "Modificación de la fecha de la resolución en el billete"
+
+#: locale/local_sql_data.php:117
+msgid "Affiche le champ date de résolution dans le ticket"
+msgstr "Muestra el campo de la fecha de resolución en el billete"
+
+#: locale/local_sql_data.php:118
+msgid "Modification du temps passé par ticket"
+msgstr "Cambiar el tiempo dedicado por boleto"
+
+#: locale/local_sql_data.php:119
+msgid "Affiche le champ temps passé dans le ticket"
+msgstr "Muestra el tiempo pasado en el campo de vuelo"
+
+#: locale/local_sql_data.php:120
+msgid "Modification du temps estimÃ© passÃ© par ticket"
+msgstr "Cambiar el tiempo dedicado © © Estima por boleto"
+
+#: locale/local_sql_data.php:121
+msgid "Affiche le champ temps estimé dans le ticket"
+msgstr "Muestra el campo de tiempo estimado en el billete"
+
+#: locale/local_sql_data.php:122
+msgid "Modification de la priorité dans le ticket"
+msgstr "Al cambiar la prioridad en el billete"
+
+#: locale/local_sql_data.php:123
+msgid "Affiche le champ priorité dans le ticket"
+msgstr "Muestra el campo de prioridad en el billete"
+
+#: locale/local_sql_data.php:124
+msgid "Oblige la saisie du champ priorité"
+msgstr "Requiere entrada de campo de prioridad"
+
+#: locale/local_sql_data.php:125
+msgid "Modification de la criticité dans le ticket"
+msgstr "Cambio de la criticidad en el billete"
+
+#: locale/local_sql_data.php:126
+msgid "Affiche le champ criticité dans le ticket"
+msgstr "Muestra el campo de criticidad en el billete"
+
+#: locale/local_sql_data.php:127
+msgid "Oblige la saisie du champ criticité"
+msgstr "Fuerzas que entran en el campo de criticidad"
+
+#: locale/local_sql_data.php:128
+msgid "Modification du champ état dans le ticket"
+msgstr "Cambiar el campo de estado en el billete"
+
+#: locale/local_sql_data.php:129
+msgid "Affiche le champ état dans le ticket"
+msgstr "Muestra el campo de estado en el billete"
+
+#: locale/local_sql_data.php:130
+msgid "Modification de la partie disponibilité"
+msgstr "Los cambios en la sección disponibilidad"
+
+#: locale/local_sql_data.php:131
+msgid "Affiche la partie disponibilité"
+msgstr "Muestra la sección disponibilidad"
+
+#: locale/local_sql_data.php:132
+msgid "Droit de suppression de tickets"
+msgstr "La ley de supresión de entradas"
+
+#: locale/local_sql_data.php:133
+msgid "Affiche le bouton de clôture dans le ticket"
+msgstr "Muestra el botón de cierre en el billete"
+
+#: locale/local_sql_data.php:134
+msgid "Ajouter des réponses"
+msgstr "Añadir respuestas"
+
+#: locale/local_sql_data.php:135
+msgid "Suppression d'une résolution"
+msgstr "Eliminación de una resolución"
+
+#: locale/local_sql_data.php:136
+msgid "Modification de ses résolutions"
+msgstr "Para cambiar la resolución"
+
+#: locale/local_sql_data.php:137
+msgid "Modification de toutes les résolutions"
+msgstr "Cambio de todas las resoluciones"
+
+#: locale/local_sql_data.php:138
+msgid "Droit de répondre dans les tickets"
+msgstr "Derecho a responder de entradas"
+
+#: locale/local_sql_data.php:139
+msgid "Autorise à passer le message en privé"
+msgstr "Autoriza el mensaje en privado"
+
+#: locale/local_sql_data.php:140
+msgid "Affiche un bouton pour ajouter un message en privé"
+msgstr "Muestra un botón para agregar un mensaje en privado"
+
+#: locale/local_sql_data.php:141
+msgid "Affiche le bouton enregistrer et fermer dans le ticket"
+msgstr "Muestra el botón para guardar y cerrar el billete"
+
+#: locale/local_sql_data.php:142
+msgid "Affiche le bouton envoyer un mail dans le ticket"
+msgstr "Muestra el botón para enviar un correo electrónico en el billete"
+
+#: locale/local_sql_data.php:143
+msgid "Affiche le bouton annuler dans le ticket"
+msgstr "Muestra el botón de cancelación en el billete"
+
+#: locale/local_sql_data.php:144
+msgid "Modification du type pour les nouveaux tickets"
+msgstr "Al cambiar el tipo de nuevas entradas"
+
+#: locale/local_sql_data.php:145
+msgid "Affiche le champ type pour les nouveaux tickets"
+msgstr "Muestra el tipo de campo para los nuevos billetes"
+
+#: locale/local_sql_data.php:146
+msgid "Modification du demandeur pour les nouveaux tickets"
+msgstr "Cambiar el solicitante de nuevos billetes"
+
+#: locale/local_sql_data.php:147
+msgid "Affiche le champ demandeur pour les nouveaux tickets"
+msgstr "Muestra el campo de solicitante de nuevas entradas"
+
+#: locale/local_sql_data.php:148
+msgid "Affiche le champ technicien pour les nouveaux tickets"
+msgstr "Muestra el técnico de campo para los nuevos billetes"
+
+#: locale/local_sql_data.php:149
+msgid "Modification de la catégorie pour les nouveaux tickets"
+msgstr "Al cambiar la categoría de nuevas entradas"
+
+#: locale/local_sql_data.php:150
+msgid "Affiche le champ catégorie pour les nouveaux tickets"
+msgstr "Muestra el campo de categoría para los nuevos billetes"
+
+#: locale/local_sql_data.php:151
+msgid "Affiche le champ résolution pour les nouveaux tickets"
+msgstr "Muestra el campo de la resolución de nuevas entradas"
+
+#: locale/local_sql_data.php:152
+msgid "Affiche le bouton envoyer pour les nouveaux tickets"
+msgstr "Muestra el botón de enviar para los nuevos billetes"
+
+#: locale/local_sql_data.php:153
+msgid "Affiche le bouton sauvegarder sur les nouveaux tickets"
+msgstr "Muestra el botón Guardar de las nuevas entradas"
+
+#: locale/local_sql_data.php:154
+msgid "Modification de la société sur la fiche utilisateur"
+msgstr "Cambio de la compañía en el perfil de usuario"
+
+#: locale/local_sql_data.php:158
+msgid "Modification du temps estimé passé par ticket"
+msgstr "Modificación del tiempo de permanencia previsto por boleto"
+
+#: locale/local_sql_data.php:159
+msgid "Droit d\\'ajouter des procédures"
+msgstr "Derecho a incluir procedimientos"
+
+#: locale/local_sql_data.php:160
+msgid "Droit de supprimer des procédures"
+msgstr "Derecho de eliminar los procedimientos"
+
+#: locale/local_sql_data.php:161
+msgid "Affiche la colonne catégorie dans la liste des tickets"
+msgstr "Muestra la columna de la categoría en la lista de entradas"
+
+#: locale/local_sql_data.php:162
+msgid "Affiche la colonne sous-catégorie dans la liste des tickets"
+msgstr "Muestra la columna subcategoría en la lista de entradas"
+
+#: locale/local_sql_data.php:163 locale/local_sql_data.php:171
+#: locale/local_sql_data.php:183
+msgid "Affiche la colonne société dans la liste des tickets"
+msgstr "Muestra columna de la sociedad en la lista de entradas"
+
+#: locale/local_sql_data.php:164
+msgid ""
+"Affiche l'heure de création du ticket dans la colonne date de création, sur "
+"la liste des tickets"
+msgstr ""
+"Muestra el tiempo de creación de la entrada en la columna de la fecha de "
+"creación de la lista de entradas"
+
+#: locale/local_sql_data.php:165
+msgid ""
+"Affiche le nom de la société de l'utilisateur dans la liste des utilisateurs "
+"sur un ticket"
+msgstr ""
+"Muestra el nombre de la empresa usuaria en la lista de usuarios en un billete"
+
+#: locale/local_sql_data.php:166
+msgid "Affiche le champ localisation sur un équipement"
+msgstr "Muestra el campo de ubicación en el equipo"
+
+#: locale/local_sql_data.php:167
+msgid "Affiche le champ équipement virtuel"
+msgstr "Muestra el equipo de campo virtual"
+
+#: locale/local_sql_data.php:168
+msgid "Affiche la colonne localisation dans la liste des tickets"
+msgstr "Muestra la columna de la ubicación en la lista de entradas"
+
+#: locale/local_sql_data.php:175 locale/local_sql_data.php:184
+#: locale/local_sql_data.php:210
+msgid "Affiche la colonne date de résolution estimée dans la liste des tickets"
+msgstr ""
+"Muestra la columna de la fecha estimada de resolución en la lista de entradas"
+
+#: locale/local_sql_data.php:178
+msgid "Affiche le champ date de résolution estimée dans le ticket"
+msgstr "Muestra el campo de la fecha estimada de resolución en el billete"
+
+#: locale/local_sql_data.php:179
+msgid "Oblige la saisie du champ date de résolution estimée"
+msgstr "Fuerzas que entran en el campo de la fecha estimada de resolución"
+
+#: locale/local_sql_data.php:180
+msgid "Modification des procédures"
+msgstr "Los cambios de procedimiento"
+
+#: locale/local_sql_data.php:181
+msgid "Droit d'ajouter des procédures"
+msgstr "Derecho de agregar procedimientos"
+
+#: locale/local_sql_data.php:182
+msgid "Droit de suppression des équipements"
+msgstr "Equipo de supresión de la derecha"
+
+#: locale/local_sql_data.php:185
+msgid "Affiche vos demande non attribuées"
+msgstr "Muestra una solicitud sin asignar"
+
+#: locale/local_sql_data.php:186
+msgid "Affiche la section vos tickets"
+msgstr "Muestra la sección de entradas"
+
+#: locale/local_sql_data.php:187
+msgid "Affiche vos tickets non lus"
+msgstr "Muestra sus entradas sin leer"
+
+#: locale/local_sql_data.php:188
+msgid "Affiche les tickets non attribués"
+msgstr "Muestra las entradas no asignados"
+
+#: locale/local_sql_data.php:189
+msgid "Affiche la section tous les tickets"
+msgstr "Muestra todas las secciones entradas"
+
+#: locale/local_sql_data.php:190
+msgid "Affiche la vue nouveaux tickets dans tous les tickets"
+msgstr "Muestra las nuevas entradas para todas las entradas en"
+
+#: locale/local_sql_data.php:191
+msgid "Modification du service sur la fiche de l'utilisateur"
+msgstr "Cambiar el servicio en el perfil del usuario"
+
+#: locale/local_sql_data.php:192
+msgid ""
+"Affiche uniquement les tickets du ou des services auquel est rattaché "
+"l'utilisateur"
+msgstr "Muestra sólo los billetes o servicios a los que se une el usuario"
+
+#: locale/local_sql_data.php:193
+msgid "Modification du service dans le ticket"
+msgstr "Los cambios de servicio en el boleto"
+
+#: locale/local_sql_data.php:194
+msgid "Affiche le champ service dans le ticket"
+msgstr "Muestra el campo de servicio en el billete"
+
+#: locale/local_sql_data.php:195
+msgid "Oblige la saisie du champ service"
+msgstr "Requiere la entrada del campo de servicio"
+
+#: locale/local_sql_data.php:196
+msgid "Modification du service pour les nouveaux tickets"
+msgstr "Los cambios de servicio para los nuevos billetes"
+
+#: locale/local_sql_data.php:197
+msgid "Affiche le menu Administration > Groupes uniquement"
+msgstr "Administración pantallas> Sólo los grupos"
+
+#: locale/local_sql_data.php:198
+msgid "Affiche le menu Administration > Listes uniquement"
+msgstr "Administración Displays> Listas Sólo"
+
+#: locale/local_sql_data.php:199
+msgid "Affiche le menu Administration > Listes > Catégories"
+msgstr "Muestra Administración> Listados> Categorías"
+
+#: locale/local_sql_data.php:200
+msgid "Affiche le menu Administration > Listes > Sous-catégories"
+msgstr "Muestra Administración> Listados> subcategorías"
+
+#: locale/local_sql_data.php:201
+msgid "Affiche le menu Administration > Listes > Criticités"
+msgstr "Administración pantallas> Listados> criticidad"
+
+#: locale/local_sql_data.php:202
+msgid "Affiche la colonne service dans la liste des tickets"
+msgstr "Muestra la columna de servicio en la lista de entradas"
+
+#: locale/local_sql_data.php:203
+msgid "Affiche la colonne agence dans la liste des tickets"
+msgstr "Muestra la columna de la agencia en la lista de entradas"
+
+#: locale/local_sql_data.php:204
+msgid ""
+"Affiche tous les tickets associés aux services de l'utilisateur connecté"
+msgstr ""
+"Muestra todas las entradas asociadas a los servicios a los usuarios "
+"conectados"
+
+#: locale/local_sql_data.php:205
+msgid ""
+"Permet de modifier tous les tickets associés aux services de l'utilisateur "
+"connecté"
+msgstr ""
+"Edita todos los billetes correspondientes a servicios a los usuarios "
+"conectados"
+
+#: locale/local_sql_data.php:206
+msgid "Affiche tous les tickets associés aux agences de l'utilisateur connecté"
+msgstr ""
+"Muestra todas las entradas asociadas a los organismos usuarios conectados"
+
+#: locale/local_sql_data.php:207
+msgid ""
+"Permet de modifier tous les tickets associés aux agences de l'utilisateur "
+"connecté"
+msgstr ""
+"Edita todas las entradas asociadas a los organismos usuarios conectados"
+
+#: locale/local_sql_data.php:208
+msgid ""
+"Affiche uniquement les tickets des agences auxquelles est rattaché "
+"l'utilisateur"
+msgstr "Muestra sólo los tickets de los cuales se adjunta agencias del usuario"
+
+#: locale/local_sql_data.php:209
+msgid "Affiche le champ agence dans le ticket"
+msgstr "Muestra el campo de la agencia de entradas"
+
+#: locale/local_sql_data.php:211
+msgid "Affiche le champ service pour les nouveaux tickets"
+msgstr "Muestra el campo de servicio para los nuevos billetes"
+
+#: locale/local_sql_data.php:214
+msgid "Stock"
+msgstr "Valores"
+
+#: locale/local_sql_data.php:215
+msgid "Installé"
+msgstr "Instalado"
+
+#: locale/local_sql_data.php:216
+msgid "Standbye"
+msgstr "Standbye"
+
+#: locale/local_sql_data.php:217
+msgid "Recyclé"
+msgstr "Reciclado"
+
+#: locale/local_sql_data.php:218
+msgid "Équipement en stock"
+msgstr "Equipos en stock"
+
+#: locale/local_sql_data.php:219
+msgid "Équipement installé en production"
+msgstr "Equipo de producción instalada"
+
+#: locale/local_sql_data.php:220
+msgid "Équipement de coté"
+msgstr "Equipamiento de tierra"
+
+#: locale/local_sql_data.php:221
+msgid "Équipement recyclé, jeté"
+msgstr "Equipos de reciclado, fundido"
+
+#: login.php:147
+msgid "Votre compte est inexistant dans ce logiciel."
+msgstr "Su cuenta no existe en este software."
+
+#: login.php:206 login.php:233
+msgid "Votre nom d'utilisateur ou mot de passe, n'est pas correct."
+msgstr "Su nombre de usuario o contraseña es incorrecta."
+
+#: login.php:256
+msgid "Vous pouvez utiliser votre identifiant et mot de passe"
+msgstr "Puede utilizar su nombre de usuario y contraseña"
+
+#: login.php:295
+msgid "Saisissez vos identifiants"
+msgstr "Introduzca su contraseña"
+
+#: login.php:304
+msgid "Nom d'utilisateur"
+msgstr "Nombre del usuario"
+
+#: login.php:318
+msgid "Connexion"
+msgstr "Conexión"
+
+#: login.php:338 register.php:229
+msgid "S'enregistrer"
+msgstr "Registrar"
+
+#: login.php:352
+msgid "Ouvre un nouvel onglet vers le site gestsup.fr"
+msgstr "Abrir una nueva pestaña a la gestsup.fr sitio"
+
+#: mail2ticket.php:150
+msgid "Impossible de se connecter au serveur de Messagerie: "
+msgstr "No se puede conectar al servidor de Correo "
+
+#: menu.php:45
+msgid "Création d'un nouveau ticket"
+msgstr "Creación de un nuevo billete"
+
+#: menu.php:47
+msgid "Nouveau ticket"
+msgstr "Nuevo billete"
+
+#: menu.php:58 menu.php:60
+msgid "Nouvel équipement"
+msgstr "Nuevos equipos"
+
+#: menu.php:71
+msgid "Permet l'ajout de plusieurs équipements à la fois"
+msgstr "Permite la adición de múltiples dispositivos a la vez"
+
+#: menu.php:73
+msgid "Ajouter un lot"
+msgstr "Añadir un montón"
+
+#: menu.php:96
+msgid "Vos tickets"
+msgstr "Sus entradas"
+
+#: menu.php:97 menu.php:130
+msgid "Tickets non lus sont en attente"
+msgstr "Boletos no leídos están en espera"
+
+#: menu.php:108 menu.php:206 menu.php:264
+msgid "Tous les états"
+msgstr "Todos los Estados"
+
+#: menu.php:118
+msgid ""
+"Meta-état regroupant les états: Attente de PEC, En cours, et Attente de "
+"retour."
+msgstr ""
+"Meta-estado agrupación estados: Esperando la PAC en curso y volver a en "
+"espera."
+
+#: menu.php:120
+msgid "A traiter "
+msgstr "A tratar "
+
+#: menu.php:130
+msgid "Non lus"
+msgstr "No leído"
+
+#: menu.php:198
+msgid "Ma société"
+msgstr "Mi empresa"
+
+#: menu.php:273 monitor.php:84
+msgid "Nouveaux"
+msgstr "Nuevo"
+
+#: menu.php:273
+msgid "Des nouveaux tickets sont à attribués"
+msgstr "Los nuevos billetes se asignan"
+
+#: menu.php:286
+msgid ""
+"Meta-état regroupant les états: Attente de PEC, En cours, et Attente de "
+"retour"
+msgstr ""
+"Meta-estado agrupación estados: Esperando la PAC en curso y volver a la "
+"espera"
+
+#: menu.php:325
+msgid "Vos vues"
+msgstr "Sus puntos de vista"
+
+#: menu.php:371
+msgid "Tous les équipements"
+msgstr "Todos los equipos"
+
+#: menu.php:406
+msgid "Liste des équipements en fonction de leurs garanties"
+msgstr "Lista de equipo de acuerdo a sus garantías"
+
+#: menu.php:408
+msgid "Garanties"
+msgstr "Garantías"
+
+#: menu.php:423 procedure.php:405
+msgid "Procédures"
+msgstr "Actas"
+
+#: modify_pwd.php:37
+msgid "Veuillez remplir tous les champs"
+msgstr "Es obligatorio rellenar todos los campos"
+
+#: modify_pwd.php:42
+msgid "Votre ancien mot de passe est erroné"
+msgstr "Su antigua contraseña es incorrecta"
+
+#: modify_pwd.php:47
+msgid "Les deux nouveaux mot de passes sont différents"
+msgstr "La nueva palabra de dos pasadas son diferentes"
+
+#: modify_pwd.php:63 modify_pwd.php:82
+msgid "Modification du mot de passe"
+msgstr "Cambio de contraseña"
+
+#: modify_pwd.php:64
+msgid "Votre mot de passe à été changé avec succès"
+msgstr "Su contraseña se ha cambiado correctamente"
+
+#: modify_pwd.php:73
+msgid "Ancien mot de passe"
+msgstr "Antigua contraseña"
+
+#: modify_pwd.php:75 modify_pwd.php:77
+msgid "Nouveau mot de passe"
+msgstr "Nueva contraseña"
+
+#: monitor.php:85
+msgid "Ouverts"
+msgstr "Abierto"
+
+#: monitor.php:85
+msgid "Ouvert"
+msgstr "Abierto"
+
+#: monitor.php:95 monitor.php:101
+msgid "du jour"
+msgstr "del día"
+
+#: planning.php:92
+msgid "Lundi"
+msgstr "Lunes"
+
+#: planning.php:92
+msgid "Mardi"
+msgstr "Martes"
+
+#: planning.php:92
+msgid "Mercredi"
+msgstr "Miércoles"
+
+#: planning.php:92
+msgid "Jeudi"
+msgstr "Jueves"
+
+#: planning.php:92
+msgid "Vendredi"
+msgstr "Viernes"
+
+#: planning.php:92
+msgid "Samedi"
+msgstr "Sábado"
+
+#: planning.php:92
+msgid "Dimanche"
+msgstr "Domingo"
+
+#: planning.php:113
+msgid "de tous les techniciens"
+msgstr "de todos los técnicos"
+
+#: planning.php:122 planning.php:123
+msgid "Planning"
+msgstr "Horario"
+
+#: planning.php:123
+msgid "depuis"
+msgstr "de"
+
+#: planning.php:129
+msgid "Semaine précédente"
+msgstr "Semana anterior"
+
+#: planning.php:132
+msgid "Semaine suivante"
+msgstr "Semana próxima"
+
+#: planning.php:136 planning.php:164
+msgid "Semaine"
+msgstr "Día Laborable"
+
+#: planning.php:268 planning.php:286 planning.php:303 planning.php:320
+#: planning.php:338 planning.php:356 planning.php:374
+msgid "Voir le ticket"
+msgstr "Ver entradas"
+
+#: planning.php:269 planning.php:287 planning.php:304 planning.php:321
+#: planning.php:339 planning.php:357 planning.php:375
+msgid "Supprimer cet évènement"
+msgstr "Eliminar este evento"
+
+#: plugins/availability/admin/parameters.php:25
+msgid "Activer la fonction Disponibilité"
+msgstr "Activar la función de la disponibilidad"
+
+#: plugins/availability/admin/parameters.php:26
+msgid ""
+"Active le suivi des catégories afin de produire des statistiques de "
+"disponibilité "
+msgstr ""
+"Categorías de monitoreo activo para producir estadísticas de disponibilidad "
+
+#: plugins/availability/admin/parameters.php:33
+msgid "Surveiller toutes les catégories"
+msgstr "Supervisar todas las categorías"
+
+#: plugins/availability/admin/parameters.php:44
+msgid "Sélection des catégories ou sous-catégories à surveiller"
+msgstr "Categorías o subcategorías para ver seleccionados"
+
+#: plugins/availability/admin/parameters.php:60
+#: plugins/availability/admin/parameters.php:158
+msgid "Supprimer cette catégorie"
+msgstr "Retire esta categoría"
+
+#: plugins/availability/admin/parameters.php:68
+#: plugins/availability/admin/parameters.php:166
+msgid "Ajouter la catégorie"
+msgstr "Añadir categoría"
+
+#: plugins/availability/admin/parameters.php:78
+#: plugins/availability/admin/parameters.php:176
+msgid "et la Sous-Catégorie"
+msgstr "y la Sub-Categoría"
+
+#: plugins/availability/admin/parameters.php:100
+msgid "Condition de prise en compte d'un ticket"
+msgstr "Relato de una condición de captación de entradas"
+
+#: plugins/availability/admin/parameters.php:130
+msgid "Dépendances"
+msgstr "Dependencias"
+
+#: plugins/availability/admin/parameters.php:135
+msgid ""
+"Permet de définir des sous-catégories qui seront comptabilisées dans toutes "
+"les statistiques si elles possèdent la même condition. (ex: un ticket réseau "
+"critique, entraine une indisponibilité d'une application)"
+msgstr ""
+"Conjuntos de subcategorías que serán reconocidos en todas las estadísticas "
+"si tienen la misma condición. (Por ejemplo, la compra de entradas de red "
+"crítica, provoca falta de disponibilidad de una aplicación)"
+
+#: plugins/availability/admin/parameters.php:142
+msgid "Liste des sous-catégories impactant toutes les catégories surveillées"
+msgstr "Lista subcategorías impactar todas las categorías monitoreadas"
+
+#: plugins/availability/admin/parameters.php:198
+msgid ""
+"Définition des taux de disponibilités cible par années, par sous-catégories"
+msgstr ""
+"La definición de tasa de disponibilidad diana por años, por subcategorías"
+
+#: plugins/availability/admin/parameters.php:199
+msgid ""
+"Permet de fixer des objectifs de disponibilité, pour chaque sous catégorie, "
+"qui peuvent fluctuer chaque année"
+msgstr ""
+"Permite el establecimiento de objetivos de disponibilidad para cada sub-"
+"categoría, que puede fluctuar cada año"
+
+#: plugins/availability/admin/parameters.php:219
+msgid "taux de disponibilité cible"
+msgstr "tasa de disponibilidad de destino"
+
+#: plugins/availability/index.php:33
+msgid "Disponibilité du Système d'information"
+msgstr "Disponibilidad del Sistema de Información"
+
+#: plugins/availability/index.php:51
+msgid "Imprimer"
+msgstr "Imprimir"
+
+#: plugins/availability/index.php:64
+msgid "Pour l'année"
+msgstr "Para el año"
+
+#: plugins/availability/index.php:67
+msgid "Médiane des taux de disponibilité cible des applications"
+msgstr "La mediana de aplicaciones tasa de disponibilidad del objetivo"
+
+#: plugins/availability/index.php:68 plugins/availability/index.php:69
+msgid "Médiane du taux de disponibilité constaté"
+msgstr "Tasa de disponibilidad se encuentra la mediana"
+
+#: plugins/availability/index.php:93 plugins/availability/index.php:237
+#: plugins/availability/index.php:351
+msgid "Pour"
+msgstr "Para"
+
+#: plugins/availability/index.php:93 plugins/availability/index.php:96
+#: plugins/availability/index.php:97 plugins/availability/index.php:241
+#: plugins/availability/index.php:242 plugins/availability/index.php:351
+msgid "sur"
+msgstr "sobre"
+
+#: plugins/availability/index.php:96
+msgid "Taux de disponibilité constaté pour l'année"
+msgstr "Tasa de disponibilidad registrada para el año"
+
+#: plugins/availability/index.php:96 plugins/availability/index.php:97
+#: plugins/availability/index.php:241 plugins/availability/index.php:242
+#: plugins/availability/index.php:351
+msgid "attendu"
+msgstr "esperado"
+
+#: plugins/availability/index.php:97 plugins/availability/index.php:242
+msgid "Taux de disponibilité hors interventions planifiées pour l'année"
+msgstr ""
+"Tasa de disponibilidad excluyendo las intervenciones previstas para el año"
+
+#: plugins/availability/index.php:99
+msgid "Durée d'indisponibilité pour l'année"
+msgstr "El tiempo de inactividad para el año"
+
+#: plugins/availability/index.php:101 plugins/availability/index.php:246
+msgid "Liste des arrêts planifiés pour"
+msgstr "Lista de paradas programadas"
+
+#: plugins/availability/index.php:104 plugins/availability/index.php:249
+msgid "Maintenance de"
+msgstr "Mantenimiento"
+
+#: plugins/availability/index.php:121 plugins/availability/index.php:141
+#: plugins/availability/index.php:165 plugins/availability/index.php:185
+#: plugins/availability/index.php:266 plugins/availability/index.php:287
+#: plugins/availability/index.php:312 plugins/availability/index.php:333
+msgid "le"
+msgstr "el"
+
+#: plugins/availability/index.php:124 plugins/availability/index.php:270
+msgid "Autres maintenances"
+msgstr "Otras tareas de mantenimiento"
+
+#: plugins/availability/index.php:145 plugins/availability/index.php:292
+msgid "Liste des arrêts non planifiés pour"
+msgstr "Lista de paradas no programadas"
+
+#: plugins/availability/index.php:148 plugins/availability/index.php:295
+msgid "Problèmes de"
+msgstr "Cuestiones"
+
+#: plugins/availability/index.php:168 plugins/availability/index.php:316
+msgid "Autres problème"
+msgstr "Otro problema"
+
+#: plugins/availability/index.php:204
+msgid "Détails par trimestres"
+msgstr "Detalle por trimestres"
+
+#: plugins/availability/index.php:209
+msgid "Janvier à Mars"
+msgstr "Enero-marzo"
+
+#: plugins/availability/index.php:210
+msgid "Avril à Juin"
+msgstr "Abril-Junio"
+
+#: plugins/availability/index.php:211
+msgid "Juillet à Septembre"
+msgstr "Julio a septiembre"
+
+#: plugins/availability/index.php:212
+msgid "Octobre à Décembre"
+msgstr "Octubre a diciembre"
+
+#: plugins/availability/index.php:215
+msgid "Pour le trimestre"
+msgstr "Para el trimestre"
+
+#: plugins/availability/index.php:215 plugins/availability/index.php:237
+#: plugins/availability/index.php:241 plugins/availability/index.php:244
+#: plugins/availability/index.php:351
+msgid "de l'année"
+msgstr "del año"
+
+#: plugins/availability/index.php:215
+msgid "Période de"
+msgstr "Período"
+
+#: plugins/availability/index.php:237 plugins/availability/index.php:351
+msgid "sur le trimestre"
+msgstr "el trimestre"
+
+#: plugins/availability/index.php:241
+msgid "Taux de disponibilité constaté pour le trimestre"
+msgstr "Tasa de disponibilidad registrada en el trimestre"
+
+#: plugins/availability/index.php:244
+msgid "Durée d'indisponibilité pour le trimestre"
+msgstr "El tiempo de inactividad para el trimestre"
+
+#: plugins/availability/index.php:351
+msgid "le taux de disponibilité constaté est"
+msgstr "la tasa de disponibilidad se encuentra"
+
+#: preview_mail.php:56
+msgid "Paramètres du message"
+msgstr "Ajustes de los mensajes"
+
+#: preview_mail.php:59 preview_mail.php:316
+msgid "Envoyer le mail"
+msgstr "Enviar correo"
+
+#: preview_mail.php:66
+msgid "Émetteur"
+msgstr "Transmisor"
+
+#: preview_mail.php:72
+msgid "Destinataire"
+msgstr "RECEPTOR"
+
+#: preview_mail.php:94
+msgid "Le destinataire ne possède pas d'adresse mail"
+msgstr "El destinatario no tiene una dirección de correo electrónico"
+
+#: preview_mail.php:101
+msgid "Copie"
+msgstr "Copia"
+
+#: preview_mail.php:231
+msgid "Message"
+msgstr "Mensaje"
+
+#: preview_mail.php:240
+msgid "Pièce jointe"
+msgstr "Accesorio"
+
+#: preview_mail.php:244
+msgid "Avec Pièces jointes"
+msgstr "Con archivos adjuntos"
+
+#: preview_mail.php:245
+msgid "Sans Pièces jointes"
+msgstr "Sin Adjuntos"
+
+#: procedure.php:32
+msgid "Procédure supprimée"
+msgstr "Procedimiento de borrado"
+
+#: procedure.php:52
+msgid "Fichier supprimé"
+msgstr "Archivo eliminado"
+
+#: procedure.php:86
+msgid "La procédure à été sauvegardée"
+msgstr "El procedimiento se ha guardado"
+
+#: procedure.php:106
+msgid "Ajout d'une procédure"
+msgstr "Adición de un procedimiento de"
+
+#: procedure.php:112 procedure.php:289 procedure.php:433
+msgid "Nom de la procédure"
+msgstr "Nombre de procedimiento"
+
+#: procedure.php:237
+msgid "La procédure"
+msgstr "El procedimiento"
+
+#: procedure.php:241
+msgid "à été sauvegardée"
+msgstr "se ha guardado"
+
+#: procedure.php:283
+msgid "Édition de la procédure"
+msgstr "Edición de los procedimientos"
+
+#: procedure.php:341
+msgid "Joindre un fichier"
+msgstr "Adjuntar archivo"
+
+#: procedure.php:355
+msgid "Télécharger le fichier"
+msgstr "Descargar el fichero"
+
+#: procedure.php:419
+msgid "Ajouter une procédure"
+msgstr "Añadir Procedimiento"
+
+#: register.php:161
+msgid "Inscription"
+msgstr "Matriculación"
+
+#: register.php:194
+msgid "Re-taper votre mot de passe"
+msgstr "Vuelva a introducir su contraseña"
+
+#: register.php:211
+msgid "Votre Société"
+msgstr "Su compañía"
+
+#: stat.php:83
+msgid "Télécharge un fichier au format CSV avec l'ensemble des équipements"
+msgstr "Descargar un archivo CSV con todos los equipos"
+
+#: stat.php:86
+msgid "Export des équipements en CSV"
+msgstr "Exportación de equipos CSV"
+
+#: stat.php:96
+msgid "Télécharge un fichier au format CSV avec l'ensemble des tickets"
+msgstr "Descargar un archivo CSV con todas las entradas"
+
+#: stat.php:99
+msgid "Export des tickets en CSV"
+msgstr "Billetes de exportación CSV"
+
+#: stat.php:144
+msgid ""
+"Vous devez posséder au moins un service associé pour afficher cette page, "
+"contacter votre administrateur"
+msgstr ""
+"Debe tener al menos un servicio asociado a ver esta página, póngase en "
+"contacto con el administrador"
+
+#: stat_bar_stacked.php:31
+msgid "Pourcentage de disponibilité"
+msgstr "Porcentaje de disponibilidad"
+
+#: stat_bar_stacked.php:72
+msgid "Indisponibilité"
+msgstr "Indisponibilidad"
+
+#: stat_histo.php:29
+msgid "Nombre d\\'heures de travail restantes dans les tickets ouverts"
+msgstr "Número de horas de trabajo que quedan en billetes abiertos"
+
+#: stat_histo.php:46
+msgid "Nombre d\\'heures"
+msgstr "Número de horas"
+
+#: stat_histo.php:74
+msgid "Charge de travail en heures"
+msgstr "Carga de trabajo en horas"
+
+#: stat_line.php:17
+msgid "installés"
+msgstr "instalados"
+
+#: stat_line.php:18
+msgid "recyclés"
+msgstr "reciclado"
+
+#: stat_line.php:19 stat_line.php:24
+msgid "Total"
+msgstr "Total"
+
+#: stat_line.php:19 stat_line.php:24
+msgid "Total depuis le début"
+msgstr "Total desde el principio"
+
+#: stat_line.php:22
+msgid "ouverts"
+msgstr "abierto"
+
+#: stat_line.php:23
+msgid "fermés"
+msgstr "cerrado"
+
+#: stat_line.php:24 stat_line.php:29
+msgid "Total en cours"
+msgstr "La corriente total"
+
+#: stat_line.php:26
+msgid "Élément de <br />résolutions"
+msgstr "Element resoluciones <br />"
+
+#: stat_pie.php:70
+msgid "Répartition"
+msgstr "Distribución"
+
+#: stats/histo_load.php:19
+msgid "Charge de travail actuelle par technicien"
+msgstr "Carga de trabajo actual por técnico"
+
+#: stats/line_assets.php:40
+msgid "Évolution des équipements installés et recyclés sur"
+msgstr "Evolución de los equipos instalados y reciclado en el"
+
+#: stats/line_assets.php:67 stats/line_tickets.php:72
+#: stats/line_tickets_activity.php:53
+msgid "de toutes les années"
+msgstr "todos los años"
+
+#: stats/line_assets.php:68
+msgid "Évolution des équipements installés et recyclés pour le mois de"
+msgstr "Evolución de los equipos instalados y reciclados para el mes de"
+
+#: stats/line_assets.php:93
+msgid "Évolution des équipements installés et recyclés sur toutes les années"
+msgstr "Evolución de los equipos instalados y se recicla todos los años"
+
+#: stats/line_assets.php:111
+msgid "Nombre d\\'équipements"
+msgstr "Número de equipos"
+
+#: stats/line_assets.php:116
+msgid "Aucun équipement installé ou recyclé dans la plage indiqué"
+msgstr "No hay equipos instalados o reciclado en el rango especificado"
+
+#: stats/line_tickets.php:46
+msgid "Évolution des tickets ouverts et fermés sur"
+msgstr "Desarrollo de billetes abiertos y cerrados en"
+
+#: stats/line_tickets.php:73
+msgid "Évolution des tickets ouverts et fermés pour le mois de"
+msgstr "Desarrollo de entradas abiertas y cerradas para el mes de"
+
+#: stats/line_tickets.php:100
+msgid "Évolution des tickets ouverts et fermés sur toutes les années"
+msgstr "Desarrollo de entradas abiertas y cerradas para todos los años"
+
+#: stats/line_tickets.php:118
+msgid "Nombre de tickets"
+msgstr "Número de entradas"
+
+#: stats/line_tickets.php:123
+msgid "Aucun ticket ouvert et fermé dans la plage indiqué"
+msgstr "Ningún billete abierto y cerrado en el rango indicado"
+
+#: stats/line_tickets_activity.php:22
+msgid "Évolution des éléments de résolution ajoutés aux tickets sur"
+msgstr "Cambio de elementos de mayor resolución a los billetes en"
+
+#: stats/line_tickets_activity.php:54
+msgid ""
+"Évolution des éléments de résolution ajoutés aux tickets pour le mois de"
+msgstr ""
+"Evolución de los elementos resolución añade a las entradas para el mes de"
+
+#: stats/line_tickets_activity.php:84
+msgid ""
+"Évolution des éléments de résolution ajoutés aux tickets sur toutes les "
+"années"
+msgstr ""
+"Evolución de los elementos resolución añade a entradas para todos los años"
+
+#: stats/line_tickets_activity.php:108
+msgid "Nombre d\\'éléments de résolution"
+msgstr "Número de elementos \\ 's de resolución"
+
+#: stats/line_tickets_activity.php:113
+msgid "Aucun élément de résolution ajouté dans la plage indiqué"
+msgstr "No elemento de resolución añade a la gama indicada"
+
+#: stats/pie_assets_service.php:18
+msgid "Répartition du nombre d\\'équipements par services"
+msgstr "Distribución de equipos de la serie  por los servicios"
+
+#: stats/pie_assets_type.php:18
+msgid "Répartition du nombre d\\'équipements par type"
+msgstr "Distribución de equipos de la serie  por tipo"
+
+#: stats/pie_cat.php:18
+msgid "Répartition du nombre de tickets par catégories"
+msgstr "Distribución del número de entradas por categorías"
+
+#: stats/pie_company.php:18
+msgid "Répartition du nombre de tickets par sociétés"
+msgstr "Distribución del número de entradas por las empresas"
+
+#: stats/pie_company.php:19 stats/pie_services.php:19 stats/pie_states.php:19
+#: stats/pie_tickets_tech.php:16
+msgid "tickets"
+msgstr "entradas"
+
+#: stats/pie_load.php:15
+msgid ""
+"Répartition de la charge de travail par catégories sur les tickets ouverts"
+msgstr "Distribución de las categorías de carga de trabajo en boletos abiertos"
+
+#: stats/pie_services.php:18
+msgid "Répartition du nombre de tickets par services"
+msgstr "Distribución del número de billetes para servicios"
+
+#: stats/pie_states.php:18
+msgid "Tickets par états"
+msgstr "Los boletos de los Estados"
+
+#: stats/pie_tickets_tech.php:15
+msgid "Tickets par techniciens"
+msgstr "Boletos por los técnicos"
+
+#: stats/tables.php:19
+msgid "Délais moyen de résolution"
+msgstr "Tiempo medio de resolución"
+
+#: stats/tables.php:29
+msgid "Techniciens"
+msgstr "Los técnicos"
+
+#: stats/tables.php:33
+msgid "jours"
+msgstr "días"
+
+#: stats/tables.php:74
+msgid "Tickets par priorité"
+msgstr "Entradas por prioridad"
+
+#: stats/tables.php:122
+msgid "Tickets par criticité"
+msgstr "Boletos por criticidad"
+
+#: stats/tables.php:182
+msgid "Top 10 des demandeurs"
+msgstr "Top 10 de los solicitantes"
+
+#: stats/tables.php:231
+msgid "TOP 10 demandeurs de temps"
+msgstr "10 solicitantes TOP tiempo"
+
+#: stats/tables.php:246
+msgid "Heures"
+msgstr "Horas"
+
+#: stats/tables.php:283
+msgid "Répartition des temps par statuts"
+msgstr "Estatutos de división de tiempo"
+
+#: stats/tables.php:293
+msgid "États"
+msgstr "Unidos"
+
+#: stats/tables.php:297
+msgid "Inférieur 1 jour"
+msgstr "Menos de un día"
+
+#: stats/tables.php:301
+msgid "2 à 4 jours"
+msgstr "2 a 4 días"
+
+#: stats/tables.php:305
+msgid "5 à 10 jours"
+msgstr "5 a 10 días"
+
+#: stats/tables.php:309
+msgid "Plus de 10 jours"
+msgstr "Más de 10 días"
+
+#: stats/tables.php:551
+msgid "Temps total de traitement"
+msgstr "El tiempo total de tratamiento"
+
+#: survey.php:109
+msgid "ERREUR"
+msgstr "ERROR"
+
+#: survey.php:109
+msgid "Aucune réponse n'a été saisie"
+msgstr "No se recibió respuesta"
+
+#: survey.php:198
+msgid "Votre sondage a été envoyé merci"
+msgstr "Su encuesta fue enviada Gracias"
+
+#: survey.php:243
+msgid "Question"
+msgstr "Pregunta"
+
+#: survey.php:322
+msgid "Précédent"
+msgstr "Anterior"
+
+#: survey.php:359
+msgid "Jeton invalide, contacter votre administrateur"
+msgstr "Elemento inválido, contacte con el administrador"
+
+#: survey.php:362
+msgid "La fonction sondage n'est pas activée contacter votre administrateur"
+msgstr ""
+"La función de sondeo no está habilitada en contacto con el administrador"
+
+#: survey.php:370
+msgid "Sondage généré par"
+msgstr "Encuesta generada"
+
+#: system.php:114
+msgid "nom de la base"
+msgstr "nombre de la base de datos"
+
+#: system.php:116
+msgid "Horloge"
+msgstr "Reloj"
+
+#: system.php:117
+msgid "Clé privée"
+msgstr "Clave privada"
+
+#: system.php:122
+msgid "Composants"
+msgstr "Componentes"
+
+#: system.php:134
+msgid "Paramètres PHP"
+msgstr "Configuración de PHP"
+
+#: system.php:138
+msgid "Activé"
+msgstr "Activado"
+
+#: system.php:138
+msgid "Désactivé"
+msgstr "Desactivado"
+
+#: system.php:138
+msgid "Le chargement de fichiers sera impossible"
+msgstr "La carga de archivos serán imposibles"
+
+#: system.php:139
+msgid ""
+"Il est conseillé d'allouer plus de mémoire pour PHP valeur minimum 512M "
+"(éditer votre fichier php.ini)"
+msgstr ""
+"Es recomendable asignar más memoria para el valor mínimo de PHP 512M (editar "
+"el archivo php.ini)"
+
+#: system.php:140 system.php:141
+msgid ""
+"Il est préconisé d'avoir une valeur supérieur ou égale à 10Mo, afin "
+"d'attacher des pièces jointes volumineuses"
+msgstr ""
+"Se recomienda tener un mayor o igual a 10 MB, para adjuntar archivos "
+"adjuntos grandes"
+
+#: system.php:142
+msgid ""
+"Valeur conseillé 240s, modifier votre php.ini relancer apache et actualiser "
+"cette page"
+msgstr ""
+"240s valor recomendado, editar su php.ini reiniciar apache y cargar esta "
+"página"
+
+#: system.php:143
+msgid ""
+"Il est préconisé de modifier la valeur date.timezone du fichier php.ini, et "
+"mettre \"Europe/Paris\" afin de ne pas avoir de problème d'horloge"
+msgstr ""
+"Se recomienda cambiar el valor de php.ini y establecer date.timezone \\ "
+"\"Europa / París \" no tener ningún problema de reloj"
+
+#: system.php:149
+msgid "Extensions PHP"
+msgstr "Extensiones PHP"
+
+#: system.php:165
+msgid ""
+"Désactivée, l'interconnexion de base de données ne pourra être disponible"
+msgstr ""
+"Personas con discapacidad, la interconexión de bases de datos no estará "
+"disponible"
+
+#: system.php:167
+msgid ""
+"Désactivée, si vous utilisé un serveur SMTP sécurisé les mails ne seront pas "
+"envoyés. (Installation Linux: apt-get install openssl)"
+msgstr ""
+"Desactivada si utiliza no serán enviados a los correos del servidor SMTP "
+"seguras. (Instalación de Linux: apt-get install OpenSSL)"
+
+#: system.php:169
+msgid ""
+"Désactivée, aucune synchronisation ni authentification via un serveur LDAP "
+"ne sera possible (Installation Linux: apt-get install php5-ldap, sous wamp "
+"copier libsasl.dll dans apache\\bin)"
+msgstr ""
+"Discapacitados, ninguna sincronización o la autenticación a través de un "
+"servidor LDAP será posible (instalación de Linux: apt-get install php5-LDAP "
+"bajo wamp libsasl.dll copiar en \\ bin de Apache)"
+
+#: system.php:171
+msgid "Désactivée, la fonction de mise à jour automatique ne sera pas possible"
+msgstr "Off, función de actualización automática no será posible"
+
+#: system.php:173
+msgid ""
+"Désactivée, la fonction Mail2Ticket ne fonctionnera pas (Installation Linux: "
+"apt-get install php5-imap)"
+msgstr ""
+"Off, la función Mail2Ticket no funcionará (instalación de Linux: apt-get "
+"install php5-IMAP)"
+
+#: system.php:175
+msgid ""
+"Désactivée, aucune mise à jour du logiciel ne sera possible (dé-commenter la "
+"ligne extension=php_ftp votre php.ini)"
+msgstr ""
+"Personas con discapacidad, no hay actualización de software será posible "
+"(elimine el comentario de la extensión de la línea = php_ftp php.ini)"
+
+#: thread.php:55 thread.php:57
+msgid "Ouverture"
+msgstr "Apertura"
+
+#: thread.php:57 thread.php:180 thread.php:208
+msgid "du ticket"
+msgstr "el billete"
+
+#: thread.php:57 thread.php:180 thread.php:208 thread.php:232 thread.php:251
+#: thread.php:270
+msgid "Effectué par"
+msgstr "Realizado por"
+
+#: thread.php:111
+msgid "Réduire"
+msgstr "Reducir"
+
+#: thread.php:120
+msgid "Message non visible pour le demandeur"
+msgstr "Mensaje no es visible para el solicitante"
+
+#: thread.php:122
+msgid "Message visible pour le demandeur"
+msgstr "Message visible pour le demandeur"
+
+#: thread.php:158
+msgid "au groupe"
+msgstr "grupo"
+
+#: thread.php:166 thread.php:168
+msgid "au technicien "
+msgstr "el técnico "
+
+#: thread.php:178 thread.php:180
+msgid "Attribution"
+msgstr "Asignación"
+
+#: thread.php:204
+msgid "de"
+msgstr "de"
+
+#: thread.php:204
+msgid "vers"
+msgstr "para"
+
+#: thread.php:208
+msgid "Transfert"
+msgstr "Traslado"
+
+#: thread.php:249 thread.php:251
+msgid "Clôture"
+msgstr "Cierre"
+
+#: thread.php:268
+msgid "Modif. état"
+msgstr "Modificar. estado"
+
+#: thread.php:270
+msgid "Changement d'état"
+msgstr "Cambio de estado"
+
+#: ticket.php:126
+msgid "Ouverture du ticket"
+msgstr "Apertura de entradas"
+
+#: ticket.php:126
+msgid "Édition du ticket"
+msgstr "Edición de entradas"
+
+#: ticket.php:130
+msgid "Alarme activée le"
+msgstr "Alarma en el"
+
+#: ticket.php:137
+msgid "Ticket précédent de cet état"
+msgstr "Anterior billete para este estado"
+
+#: ticket.php:138
+msgid "Ticket suivant de cet état"
+msgstr "Después de la recepción de este estado"
+
+#: ticket.php:147
+msgid "Imprimer ce ticket"
+msgstr "Imprimir este billete"
+
+#: ticket.php:152
+msgid "Modèle de tickets"
+msgstr "Modelo de entradas"
+
+#: ticket.php:157
+msgid "Créer un rappel pour ce ticket"
+msgstr "Crear un recordatorio para este vuelo"
+
+#: ticket.php:162
+msgid "Planifier une intervention dans le calendrier"
+msgstr "Planificar una intervención en el calendario"
+
+#: ticket.php:167
+msgid "Supprimer ce ticket"
+msgstr "Eliminar este billete"
+
+#: ticket.php:184
+msgid "Sélectionner un demandeur"
+msgstr "Seleccionar un solicitante"
+
+#: ticket.php:238
+msgid "Modifier le groupe"
+msgstr "Editar grupo"
+
+#: ticket.php:244
+msgid "Modifier un utilisateur"
+msgstr "Editar usuario"
+
+#: ticket.php:265
+msgid "Téléphoner au"
+msgstr "Llamada"
+
+#: ticket.php:266
+msgid "Envoyer un mail à l'adresse"
+msgstr "Envíe un correo a"
+
+#: ticket.php:294
+msgid "Équipement associé"
+msgstr "Equipos asociados"
+
+#: ticket.php:312
+msgid "Autres tickets de cet utilisateur"
+msgstr "Otras entradas de este usuario"
+
+#: ticket.php:340
+msgid "La saisie du service est obligatoire"
+msgstr "Entrando en el servicio es obligatorio"
+
+#: ticket.php:340
+msgid "Sélectionner un service"
+msgstr "Seleccionar servicio"
+
+#: ticket.php:387
+msgid "Sélectionner un type"
+msgstr "Seleccione un tipo de"
+
+#: ticket.php:428
+msgid "Aucun technicien associé à ce ticket"
+msgstr "Ningún técnico asociado con este boleto"
+
+#: ticket.php:471
+msgid "Ouvert par"
+msgstr "Abierto por"
+
+#: ticket.php:480
+msgid "Aucune catégorie associée"
+msgstr "Sin categoría asociada"
+
+#: ticket.php:542
+msgid "Ajouter une catégorie"
+msgstr "Añadir categoría"
+
+#: ticket.php:543
+msgid "Modifier une catégorie"
+msgstr "Editar categoría"
+
+#: ticket.php:704
+msgid "Fichier joint"
+msgstr "Archivo adjunto"
+
+#: ticket.php:816
+msgid "Temps estimé"
+msgstr "Hora prevista"
+
+#: ticket.php:1103
+msgid "Envoyer"
+msgstr "Enviar"
+
+#: ticket.php:1115
+msgid "Clôturer le ticket"
+msgstr "Cerrar el billete"
+
+#: ticket.php:1126
+msgid "Envoyer un mail"
+msgstr "Enviar correo"
+
+#: ticket_catadd.php:50
+msgid "Ajout d'une sous-catégorie"
+msgstr "La adición de una subcategoría"
+
+#: ticket_catadd.php:86
+msgid "Modification sous-catégorie"
+msgstr "Cambio subcategoría"
+
+#: ticket_print.php:65
+msgid "Impression du ticket"
+msgstr "Impresión de entradas"
+
+#: ticket_print.php:144
+msgid ""
+"Vous n'avez pas les droits d'accès à cette page. Contacter votre "
+"administrateur"
+msgstr ""
+"Usted no tiene los derechos de acceso a esta página. Contacto con el "
+"administrador"
+
+#: ticket_stat.php:62
+msgid "Toutes les agences"
+msgstr "Todas las agencias"
+
+#: ticket_stat.php:76
+msgid "Tous les type"
+msgstr "Todos los tipos"
+
+#: ticket_stat.php:89
+msgid "Toutes les criticités"
+msgstr "Toda la criticidad"
+
+#: ticket_stat.php:106
+msgid "Toutes les catégories"
+msgstr "Todas las categorías"
+
+#: ticket_template.php:62
+msgid "Le modèle à été appliqué au ticket en cours"
+msgstr "El modelo se aplicó a la entrada actual"
+
+#: ticket_template.php:90
+msgid "Liste des modèles"
+msgstr "Lista de modelos"
+
+#: ticket_template.php:91
+msgid "Utiliser"
+msgstr "Utilisar"
+
+#: ticket_useradd.php:56
+msgid "Ajouter un nouvel utilisateur"
+msgstr "Añadir nuevo usuario"
+
+#: ticket_useradd.php:92 ticket_useradd.php:153
+msgid "Ajouter une société"
+msgstr "Añadir empresa"
+
+#: ticket_useradd.php:96 ticket_useradd.php:158
+msgid "Plus de champs"
+msgstr "Más campos"
+
+#: ticket_useradd.php:107
+msgid "Modification d'un utilisateur"
+msgstr "Editar usuario"
+
+#: wysiwyg.php:62 wysiwyg.php:106 wysiwyg.php:140 wysiwyg.php:184
+msgid "Police"
+msgstr "Policía"
+
+#: wysiwyg.php:68 wysiwyg.php:112 wysiwyg.php:146 wysiwyg.php:190
+msgid "Taille"
+msgstr "Tamaño"
+
+#: wysiwyg.php:72 wysiwyg.php:116 wysiwyg.php:150 wysiwyg.php:194
+msgid "Gras"
+msgstr "Grasa"
+
+#: wysiwyg.php:73 wysiwyg.php:117 wysiwyg.php:151 wysiwyg.php:195
+msgid "Italique"
+msgstr "Itálico"
+
+#: wysiwyg.php:74 wysiwyg.php:118 wysiwyg.php:152 wysiwyg.php:196
+msgid "Souligner"
+msgstr "Estrés"
+
+#: wysiwyg.php:76 wysiwyg.php:154
+msgid "Liste à puces"
+msgstr "Lista con viñetas"
+
+#: wysiwyg.php:77 wysiwyg.php:155
+msgid "Liste numéroté"
+msgstr "Lista numerada"
+
+#: wysiwyg.php:78 wysiwyg.php:156
+msgid "Augmenter le retrait"
+msgstr "Aumentar sangría"
+
+#: wysiwyg.php:79 wysiwyg.php:157
+msgid "Diminuer le retrait"
+msgstr "Reducir sangría"
+
+#: wysiwyg.php:81 wysiwyg.php:159
+msgid "Aligner à gauche"
+msgstr "Alinear a la izquierda"
+
+#: wysiwyg.php:82 wysiwyg.php:160
+msgid "Centrer"
+msgstr "Centro"
+
+#: wysiwyg.php:83 wysiwyg.php:161
+msgid "Aligner à droite"
+msgstr "Alinear a la derecha"
+
+#: wysiwyg.php:84 wysiwyg.php:162
+msgid "Justifier"
+msgstr "Justificar"
+
+#: wysiwyg.php:88 wysiwyg.php:89 wysiwyg.php:94 wysiwyg.php:166 wysiwyg.php:167
+#: wysiwyg.php:172
+msgid "Insérer une image"
+msgstr "Insertar imagen"
+
+#: wysiwyg.php:92 wysiwyg.php:170
+msgid "Sélectionner une image"
+msgstr "Seleccione una imagen"
+
+#: wysiwyg.php:99 wysiwyg.php:177
+msgid "Annuler la modification"
+msgstr "Deshacer cambios"
+
+#: wysiwyg.php:100 wysiwyg.php:178
+msgid "Rétablir"
+msgstr "Restaurar"
+
+#~ msgid "Activer la fonction procédure"
+#~ msgstr "Activar el procedimiento de"
+
+#~ msgid "Question 1: My question ?"
+#~ msgstr "Pregunta 1: ¿Mi pregunta?"
+
+#~ msgid "Erreur: votre jeton est invalide"
+#~ msgstr "Error: El token no es válido"
+
+#~ msgid "Activité du"
+#~ msgstr "Actividad"
+
+#~ msgid "Résolutions"
+#~ msgstr "Resoluciones"
+
+#~ msgid "Date de résolution estimé vide"
+#~ msgstr "Resolución Fecha sentía vacía"
+
+#~ msgid "La priorité est vide"
+#~ msgstr "Prioridad está vacía"
+
+#~ msgid "La criticité vide"
+#~ msgstr "La criticidad vacía"
+
+#~ msgid "Affiche la colonne date de résolution dans la liste des tickets."
+#~ msgstr "Muestra un botón para agregar un mensaje en privado."
+
+#~ msgid "Affiche la colonne date de création dans la liste des tickets."
+#~ msgstr "Muestra la columna de la fecha de creación de la lista de entradas."
+
+#~ msgid "Désactiver"
+#~ msgstr "desactivar"
+
+#~ msgid "Valider la période sélectionnée"
+#~ msgstr "Validar el período seleccionado"
+
+#~ msgid "Ping de cet équipement sur l'adresse"
+#~ msgstr "Ping este equipo en la dirección"
+
+#~ msgid "Allumer cet équipement"
+#~ msgstr "Encienda el equipo"
+
+#~ msgid "Adresse IP LAN"
+#~ msgstr "dirección IP de LAN"
+
+#~ msgid "Trouver une adresse IP"
+#~ msgstr "Encuentra una dirección IP"
+
+#~ msgid "Adresse MAC LAN"
+#~ msgstr "Dirección MAC LAN"
+
+#~ msgid "Adresse IP WIFI"
+#~ msgstr "IP WIFI"
+
+#~ msgid "Adresse MAC WLAN"
+#~ msgstr "Dirección MAC de WLAN"
+
+#~ msgid "Nom Netbios"
+#~ msgstr "nombre NetBIOS"
+
+#~ msgid "L'adresse MAC LAN doit faire 12 caractères"
+#~ msgstr "La dirección MAC de la LAN debe ser de 12 caracteres"
+
+#~ msgid "L'adresse MAC WLAN doit faire 12 caractères"
+#~ msgstr "La dirección MAC de WLAN debe ser de 12 caracteres"
+
+#~ msgid "IP LAN"
+#~ msgstr "LAN IP"
+
+#~ msgid "IP Wifi"
+#~ msgstr "Wifi IP"
+
+#~ msgid "Adresse MAC WIFI"
+#~ msgstr "Dirección MAC WIFI"
+
+#~ msgid "Date de résolution estimé du ticket"
+#~ msgstr "billete de resolución Fecha estimada"
+
+#~ msgid "Tickets crées ou fermés ce jour"
+#~ msgstr "Los boletos crean o Fecha de cierre"
+
+#~ msgid "Ce jour"
+#~ msgstr "Este día"
+
+#~ msgid "Demandes par priorité"
+#~ msgstr "Las peticiones de prioridad"
+
+#~ msgid ""
+#~ "Il est conseillé d'allouer plus de mémoire pour PHP > 256MB (éditer votre "
+#~ "fichier php.ini)"
+#~ msgstr ""
+#~ "Es aconsejable asignar más memoria para PHP> 256 (editar el archivo php."
+#~ "ini)"
+
+#~ msgid ""
+#~ "Affiche le nom de la société de l'utilisateur dans la liste des "
+#~ "utilisateur sur un ticket"
+#~ msgstr ""
+#~ "Muestra el nombre de la empresa usuaria en la lista de usuarios en un "
+#~ "billete"
+
+#~ msgid "Ordre de trie des tickets"
+#~ msgstr "entradas de orden de clasificación"
+
+#~ msgid "Lancer la récupération de messages"
+#~ msgstr "Iniciar la recuperación de mensajes"
+
+#~ msgid "Warning"
+#~ msgstr "advertencia"
+
+#~ msgid "Équipements associé"
+#~ msgstr "equipos asociados"
+
+#~ msgid "Groupe de Technicien"
+#~ msgstr "Grupo técnico"
+
+#~ msgid ""
+#~ "Vous n'avez pas les droits d'accès à l'administration du logiciel, "
+#~ "contacter votre administrateur."
+#~ msgstr ""
+#~ "Usted no tiene los derechos de acceso a la administración del software, "
+#~ "póngase en contacto con el administrador."
+
+#~ msgid "Droit de modification de profile des utilisateurs"
+#~ msgstr "Ficha técnica de modificación usuarios adecuados"
+
+#~ msgid "Nombre d'heures de travail restantes dans les tickets ouverts"
+#~ msgstr "Horas de trabajo restante billetes abiertos"
+
+#~ msgid "Nombre d'heures"
+#~ msgstr "horas"
+
+#~ msgid "Types des matériels"
+#~ msgstr "Tipos de materiales"
+
+#~ msgid "Fabricants des matériels"
+#~ msgstr "Los fabricantes de materiales"
+
+#~ msgid "Modèles des matériels"
+#~ msgstr "material de los modelos"
+
+#~ msgid "États des matériels"
+#~ msgstr "Declaraciones de materiales"
+
+#~ msgid "Réseaux des matériels"
+#~ msgstr "El hardware de red"
+
+#~ msgid "Matériels"
+#~ msgstr "materiales"
+
+#~ msgid ""
+#~ "Active la gestion des matériels, affiche un nouvel item dans le menu de "
+#~ "gauche"
+#~ msgstr ""
+#~ "gestión de materiales activos, muestra un nuevo elemento en el menú de la "
+#~ "izquierda"
+
+#~ msgid ""
+#~ "Affiche un nouvel item dans le menu des matériels, permettant de "
+#~ "visualiser les équipements en fin de garantie"
+#~ msgstr ""
+#~ "Muestra un nuevo elemento de menú en el material, para visualizar el "
+#~ "equipo al final de la garantía"
+
+#~ msgid ""
+#~ "Cette clé privée est nécessaire à la création d'une tâche planifié pour "
+#~ "l'installation automatique des mises à jour, pour plus d'informations "
+#~ "consulter la documentation rubrique Mise à jour"
+#~ msgstr ""
+#~ "Se requiere esta clave privada para crear una tarea programada para la "
+#~ "instalación automática de actualizaciones, para más información consulte "
+#~ "la sección Actualizar la documentación"
+
+#~ msgid "Attention clé à ne pas divulguer"
+#~ msgstr "Clave cuidado de no revelar"
+
+#~ msgid "Commentaires"
+#~ msgstr "Comentarios"
+
+#~ msgid "Liste des matériels"
+#~ msgstr "Lista de equipo"
+
+#~ msgid "Identifiant du matériel"
+#~ msgstr "Identificación del hardware"
+
+#~ msgid "Numéro du matériel"
+#~ msgstr "Número de equipos"
+
+#~ msgid ""
+#~ "Autorise les actions sur en selectionnant plusieurs tickets dans les "
+#~ "tâches"
+#~ msgstr "Autoriza stock de seleccionar varias entradas en las tareas"
+
+#~ msgid "Affiche le menu matériel"
+#~ msgstr "Muestra el menú de hardware"
+
+#~ msgid ""
+#~ "Affiche uniquement la liste des matériels, sans droit d'éditer une fiche."
+#~ msgstr "sólo muestra la lista de hardware, sin derecho a editar un dato."
+
+#~ msgid "Affiche le bouton ajouter matériel"
+#~ msgstr "Muestra el botón del equipo complemento"
+
+#~ msgid "Affiche tous les états des matériels dans le menu de gauche"
+#~ msgstr ""
+#~ "Muestra todos los estados de los materiales en el menú de la izquierda"
+
+#~ msgid "Affiche le meta etat à traiter personnel"
+#~ msgstr "Muestra el estado meta de tratar al personal"
+
+#~ msgid "Affiche le meta etat à traiter pour tous les techniciens"
+#~ msgstr "Muestra el estado meta convite para todos los técnicos"
+
+#~ msgid "Affiche les vues personelles"
+#~ msgstr "Muestra vistas personales"
+
+#~ msgid "Affiche les flèches ticket suivant et prècedent"
+#~ msgstr "Muestra anteriores y próximos flechas de entradas"
+
+#~ msgid "Modfication du demandeur"
+#~ msgstr "solicitante Modfication"
+
+#~ msgid "Modification du champ etat dans le ticket"
+#~ msgstr "Cambiar el campo de estado en el billete"
+
+#~ msgid "Modifiction de la partie disponibilité"
+#~ msgstr "parte la disponibilidad Modifiction"
+
+#~ msgid "Affiche le bouton de cloture dans le ticket"
+#~ msgstr "Muestra el botón de cierre en el billete"
+
+#~ msgid "Equipement en stock"
+#~ msgstr "Equipos en stock"
+
+#~ msgid "Equipement installé en production"
+#~ msgstr "Equipo de producción instalada"
+
+#~ msgid "Equipement de coté"
+#~ msgstr "equipamiento de tierra"
+
+#~ msgid "Equipement recyclé, jeté"
+#~ msgstr "Equipo de reciclado, lanzado"
+
+#~ msgid "Nouveau matériel"
+#~ msgstr "nuevo material"
+
+#~ msgid "Liste des matériels en fonction de leurs garanties"
+#~ msgstr "Lista de equipo de acuerdo a sus garantías"
+
+#~ msgid "Export de la liste des matériels en CSV"
+#~ msgstr "Exportar la lista de materiales en formato CSV"
+
+#~ msgid "Évolution des matériels installés et recyclés sur"
+#~ msgstr "La evolución de los materiales instalados y reciclado en el"
+
+#~ msgid "Évolution des matériels installés et recyclés pour le mois de"
+#~ msgstr ""
+#~ "La evolución de los materiales instalados y reciclados para el mes de"
+
+#~ msgid "Évolution des matériels installés et recyclés sur toutes les années"
+#~ msgstr ""
+#~ "La evolución de los materiales instalados y se recicla todos los años"
+
+#~ msgid "Nombre de matériels"
+#~ msgstr "Número de materiales"
+
+#~ msgid "Aucun matériel installé ou recyclé dans la plage indiqué"
+#~ msgstr "Ninguno instalado o material reciclado en el rango indicado"
+
+#~ msgid "Répartition du nombre de matériels par services"
+#~ msgstr "Desglose de los equipos por los servicios"
+
+#~ msgid "Répartition du nombre de matériels par type"
+#~ msgstr "Desglose de los materiales por tipo"
+
+#~ msgid "Matériel"
+#~ msgstr "equipo"
+
+#~ msgid "Répartition de la charge de travail par catégories"
+#~ msgstr "Distribución de las categorías de carga de trabajo"
+
+#~ msgid "Matériel associé"
+#~ msgstr "equipos asociados"
+
+#~ msgid "ceci est un text en français"
+#~ msgstr "this is english text"
+
+#~ msgid "ceci est un text en francais"
+#~ msgstr "this a text in english"
+
+#~ msgid ""
+#~ "test page francais.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "test page anglais.\n"
+#~ "\n"
+
+#~ msgid "Bienvenue dans mon application PHP"
+#~ msgstr "Welcome in my PHP app"
+
+#~ msgid "Passez une bonne journée"
+#~ msgstr "Have good day"
+
+#~ msgid "text to translate"
+#~ msgstr "text to translate"
+
+#~ msgid "another paragraph"
+#~ msgstr "another paragraph"
+
+#~ msgid "A string to be translated would go here"
+#~ msgstr "A string to be translated would go here"
+
+#~ msgid "une chaine à traduire"
+#~ msgstr "string to translate"
+
+#~ msgid "test de page en français."
+#~ msgstr "Page test in English"
+
+#~ msgid "test de page en francais."
+#~ msgstr "Page test in English."
+
+#~ msgid "Ma Page"
+#~ msgstr "My Page"
+
+#~ msgid "mon paragraphe"
+#~ msgstr "My paragraph"
