@@ -425,6 +425,15 @@ if(!isset($state)) $state = '';
 			</li>
 			';
 		}
+		if ($rright['documentation']!=0 && $rparameters['documentation']==1)
+		{
+			if($_GET['page']=='documentation') echo '<li class="active">'; else echo '<li>'; echo '
+				<a href="./index.php?page=documentation">
+					<i class="icon-book"></i>
+					<span class="menu-text">'.T_('Documentation').'</span>
+				</a>
+			</li>';
+		}
 		if ($rright['planning']!=0 && $rparameters['planning']==1)
 		{
 			if($_GET['page']=='planning') echo '<li class="active">'; else echo '<li>'; echo '
@@ -507,6 +516,16 @@ if(!isset($state)) $state = '';
 							</a>
 						</li>';
 					}
+					//AJOUT ZZZ
+					if($rright['admin_lists']!=0 || $rright['admin']!=0) {
+						if($_GET['page']=='admin' && $_GET['subpage']=='docs') echo '<li class="active">'; else echo '<li>'; echo '
+							<a href="./index.php?page=admin&subpage=docs">
+								<i class="icon-list"></i>
+								'.T_('Gestion documentation').'
+							</a>
+						</li>';
+					}
+					//FIN AJOUT ZZZ
 					if($rright['admin']!=0)
 					{
 						if($_GET['page']=='admin' && $_GET['subpage']=='backup') echo '<li class="active">'; else echo '<li>'; echo '

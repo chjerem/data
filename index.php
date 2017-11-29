@@ -189,7 +189,10 @@ if ($_GET['download']!='')
 		<link rel="stylesheet" href="./template/assets/css/ace.min.css" />
 		<link rel="stylesheet" href="./template/assets/css/ace-rtl.min.css" />
 		<link rel="stylesheet" href="./template/assets/css/ace-skins.min.css" />
-		
+
+		<!-- DATA STYLE ADDED -->
+		<link rel="stylesheet" href="./template/assets/css/style.css" />
+
 		<script src="./template/assets/js/ace-extra.min.js"></script>
 	</head>
 	<?php
@@ -598,6 +601,7 @@ if ($_GET['download']!='')
 										if(($_GET['page']=='dashboard' || $_GET['page']=='ticket' || $_GET['page']=='preview_mail' ) && $_GET['viewid']=='') echo ' <a href="./index.php?page=dashboard&amp;userid='.$_SESSION['user_id'].'"&nbsp;>&nbsp;Tickets</a>&nbsp;';
 										if($_GET['page']=='procedure') echo ' <a href="./index.php?page=procedure"&nbsp;>&nbsp;'.T_('Procédure').'</a>';
 										if($_GET['page']=='planning') echo ' <a href="./index.php?page=planning"&nbsp;>&nbsp;'.T_('Calendrier').'</a>';
+										if($_GET['page']=='documentation') echo '<a href="./index.php?page=documentation"&nbsp;>&nbsp;'.T_('Documentation').'</a>';
 										if($_GET['page']=='stat') echo ' <a href="./index.php?page=stat&tab=ticket"&nbsp;>&nbsp;'.T_('Statistiques').'</a>';
 										if($_GET['page']=='admin/user' && $_GET['action']=='edit') echo ' <a href="index.php?page=admin/user&action=edit&userid='.$_GET['userid'].'"&nbsp;>&nbsp;'.T_('Fiche utilisateur').'</a>';
 										if($_GET['page']=='plugins/availability/index') echo ' <a href="index.php?page=plugins/availability/index"&nbsp;>&nbsp;'.T_('Disponibilité').'</a>';
@@ -611,6 +615,7 @@ if ($_GET['download']!='')
 										if($_GET['subpage']=='group' ) echo '<span class="divider"><i class="icon-angle-right arrow-icon"></i></span><a href="index.php?page=admin&subpage=group"&nbsp;>&nbsp;'.T_('Groupes').'</a> ';
 										if($_GET['subpage']=='profile' ) echo '<span class="divider"><i class="icon-angle-right arrow-icon"></i></span><a href="index.php?page=admin&subpage=profile"&nbsp;>&nbsp;'.T_('Droits').'</a> ';
 										if($_GET['subpage']=='list' ) echo '<span class="divider"><i class="icon-angle-right arrow-icon"></i></span><a href="index.php?page=admin&subpage=list"&nbsp;>&nbsp;'.T_('Listes').'</a> ';
+										if($_GET['subpage']=='docs' ) echo '<span class="divider"><i class="icon-angle-right arrow-icon"></i></span><a href="index.php?page=admin&subpage=docs"&nbsp;>&nbsp;'.T_('Gestion de la documentation').'</a> ';
 										if($_GET['subpage']=='backup' ) echo '<span class="divider"><i class="icon-angle-right arrow-icon"></i></span><a href="index.php?page=admin&subpage=backup"&nbsp;>'.T_('Sauvegardes').'</a> ';
 										if($_GET['subpage']=='update' ) echo '<span class="divider"><i class="icon-angle-right arrow-icon"></i></span><a href="index.php?page=admin&subpage=update"&nbsp;>&nbsp;'.T_('Mise à jour').'</a> ';
 										if($_GET['subpage']=='system' ) echo '<span class="divider"><i class="icon-angle-right arrow-icon"></i></span><a href="index.php?page=admin&subpage=system"&nbsp;>&nbsp;'.T_('Système').'</a> ';

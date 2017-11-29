@@ -68,6 +68,7 @@ if(!isset($_POST['ldap_user'])) $_POST['ldap_user']= '';
 if(!isset($_POST['ldap_password'])) $_POST['ldap_password']= '';
 if(!isset($_POST['test_ldap'])) $_POST['test_ldap']= '';
 if(!isset($_POST['planning'])) $_POST['planning']= '';
+if(!isset($_POST['documentation'])) $_POST['documentation']=''; // AJOUT ZZZ :-)
 if(!isset($_POST['debug'])) $_POST['debug']= '';
 if(!isset($_POST['notify'])) $_POST['notify']= '';
 if(!isset($_POST['imap'])) $_POST['imap']= '';
@@ -397,6 +398,7 @@ if($_POST['submit_function'])
 	
 	//update function tab
 	$query = "UPDATE tparameters SET 
+	`documentation`='$_POST[documentation]',
 	`planning`='$_POST[planning]',
 	`procedure`='$_POST[procedure]',
 	`survey`='$_POST[survey]',
@@ -1147,6 +1149,19 @@ if ($test_install_file==1)
 									<input class="ace" type="checkbox" <?php if ($rparameters['planning']==1) echo "checked"; ?> name="planning" value="1">
 									<span class="lbl">&nbsp;<?php echo T_('Activer la fonction Calendrier'); ?></span>
 									<i title="<?php echo T_('Active la gestion de planning, nouvel onglet et gestion dans les tickets'); ?>" class="icon-question-sign blue"></i>
+								</label>
+							</div>
+						</div>
+						<div class="profile-info-row">
+							<div class="profile-info-name"> 
+								<i class="icon-calendar"></i>
+								<?php echo T_('Documentation'); ?>:
+							</div>
+							<div class="profile-info-value">
+								<label>
+									<input class="ace" type="checkbox" <?php if ($rparameters['documentation']==1) echo "checked"; ?> name="documentation" value="1">
+									<span class="lbl">&nbsp;<?php echo T_('Activer la fonction Documentation'); ?></span>
+									<i title="<?php echo T_('Active la gestion de la documentation'); ?>" class="icon-question-sign blue"></i>
 								</label>
 							</div>
 						</div>
