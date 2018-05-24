@@ -6,12 +6,16 @@
 # @parameters : keywords
 # @Author : Flox
 # @Create : 12/01/2011
-# @Update : 18/04/2017
-# @Version : 3.1.20
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize session variables
 if(!isset($_SESSION['user_id'])) $_SESSION['user_id'] = '';
+
+$db_u_group=strip_tags($db->quote($_GET['u_group']));
+$db_t_group=strip_tags($db->quote($_GET['t_group']));
+$db_techread=strip_tags($db->quote($_GET['techread']));
 
 //case when keywords contain '
 $keywords = str_replace("'","\'",$keywords);
@@ -27,6 +31,17 @@ if($_GET['state']=='meta'){$state="AND	(tincidents.state=1 OR tincidents.state=2
 
 $select= "DISTINCT tincidents.*";
 $join='';
+
+//special case limit service, with user agency and service
+if ($rparameters['user_limit_service']==1 && $rright['admin']==0 && $cnt_service!=0 && $cnt_agency!=0)
+{
+	//modify QRY 
+	$where_service=preg_replace('/OR/', 'AND', $where_service, 1);
+	$where_agency=str_replace('AND (', '', $where_agency);
+	$where_service=str_replace('AND (',"AND ($where_agency OR ",$where_service);
+	//echo "where_service2=$where_service <br />";
+	//echo "where_agency=$where_agency ";
+}
 
 if ($nbkeyword==2)
 {
@@ -47,10 +62,10 @@ if ($nbkeyword==2)
 	) AND (
 		tincidents.user LIKE '$_POST[user]'
 		AND	tincidents.disable='0'
-		AND	tincidents.u_group LIKE '$_GET[u_group]'
+		AND	tincidents.u_group LIKE $db_u_group
 		AND	tincidents.technician LIKE '$_POST[technician]'
-		AND	tincidents.t_group LIKE '$_GET[t_group]'
-		AND	tincidents.techread LIKE '$_GET[techread]'
+		AND	tincidents.t_group LIKE $db_t_group
+		AND	tincidents.techread LIKE $db_techread
 		AND	tincidents.category LIKE '$_POST[category]'
 		AND	tincidents.subcat LIKE '$_POST[subcat]'
 		AND	tincidents.id LIKE '$_POST[ticket]'
@@ -90,10 +105,10 @@ else if ($nbkeyword==3)
 	) AND (
 		tincidents.user LIKE '$_POST[user]'
 		AND	tincidents.disable='0'
-		AND	tincidents.u_group LIKE '$_GET[u_group]'
+		AND	tincidents.u_group LIKE $db_u_group
 		AND	tincidents.technician LIKE '$_POST[technician]'
-		AND	tincidents.t_group LIKE '$_GET[t_group]'
-		AND	tincidents.techread LIKE '$_GET[techread]'
+		AND	tincidents.t_group LIKE $db_t_group
+		AND	tincidents.techread LIKE $db_techread
 		AND	tincidents.category LIKE '$_POST[category]'
 		AND	tincidents.subcat LIKE '$_POST[subcat]'
 		AND	tincidents.id LIKE '$_POST[ticket]'
@@ -138,10 +153,10 @@ else if ($nbkeyword==4)
 	) AND (
 		tincidents.user LIKE '$_POST[user]'
 		AND	tincidents.disable='0'
-		AND	tincidents.u_group LIKE '$_GET[u_group]'
+		AND	tincidents.u_group LIKE $db_u_group
 		AND	tincidents.technician LIKE '$_POST[technician]'
-		AND	tincidents.t_group LIKE '$_GET[t_group]'
-		AND	tincidents.techread LIKE '$_GET[techread]'
+		AND	tincidents.t_group LIKE $db_t_group
+		AND	tincidents.techread LIKE $db_techread
 		AND	tincidents.category LIKE '$_POST[category]'
 		AND	tincidents.subcat LIKE '$_POST[subcat]'
 		AND	tincidents.id LIKE '$_POST[ticket]'
@@ -190,10 +205,10 @@ else if ($nbkeyword==4)
 	) AND (
 		tincidents.user LIKE '$_POST[user]'
 		AND	tincidents.disable='0'
-		AND	tincidents.u_group LIKE '$_GET[u_group]'
+		AND	tincidents.u_group LIKE $db_u_group
 		AND	tincidents.technician LIKE '$_POST[technician]'
-		AND	tincidents.t_group LIKE '$_GET[t_group]'
-		AND	tincidents.techread LIKE '$_GET[techread]'
+		AND	tincidents.t_group LIKE $db_t_group
+		AND	tincidents.techread LIKE $db_techread
 		AND	tincidents.category LIKE '$_POST[category]'
 		AND	tincidents.subcat LIKE '$_POST[subcat]'
 		AND	tincidents.id LIKE '$_POST[ticket]'
@@ -211,27 +226,29 @@ else if ($nbkeyword==4)
 }
 else
 {
-	$from = "tincidents, tstates, tthreads, tsubcat, tcategory";
+	$from = "tincidents, tstates, tthreads, tsubcat, tcategory, tassets";
 	$where="
 	tincidents.state=tstates.id AND
 	tincidents.id=tthreads.ticket AND
 	tincidents.subcat=tsubcat.id AND
 	tincidents.category=tcategory.id AND
+	tincidents.asset_id=tassets.id AND
 	(
 		tincidents.title LIKE '%$keyword[0]%' OR 
 		tincidents.description LIKE '%$keyword[0]%' OR 
 		tthreads.text LIKE '%$keyword[0]%' OR
 		tsubcat.name LIKE '$keyword[0]' OR
+		tassets.netbios LIKE '$keyword[0]' OR
 		tcategory.name LIKE '$keyword[0]' OR
 		tincidents.id = '$keyword[0]' OR
 		tincidents.user LIKE (SELECT max(id) FROM tusers where (firstname LIKE '%$keyword[0]%' OR lastname LIKE '%$keyword[0]%') AND disable=0)
 	) AND (
 		tincidents.user LIKE '$_POST[user]'
 		AND	tincidents.disable='0'
-		AND	tincidents.u_group LIKE '$_GET[u_group]'
+		AND	tincidents.u_group LIKE $db_u_group
 		AND	tincidents.technician LIKE '$_POST[technician]'
-		AND	tincidents.t_group LIKE '$_GET[t_group]'
-		AND	tincidents.techread LIKE '$_GET[techread]'
+		AND	tincidents.t_group LIKE $db_t_group
+		AND	tincidents.techread LIKE $db_techread
 		AND	tincidents.category LIKE '$_POST[category]'
 		AND	tincidents.subcat LIKE '$_POST[subcat]'
 		AND	tincidents.id LIKE '$_POST[ticket]'
@@ -244,7 +261,7 @@ else
 	)
 	$where_service
 	$state
-	AND disable='0'
+	AND tincidents.disable='0'
 	"; 
 }	
 ?>

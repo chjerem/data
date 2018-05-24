@@ -235,7 +235,7 @@ if($_POST['step']==2)
 																<i class="icon-info-sign"></i>
 															</span>
 														</div>
-														<div class="help-block col-xs-12 col-sm-reset inline"> <i>'.T_('Pour MySQL 3306 pour MariaDB 3307').'</i> </div>
+														<div class="help-block col-xs-12 col-sm-reset inline"> <i>'.T_('Pour MySQL et MariaDB 3307').'</i> </div>
 													</div>
 													<div class="form-group has-info">		
 														<label for="user" class="col-xs-12 col-sm-3 control-label no-padding-right">'.T_('Utilisateur de la base données').':</label>

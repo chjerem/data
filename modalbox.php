@@ -1,9 +1,9 @@
 <?php
 ################################################################################
 # @Name : modalbox.php
-# @Desc : display modalbox
-# @call : ticket, dashboard
-# @parameters : $boxtitle $boxtext $valid $cancel $action1 $action2
+# @Description : display modalbox
+# @Call : ticket, dashboard
+# @Parameters : $boxtitle $boxtext $valid $cancel $action1 $action2
 # @Author : Flox
 # @Create : 19/10/2013
 # @Update : 26/07/2016
@@ -13,7 +13,7 @@
 //initialize variables 
 if(!isset($boxtext)) $boxtext = '';
 if(!isset($boxtitle)) $boxtitle = '';
-if(!isset($_GET ['id'])) $_GET['id'] = '';
+if(!isset($_GET['id'])) $_GET['id'] = '';
 ?>
 
 <div id="dialog-confirm" >

@@ -6,8 +6,8 @@
 # @parameters : 
 # @Author : Flox
 # @Create : 06/07/2013
-# @Update : 17/04/2017
-# @Version : 3.1.20
+# @Update : 18/12/2017
+# @Version : 3.1.29
 ################################################################################
 
 // initialize variables 
@@ -15,9 +15,14 @@ if(!isset($_GET['value'])) $_GET['value'] = '';
 if(!isset($_GET['profile'])) $_GET['profile'] = '';
 if(!isset($_GET['object'])) $_GET['object'] = '';
 
+$db_value=strip_tags($db->quote($_GET['value']));
+$db_profile=strip_tags($db->quote($_GET['profile']));
+$db_object=strip_tags($db->quote($_GET['object']));
+$db_object=str_replace("'","`",$db_object);
+
 if($_GET['value']!='')
 {
-	$db->exec("UPDATE trights SET `$_GET[object]`=$_GET[value] WHERE profile='$_GET[profile]'");
+	$db->exec("UPDATE trights SET $db_object=$db_value WHERE profile=$db_profile");
 	//redirect
 		$www = "./index.php?page=admin&subpage=profile#$_GET[object]";
 		echo '<script language="Javascript">
@@ -50,8 +55,9 @@ echo '
 				</tr>
 			</thead>
 			<tbody>';					
-			$query= $db->query("show full columns from trights"); 
-			while ($row=$query->fetch()) 
+			$qry = $db->prepare("SHOW FULL COLUMNS FROM `trights`");
+			$qry->execute();
+			while ($row=$qry->fetch()) 
 			{	
 				//exclude id and profile
 				if ($row[0]!='id' && $row[0]!='profile')
@@ -65,9 +71,12 @@ echo '
 						<td>
 							<center>';
 								//find value
-								$qv= $db->query("SELECT * FROM `trights` where profile LIKE '2'"); 
-								$rv = $qv->fetch();
-								$qv->closeCursor();
+								$qry2 = $db->prepare("SELECT * FROM `trights` WHERE profile=:profile");
+								$qry2->execute(array(
+									'profile' => 2
+									));
+								$rv=$qry2->fetch();
+								$qry2->closeCursor();
 								if($rv[$row[0]]!=0)
 								{
 									echo'	
@@ -88,9 +97,12 @@ echo '
 						<td>
 							<center>';
 								//find value
-								$qv= $db->query("SELECT * FROM `trights` where profile LIKE '1'"); 
-								$rv = $qv->fetch();
-								$qv->closeCursor();
+								$qry2 = $db->prepare("SELECT * FROM `trights` WHERE profile=:profile");
+								$qry2->execute(array(
+									'profile' => 1
+									));
+								$rv=$qry2->fetch();
+								$qry2->closeCursor();
 								if($rv[$row[0]]!=0)
 								{
 									echo'
@@ -111,9 +123,12 @@ echo '
 						<td>
 							<center>';
 								//find value
-								$qv= $db->query("SELECT * FROM `trights` where profile LIKE '3'"); 
-								$rv = $qv->fetch();
-								$qv->closeCursor();
+								$qry2 = $db->prepare("SELECT * FROM `trights` WHERE profile=:profile");
+								$qry2->execute(array(
+									'profile' => 3
+									));
+								$rv=$qry2->fetch();
+								$qry2->closeCursor();
 								if($rv[$row[0]]!=0)
 								{
 									echo'
@@ -134,9 +149,12 @@ echo '
 						<td>
 							<center>';
 								//find value
-								$qv= $db->query("SELECT * FROM `trights` where profile LIKE '0'"); 
-								$rv = $qv->fetch();
-								$qv->closeCursor();
+								$qry2 = $db->prepare("SELECT * FROM `trights` WHERE profile=:profile");
+								$qry2->execute(array(
+									'profile' => 0
+									));
+								$rv=$qry2->fetch();
+								$qry2->closeCursor();
 								if($rv[$row[0]]!=0)
 								{
 									echo'
@@ -159,9 +177,12 @@ echo '
 								if ($row[0]!='admin') //avoid disable admin right problem for admin profile
 								{
 									//find value
-									$qv= $db->query("SELECT * FROM `trights` where profile LIKE '4'"); 
-									$rv = $qv->fetch();
-									$qv->closeCursor();
+									$qry2 = $db->prepare("SELECT * FROM `trights` WHERE profile=:profile");
+									$qry2->execute(array(
+										'profile' => 4
+										));
+									$rv=$qry2->fetch();
+									$qry2->closeCursor();
 									if($rv[$row[0]]!=0)
 									{
 										echo'
@@ -184,7 +205,7 @@ echo '
 					';
 				}
 			}
-			$query->closeCursor(); 
+			$qry->closeCursor(); 
 			echo'
 			</tbody>
 		</table>

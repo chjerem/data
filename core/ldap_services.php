@@ -157,6 +157,7 @@ if ($ldapbind)
 		//get group data from Windows AD & transform in UTF-8
 		$LDAP_group_name=utf8_encode($data[$i]['distinguishedname'][0]);
 		$LDAP_group_samaccountname=utf8_encode($data[$i]['samaccountname'][0]);
+		$LDAP_group_samaccountname=str_replace ('','Œ', $LDAP_group_samaccountname); //special char oe treatment
 		$LDAP_group_objectguid=unpack("H*hex",$data[$i]['objectguid'][0]);
 		$LDAP_group_objectguid=$LDAP_group_objectguid['hex'];
 		if($rparameters['debug']==1) {echo "<u>LDAP_group_name=<b>$LDAP_group_samaccountname</b> (<font size=\"1\">GUID: $LDAP_group_objectguid</font>):</u><br /> ";}
@@ -215,8 +216,9 @@ if ($ldapbind)
 		$data2_temp = array();
 		$filter2="(&(objectCategory=user)(memberof:1.2.840.113556.1.4.1941:=$LDAP_group_name))";
 		//$filter2=str_replace('ô','\\*', $filter2);
-		$query2 = ldap_search($ldap, $ldap_service_url, $filter2);
-		if($rparameters['debug']==1){echo "<font size='1'>query find users ldap_search($ldap, $ldap_service_url, $filter2)</font><br />";}
+		//$query2 = ldap_search($ldap, $ldap_service_url, $filter2);
+		$query2 = ldap_search($ldap, $ldap_url, $filter2);
+		if($rparameters['debug']==1){echo "<font size='1'>query find users ldap_search($ldap, $ldap_url, $filter2)</font><br />";}
 		//put all data to $data2
 		$data2_temp = @ldap_get_entries($ldap, $query2);
 		$data2 = array_merge($data2, $data2_temp);
@@ -391,8 +393,8 @@ if ($ldapbind)
 		while ($row2=$query2->fetch())	
 		{
 			//init var
-			//if(!array_key_exists($row2['service_id'], $array_service_members)){$array_service_members[$row2['service_id']]=array();}
-			$array_service_members[$row2['service_id']]=array();
+			if(!array_key_exists($row2['service_id'], $array_service_members)){$array_service_members[$row2['service_id']]=array();}
+			//$array_service_members[$row2['service_id']]=array();
 			if (!in_array("$row[id]", $array_service_members[$row2['service_id']])) {
 				//get service name to display
 				$query3 = $db->query("select id,name FROM tservices where id='$row2[service_id]'");

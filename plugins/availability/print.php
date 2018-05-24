@@ -1,19 +1,19 @@
 <?php
 ################################################################################
-# @Name : /plugin/availability/print.php
-# @Desc : print this page
-# @call : /plugin/availability/index.php
-# @parameters : category
+# @Name : /plugins/availability/print.php
+# @Description : print this page
+# @Call : /plugins/availability/index.php
+# @Parameters : category
 # @Author : Flox
 # @Create : 26/05/2015
-# @Update : 22/12/2016
-# @Version : 3.1.15
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 //define current language
 //initialize variables
 if(!isset($_SESSION['user_id'])) $_SESSION['user_id'] = '';
-
+if(!isset($_GET['token'])) $_GET['token'] = '';
 
 //get language from browser 
 $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
@@ -30,6 +30,7 @@ T_setlocale(LC_MESSAGES, $locale);
 T_bindtextdomain($_GET['lang'], LOCALE_DIR);
 T_bind_textdomain_codeset($_GET['lang'], $encoding);
 T_textdomain($_GET['lang']);
+
 
 ?>
 <!DOCTYPE html>
@@ -51,8 +52,18 @@ T_textdomain($_GET['lang']);
 			//load parameters table
 			$qparameters = $db->query("SELECT * FROM `tparameters`"); 
 			$rparameters= $qparameters->fetch();
-			//modify database encoding			
-			include("index.php");
+			//get last token
+			$query = $db->query("SELECT token FROM `ttoken` WHERE action='availability_print' ORDER BY id DESC LIMIT 1");
+			$token=$query->fetch(); 
+			$query->closeCursor();
+			if ($_GET['token'] && $token['token']==$_GET['token'])
+			{
+				//modify database encoding			
+				include("index.php");
+			} else {
+				echo '<font color="red">'.T_('Accès interdit à cette page, contacter votre administrateur.').'</font>';
+			}
+			
 			// Close database access
 			$db = null;
         ?>

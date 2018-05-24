@@ -1,9 +1,9 @@
 <?php
 ################################################################################
 # @Name : modify_pwd.php
-# @Desc : change password popup
-# @call : /dashboard.php
-# @parameters : 
+# @Description : change password popup
+# @Call : /dashboard.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 05/02/2012
 # @Update : 27/12/2015

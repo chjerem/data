@@ -49,7 +49,7 @@ if ($_POST['send']) //database input
 	<font color="green">
 		La demande <b>#'.$number.'</b> à bien été prise en compte.<br />
 	</font>
-	Pour suivre vos demandes vous pouvez vous rendre sur la page <a target="about_blank" href="'.$rparameters['server_url'].'">'.$rparameters['server_url'].'</a>
+	Pour suivre vos demandes vous pouvez vous rendre sur la page <a target="_blank" href="'.$rparameters['server_url'].'">'.$rparameters['server_url'].'</a>
 	';
 }
 else //display form

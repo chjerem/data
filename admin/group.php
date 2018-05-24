@@ -6,8 +6,8 @@
 # @parameters : 
 # @Author : Flox
 # @Create : 06/07/2013
-# @Update : 17/04/2017
-# @Version : 3.1.20
+# @Update : 15/12/2017
+# @Version : 3.1.29
 ################################################################################
 
 //initialize variables 
@@ -34,20 +34,36 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 	//submit actions
 	if($_POST['Modifier'])
 	{
-		//escape special char and secure string before database insert
-		$_POST['name']=strip_tags($db->quote($_POST['name']));
-		//update name
-		$db->exec("UPDATE tgroups SET name=$_POST[name], type='$_POST[type]', service='$_POST[service]' WHERE id LIKE '$_GET[id]'");
+		//secure string
+		$_POST['name']=strip_tags($_POST['name']);
+		
+		$qry=$db->prepare("UPDATE `tgroups` SET `name`=:name,`type`=:type,`service`=:service WHERE `id`=:id");
+		$qry->bindParam(":name",$_POST['name']);
+		$qry->bindParam(":type",$_POST['type']);
+		$qry->bindParam(":service",$_POST['service']);
+		$qry->bindParam(":id",$_GET['id']);
+		$qry->execute();
+		
 		//add user
-		if ($_POST['user']){$db->exec("INSERT INTO tgroups_assoc (`group`,`user`) VALUES ('$_GET[id]',$_POST[user])");}
+		if ($_POST['user']){
+			$qry=$db->prepare("INSERT INTO `tgroups_assoc` (`group`,`user`) VALUES (:group,:user)");
+			$qry->bindParam(':group', $_GET['id']);
+			$qry->bindParam(':user', $_POST['user']);
+			$qry->execute();
+		}
 	}
 
 	if($_POST['add'])
 	{
-		//escape special char in sql query 
-		$_POST['name']=strip_tags($db->quote($_POST['name']));
-		//update name
-		$db->exec("INSERT INTO tgroups (`name`,`type`,`service`) VALUES ($_POST[name],'$_POST[type]', '$_POST[service]')");
+		//secure string
+		$_POST['name']=strip_tags($_POST['name']);
+		
+		$qry=$db->prepare("INSERT INTO `tgroups` (`name`,`type`,`service`) VALUES (:name,:type,:service)");
+		$qry->bindParam(':name', $_POST['name']);
+		$qry->bindParam(':type', $_POST['type']);
+		$qry->bindParam(':service', $_POST['service']);
+		$qry->execute();
+		
 		//redirect
 		$www = "./index.php?page=admin&subpage=group";
 		echo '<script language="Javascript">
@@ -70,7 +86,11 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 	//delete user in group
 	if ($_GET['action']=="delete" && $_GET['user']!="")
 	{
-		$db->exec("DELETE FROM tgroups_assoc WHERE `group`='$_GET[id]' AND `user`='$_GET[user]'");
+		$qry=$db->prepare("DELETE FROM `tgroups_assoc` WHERE `group`=:group AND `user`=:user");
+		$qry->bindParam(':group', $_GET['id']);
+		$qry->bindParam(':user', $_GET['user']);
+		$qry->execute();
+		
 		//redirection vers la page d'accueil
 		$www = "./index.php?page=admin&subpage=group&action=edit&id=$_GET[id]";
 		echo '<script language="Javascript">
@@ -83,7 +103,12 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 	//delete group
 	if ($_GET['action']=="delete" && $_GET['user']=="")
 	{
-		$db->exec("UPDATE tgroups SET disable='1' WHERE `id`='$_GET[id]'");
+		$qry=$db->prepare("UPDATE `tgroups` SET `disable`=:disable WHERE `id`=:id");
+		$qry->bindParam(":disable",$val);
+		$val=1;
+		$qry->bindParam(":id",$_GET['id']);
+		$qry->execute();
+		
 		//redirection vers la page d'accueil
 		$www = "./index.php?page=admin&subpage=group";
 		echo '<script language="Javascript">
@@ -93,30 +118,35 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 		</script>';
 	}
 
-
 	//display head page
 	//count group
-	$query = $db->query("SELECT COUNT(*) FROM tgroups where disable='0'");
-	$row = $query->fetch();
-	$query->closeCursor(); 
+	$qry=$db->prepare("SELECT COUNT(*) as counter FROM `tgroups` WHERE disable=:disable");
+	$qry->bindParam(":disable", $val);
+	$val=0;
+	$qry->execute();
+	$row=$qry->fetch();
+	$qry->closeCursor();
+	
 	echo '
 	<div class="page-header position-relative">
 		<h1>
 			<i class="icon-group"></i>  '.T_('Gestion des groupes').'
 			<small>
 				<i class="icon-double-angle-right"></i>
-				&nbsp;'.T_('Nombre').': '.$row[0].'
+				&nbsp;'.T_('Nombre').': '.$row['counter'].'
 			</small>
 		</h1>
 	</div>';
 
-
 	//edit group
 	if ($_GET['action']=='edit')
 	{
-		//Get group data
-		$qgroup = $db->query("SELECT * FROM `tgroups` where id LIKE '$_GET[id]'"); 
-		$rgroup = $qgroup->fetch();
+		//get group data
+		$qry=$db->prepare("SELECT id,name,type FROM `tgroups` WHERE id=:id");
+		$qry->bindParam(":id", $_GET['id']);
+		$qry->execute();
+		$rgroup=$qry->fetch();
+		$qry->closeCursor();
 		
 		//display edit form
 		echo '
@@ -136,12 +166,17 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 								if ($rparameters['user_limit_service']==1 && ($rright['admin_groups']!=0 || $rright['admin']!=0))
 								{
 									//find current service associated with group
-									$query = $db->query("SELECT service FROM tgroups WHERE id='$_GET[id]' and disable='0'"); 
-									$row = $query->fetch();
-									$query->closeCursor(); 
+									$qry=$db->prepare("SELECT service FROM `tgroups` WHERE id=:id AND disable=:disable");
+									$qry->bindParam(":id", $_GET['id']);
+									$qry->bindParam(":disable", $val);
+									$val=0;
+									$qry->execute();
+									$row=$qry->fetch();
+									$qry->closeCursor();
+									
 									if ($cnt_service<=1 && $rright['admin']==0) //not show select field, if there are only one service, send data in background
 									{
-										echo '<input type="hidden" name="service" value="'.$row[0].'" />'; 
+										echo '<input type="hidden" name="service" value="'.$row['service'].'" />'; 
 									} elseif($cnt_service>1 || $rright['admin']!=0) { //display select box for service
 										echo '
 											<fieldset>
@@ -150,19 +185,26 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 												';
 													if($rright['dashboard_service_only']!=0 && $rparameters['user_limit_service']==1) {
 														//display only service associated with this user
-														$query2 = $db->query("SELECT tservices.id,tservices.name FROM `tservices`,`tusers_services` WHERE tservices.id=tusers_services.service_id AND tusers_services.user_id='$_SESSION[user_id]' AND tservices.disable='0' ORDER BY tservices.name"); 
+														$qry2=$db->prepare("SELECT tservices.id,tservices.name FROM `tservices`,`tusers_services` WHERE tservices.id=tusers_services.service_id AND tusers_services.user_id=:user_id AND tservices.disable=:disable ORDER BY tservices.name");
+														$qry2->bindParam(":user_id", $_SESSION['user_id']);
+														$qry2->bindParam(":disable", $val);
+														$val=0;
+														$qry2->execute();
 													} else {
 														//display all services
-														$query2 = $db->query("SELECT id,name FROM `tservices` WHERE disable='0' ORDER BY name"); 
+														$qry2=$db->prepare("SELECT id,name FROM `tservices` WHERE disable=:disable ORDER BY name");
+														$qry2->bindParam(":disable", $val);
+														$val=0;
+														$qry2->execute();
 													}
-													while ($row2=$query2->fetch()) 
+													while($row2=$qry2->fetch())
 													{
 														echo '
 														<option '; if ($row['service']==$row2['id']) {echo 'selected';} echo ' value="'.$row2['id'].'">
 															'.$row2['name'].'
 														</option>';
 													}
-													$query2->closeCursor();
+													$qry2->closeCursor();
 												echo '
 												</select>
 											</fieldset>
@@ -188,27 +230,45 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 										<option value=""></option>';
 										//display technician or user list
 										if($rgroup['type']=='1')
-										{$query = $db->query("SELECT * FROM tusers WHERE disable=0 AND (profile=0 OR profile=4) ORDER BY lastname");}
+										{
+											$qry=$db->prepare("SELECT id,lastname,firstname FROM `tusers` WHERE disable=:disable AND (profile=:profile1 OR profile=:profile2) ORDER BY lastname");
+											$qry->execute(array(
+											'disable' => 0,
+											'profile1' => 0,
+											'profile2' => 4
+											));
+										}
 										else
-										{$query = $db->query("SELECT * FROM tusers WHERE disable=0 AND (profile!=0 AND profile!=4) ORDER BY lastname");}
-										while ($row=$query->fetch()) 
+										{
+											$qry=$db->prepare("SELECT id,lastname,firstname FROM `tusers` WHERE disable=:disable AND (profile!=:profile1 OR profile!=:profile2) ORDER BY lastname");
+											$qry->execute(array(
+											'disable' => 0,
+											'profile1' => 0 ,
+											'profile2' => 4
+											));
+										}
+										while ($row=$qry->fetch()) 
 										{
 											echo "<option value=\"$row[id]\">$row[lastname] $row[firstname]</option>";
 										} 
-										$query->closeCursor(); 
+										$qry->closeCursor(); 
 									echo '
 									</select>
 								</fieldset>
 								<fieldset>
 								<label for="name">'.T_('Membres actuels').':</label><br />';
 									//display current users in this group
-									$quser = $db->query("SELECT tusers.firstname, tusers.lastname, tusers.id FROM `tusers`,tgroups_assoc WHERE tusers.id=tgroups_assoc.user AND tgroups_assoc.group=$_GET[id] AND tusers.disable=0");
-									while ($ruser=$quser->fetch()) 
+									$qry=$db->prepare("SELECT tusers.firstname, tusers.lastname, tusers.id FROM `tusers`,tgroups_assoc WHERE tusers.id=tgroups_assoc.user AND tgroups_assoc.group=:group AND tusers.disable=:disable");
+									$qry->execute(array(
+									'group' => $_GET['id'],
+									'disable' => 0
+									));
+									while ($ruser=$qry->fetch()) 
 									{
 										echo '<i class="icon-caret-right blue"></i> <a title="'.T_('Fiche Utilisateur').'" href="./index.php?page=admin&subpage=user&action=edit&userid='.$ruser[2].'" >'.$ruser[0].' '.$ruser[1].'</a> 
 										<a title="'.T_('Enlever l\'utilisateur du groupe').'" href="./index.php?page=admin&amp;subpage=group&amp;id='.$_GET['id'].'&amp;user='.$ruser[2].'&amp;action=delete"><i class="icon-trash red bigger-120"></i></a><br />';
 									}
-									$quser->closeCursor(); 
+									$qry->closeCursor(); 
 									echo '
 								</fieldset>
 								<div class="form-actions center">
@@ -247,9 +307,14 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 								if ($rparameters['user_limit_service']==1 && ($rright['admin_groups']!=0 || $rright['admin']!=0))
 								{
 									//find current service associated with group
-									$query = $db->query("SELECT service FROM tgroups WHERE id='$_GET[id]' and disable='0'"); 
-									$row = $query->fetch();
-									$query->closeCursor(); 
+									$qry = $db->prepare('SELECT service FROM tgroups WHERE id=:id and disable=:disable');
+									$qry->execute(array(
+										'id' => $_GET['id'],
+										'disable' => 0
+										));
+									$row = $qry->fetch();
+									$qry->closeCursor();
+									
 								if ($cnt_service<=1 && $rright['admin']==0) //not show select field, if there are only one service, send data in background
 									{
 										echo '<input type="hidden" name="service" value="'.$user_services[0].'" />'; 
@@ -261,19 +326,26 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 												';
 													if($rright['dashboard_service_only']!=0 && $rparameters['user_limit_service']==1) {
 														//display only service associated with this user
-														$query2 = $db->query("SELECT tservices.id,tservices.name FROM `tservices`,`tusers_services` WHERE tservices.id=tusers_services.service_id AND tusers_services.user_id='$_SESSION[user_id]' AND tservices.disable='0' ORDER BY tservices.name"); 
+														$qry2 = $db->prepare("SELECT tservices.id,tservices.name FROM `tservices`,`tusers_services` WHERE tservices.id=tusers_services.service_id AND tusers_services.user_id=:user_id AND tservices.disable=:disable ORDER BY tservices.name");
+														$qry2->execute(array(
+															'user_id' => $_SESSION['user_id'],
+															'disable' => 0
+															));
 													} else {
 														//display all services
-														$query2 = $db->query("SELECT id,name FROM `tservices` WHERE disable='0' ORDER BY name"); 
+														$qry2 = $db->prepare("SELECT id,name FROM `tservices` WHERE disable=:disable ORDER BY name");
+														$qry2->execute(array(
+															'disable' => 0
+															));
 													}
-													while ($row2=$query2->fetch()) 
+													while ($row2=$qry2->fetch()) 
 													{
 														echo '
 														<option '; if ($row['service']==$row2['id']) {echo 'selected';} echo ' value="'.$row2['id'].'">
 															'.$row2['name'].'
 														</option>';
 													}
-													$query2->closeCursor();
+													$qry2->closeCursor();
 												echo '
 												</select>
 											</fieldset>
@@ -352,9 +424,16 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 							</tr>
 						</thead>
 						<tbody>';
+							//secure string
+							$_POST['type']=strip_tags($_POST['type']);
+							
 							//build each line
-							$qgroup = $db->query("SELECT * FROM `tgroups` WHERE type=$_GET[type] AND disable='0' ORDER BY type,name ");
-							while ($rgroup=$qgroup->fetch()) 
+							$qry = $db->prepare("SELECT id,name FROM `tgroups` WHERE type=:type AND disable=:disable ORDER BY type,name ");
+							$qry->execute(array(
+								'type' => $_GET['type'],
+								'disable' => 0
+								));
+							while ($rgroup=$qry->fetch()) 
 							{
 								echo "
 								<tr>
@@ -362,20 +441,30 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 										$rgroup[name]
 									</td>
 									<td onclick=\"document.location='./index.php?page=admin&amp;subpage=group&amp;action=edit&amp;id=$rgroup[id]'\">";
-										$quser = $db->query("SELECT tusers.firstname, tusers.lastname FROM `tusers`,tgroups_assoc WHERE tusers.id=tgroups_assoc.user AND tgroups_assoc.group=$rgroup[id] AND tusers.disable=0");
-										while ($ruser=$quser->fetch()) 
+										
+										$qry2 = $db->prepare("SELECT tusers.firstname, tusers.lastname FROM `tusers`,tgroups_assoc WHERE tusers.id=tgroups_assoc.user AND tgroups_assoc.group=:group AND tusers.disable=:disable");
+										$qry2->execute(array(
+											'group' => $rgroup['id'],
+											'disable' => 0
+											));
+										while ($ruser=$qry2->fetch()) 
 										{
-											echo "$ruser[0] $ruser[1]<br />";
+											echo $ruser['firstname'].' '.$ruser['lastname'].'<br />';
 										}
+										$qry2->closeCursor(); 
 										echo '
 									</td>
 									';
 									//display associated service if parameter is enable
 									if ($rparameters['user_limit_service']==1) { 
 										//find value
-										$query = $db->query("SELECT tservices.name FROM `tservices` WHERE id=(SELECT service FROM tgroups WHERE id='$rgroup[id]' AND disable='0')"); 
-										$row = $query->fetch();
-										$query->closeCursor(); 
+										$qry2 = $db->prepare("SELECT tservices.name FROM `tservices` WHERE id=(SELECT service FROM tgroups WHERE id=:id AND disable=:disable)");
+										$qry2->execute(array(
+											'id' => $rgroup['id'],
+											'disable' => 0
+											));
+										$row = $qry2->fetch();
+										$qry2->closeCursor(); 
 										echo '<td>'.$row['name'].'</td>';
 									}
 									echo '
@@ -389,7 +478,7 @@ if ($rright['admin']!=0 || ($rright['admin_groups']!=0 && $cnt_service!=0))
 									</td>
 								</tr>';
 							}
-							$qgroup->closeCursor(); 
+							
 							echo '
 						</tbody>
 					</table>

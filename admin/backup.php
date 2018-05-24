@@ -1,13 +1,13 @@
 <?php
 ################################################################################
 # @Name : backup.php
-# @Desc : save and restore page
-# @call : /admin/admin.php
-# @parameters : 
+# @Description : save and restore page
+# @Call : /admin/admin.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 25/04/2013
-# @Update : 08/02/2016
-# @Version : 3.1.17
+# @Update : 15/02/2017
+# @Version : 3.1.30
 ################################################################################
 
 //initialize variables 
@@ -87,8 +87,14 @@ if ($_GET['action']=="backup" && $rright['admin']!=0)
 		return $zip->close();
 	}
 	Zip('./', './backup/backup_gestsup_'.$rparameters['version'].'_'.$date.'.zip');	
+	
+	//check SQL dump
+	$check_sql_dump=0;
+	$pattern='./_SQL/backup-gestsup-'.$rparameters['version'].'-'.date('Y').'_'.date('m').'_'.date('d').'_*.sql';
+	foreach (glob($pattern) as $filename) {$check_sql_dump=1;}
+	
 	//check backup
-	if(file_exists('./backup/backup_gestsup_'.$rparameters['version'].'_'.$date.'.zip')) 
+	if(file_exists('./backup/backup_gestsup_'.$rparameters['version'].'_'.$date.'.zip') && $check_sql_dump==1) 
 	{
 		echo'
 			<div class="alert alert-block alert-success">
@@ -101,19 +107,36 @@ if ($_GET['action']=="backup" && $rright['admin']!=0)
 		';
 		$step=5;
 	} else {
-		echo'
-		<div class="alert alert-danger">
-			<button type="button" class="close" data-dismiss="alert">
-				<i class="icon-remove"></i>
-			</button>
-			<strong>
-				<i class="icon-remove"></i>
-				'.T_('Erreur').'
-			</strong>
-			'.T_('La sauvegarde de l\'application à échoué').'.
-			<br>
-		</div>
-		';
+		if(!file_exists('./backup/backup_gestsup_'.$rparameters['version'].'_'.$date.'.zip'))
+		{
+			echo'
+			<div class="alert alert-danger">
+				<button type="button" class="close" data-dismiss="alert">
+					<i class="icon-remove"></i>
+				</button>
+				<strong>
+					<i class="icon-remove"></i>
+					'.T_('Erreur').'
+				</strong>
+				'.T_('La sauvegarde de l\'application à échoué (Aucun fichier zip détecté dans ./backup)').'.
+				<br>
+			</div>
+			';
+		} elseif($check_sql_dump==0) {
+			echo'
+			<div class="alert alert-danger">
+				<button type="button" class="close" data-dismiss="alert">
+					<i class="icon-remove"></i>
+				</button>
+				<strong>
+					<i class="icon-remove"></i>
+					'.T_('Erreur').'
+				</strong>
+				'.T_('La sauvegarde de la base de données de l\'application à échoué (Aucun fichier SQL détecté dans ./_SQL)').'.
+				<br>
+			</div>
+			';
+		}
 		$error=1;
 	}
 

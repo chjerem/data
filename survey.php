@@ -5,9 +5,9 @@
 # @Call : auto mail
 # @Parameters : token
 # @Author : Flox
-# @Version : 3.1.20
+# @Version : 3.1.28
 # @Create : 22/04/2017
-# @Update : 02/05/2017
+# @Update : 03/01/2018
 ################################################################################
 
 //initialize variables 
@@ -29,6 +29,8 @@ if(!$_POST['question_id']) $_POST['question_id'] = 1;
 require "connect.php";
 $db->exec('SET sql_mode = ""');
 
+$db_token=strip_tags($db->quote($_GET['token']));
+
 //load parameters table
 $query=$db->query("SELECT * FROM tparameters");
 $rparameters=$query->fetch();
@@ -37,7 +39,7 @@ $query->closeCursor();
 if ($_GET['token'])
 {
 	//check if token exist
-	$query=$db->query("SELECT ticket_id FROM ttoken WHERE token='$_GET[token]'");
+	$query=$db->query("SELECT ticket_id FROM ttoken WHERE token=$db_token");
 	$row=$query->fetch();
 	$query->closeCursor();
 	if($row)
@@ -86,8 +88,9 @@ if($current_question_number[0]) {$question_number=$current_question_number[0]+1;
 
 //actions on submit
 if($_POST['previous'] || $_POST['next'] || $_POST['validation']) {
+	
 	//check error
-	if($_POST['answer'] && ($_POST['next'] || $_POST['validation'])) {
+	if($_POST['answer'] && (strlen(trim($_POST['answer']))!=0) && ($_POST['next'] || $_POST['validation'])) {
 		//check previous answer
 		$query = $db->query("SELECT * FROM `tsurvey_answers` WHERE ticket_id='$ticket_id' AND question_id='$_POST[question_id]'");
 		$row=$query->fetch();
@@ -125,7 +128,7 @@ $question_id=$question_id[0];
 //display debug
 if ($rparameters['debug']==1) {echo '<u><b>DEBUG MODE:</b></u><br /><b>VAR:</b> POST_answer='.$_POST['answer'].' question_number='.$question_number.' post_question_number='.$_POST['question_number'].' question_id='.$question_id.' post_question_id='.$_POST['question_id']; }
 
-if($_POST['validation'])
+if($_POST['validation'] && !$error)
 {
 	//delete token
 	$db->exec("DELETE FROM ttoken WHERE ticket_id='$ticket_id'");
@@ -133,13 +136,11 @@ if($_POST['validation'])
 	if($rparameters['survey_auto_close_ticket']==1)
 	{
 		//modify ticket state in close and unread tag
-		$db->exec("UPDATE tincidents SET state='3',techread='0' WHERE id='$ticket_id'");
+		$db->exec("UPDATE tincidents SET state='3',techread='0',date_res='$datetime' WHERE id='$ticket_id'");
 		//insert close thread
 		$db->exec("INSERT INTO tthreads (ticket, date, type, author) VALUES ('$ticket_id','$datetime','4','$ticket[user]')");
-		
 	}
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -192,7 +193,7 @@ if($_POST['validation'])
 						{
 							if ($token==true)
 							{
-								if ($_POST['validation'])
+								if ($_POST['validation'] && !$error)
 								{
 									
 									echo '<br /><br /><br /><div class="alert alert-block alert-success"><center><i class="icon-ok green"></i>	'.T_('Votre sondage a été envoyé merci').'. </center></div><br /><br />';

@@ -6,8 +6,8 @@
 # @Parameters :  
 # @Author : Flox
 # @Create : 20/07/2011
-# @Update : 27/04/2017
-# @Version : 3.1.20
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -21,6 +21,9 @@ if(!isset($_GET['id'])) $_GET['id'] = '';
 if(!isset($_GET['technician'])) $_GET['technician'] = ''; 
 if(!isset($_GET['planning'])) $_GET['planning'] = ''; 
 
+$db_event=strip_tags($db->quote($_GET['event']));
+$db_id=strip_tags($db->quote($_GET['id']));
+
 if(!isset($_POST['direct'])) $_POST['direct'] = '';
 if(!isset($_POST['date'])) $_POST['date'] = '';
 if(!isset($_POST['date_start'])) $_POST['date_start'] = '';
@@ -29,7 +32,7 @@ if(!isset($_POST['hide'])) $_POST['hide'] = '';
 //disable event
 if ($_GET['event']!='' && $_GET['disable']==1)
 {
-	$db->exec("UPDATE tevents SET disable='1' where id='$_GET[event]'");
+	$db->exec("UPDATE tevents SET disable='1' where id=$db_event");
 }
 //display event
 if($_GET['hide']!=1)
@@ -75,7 +78,7 @@ if ($_GET['action']=='addevent' || $_GET['action']=='addcalendar')
 		if ($_GET['action']!='addcalendar')
 		{
 			if ($_POST['direct']!='') {$date=$_POST['direct'];} else {$date="$_POST[date] $_POST[hour]";}
-			$db->exec("INSERT INTO tevents (technician,incident,date_start,type) VALUES ('$_SESSION[user_id]','$_GET[id]','$date','1')");
+			$db->exec("INSERT INTO tevents (technician,incident,date_start,type) VALUES ('$_SESSION[user_id]',$db_id,'$date','1')");
 			//redirect
 			$www = "./index.php?page=ticket&id=$_GET[id]&userid=$_GET[userid]";
 			echo '<script language="Javascript">
@@ -84,7 +87,7 @@ if ($_GET['action']=='addevent' || $_GET['action']=='addcalendar')
 			// -->
 			</script>';
 		} else {
-			$db->exec("INSERT INTO tevents (technician,incident,date_start,date_end,type) VALUES ('$globalrow[technician]','$_GET[id]','$_POST[date_start] $_POST[hour]','$_POST[date_end] $_POST[hour_fin]','2')");
+			$db->exec("INSERT INTO tevents (technician,incident,date_start,date_end,type) VALUES ('$globalrow[technician]',$db_id,'$_POST[date_start] $_POST[hour]','$_POST[date_end] $_POST[hour_fin]','2')");
 			//redirect
 			$www = "./index.php?page=ticket&id=$_GET[id]&userid=$_GET[userid]";
 			echo '<script language="Javascript">

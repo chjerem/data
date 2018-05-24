@@ -1,7 +1,300 @@
 <meta charset="UTF-8" />
 #################################<br />
 # @Name : GestSup Release Notes  <br />
-# @Date : 14/06/2017             <br />
+# @Date : 19/02/2018             <br />
+# @Version : 3.1.30     	 	 <br />
+#################################<br />
+<br />
+<u>Notice:</u><br />
+- Monitor: Page déplacé utiliser le nouveau lien présent dans les paramètres <br />
+
+<u>Update:</u><br />
+-  Paramètre: un nouveau paramètre permet de définir le timeout de la session (./index.php ./admin/parameters.php)<br />
+-  Paramètre: un nouveau paramètre permet de forcer le fuseau horaire, sur une valeur différente de celle de php.ini(./index.php ./admin/parameters.php)<br />
+-  Système: Mise à jour des informations de sécurité (./system.php)<br />
+-  Barre utilisateur: Mise à jour des avatars des profils (./images/avatar/*)<br />
+-  Composant: Mise à jour du composant WOL version 2.1 (./components/wol/*)<br />
+-  Sauvegarde manuelle: Ajout d'un contrôle sur la présence du dump SQL (./admin/backup.php)<br />
+-  Mail automatique: Nouveau paramètre envoi a l'utilisateur lors de l'ouverture d'un ticket par l'utilisateur (./core/auto_mail.php ./core/ticket.php ./mail2ticket.php)<br />
+<br />
+<br />
+<u>Bugfix:</u><br />
+-  Fiche utilisateur: Erreur sur la liste des vues (./admin/user.php) <br />
+-  Mail: Certains mails automatique n'était pas envoyé à l'adresse de copie si le demandeur n'avait pas d'adresse mail (./core/auto_mail.php) <br />
+-  Connecteur IMAP: Lors de la reception d'un mail non HTML, l'adresse mail de l'émetteur n'était pas affiché dans la description du ticket (./mail2ticket.php) <br />
+-  Liste des tickets: la priorité aucune n'avait pas la couleur grise (SQL) <br />
+-  Ticket: lors de la sélection du demandeur, la liste des priorité faisait apparaitre deux fois la valeur sélectionnée dans la liste (./ticket.php) <br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 20/01/2018             <br />
+# @Version : 3.1.29     	 	 <br />
+#################################<br />
+<br />
+
+<u>Update:</u><br />
+- Composant PHPMailer: Nouvelle version 6.0.3 (./components/PhpMailer)<br />
+- Passage en requêtes préparées: (./admin/* ./register.php ./login.php)<br />
+- Connecteur LDAP: Compatibilité avec Samba4 (./core/ldap.php)<br />
+- Connecteur LDAP: Amélioration de la prise en charge des connexion chiffrés (./core/ldap.php)<br />
+- Connecteur LDAP: SSO disponible cf FAQ (./index.php)<br />
+- Système: Contrôle de version de PHP pour respecter les prérequis serveur (./system.php)<br />
+- Paramètre: Augmentation de la taille maximal des adresses mail en copie à 150 char. (SQL)<br />
+- Tickets: Insertion de lien possible dans la description, click droit pour ouvrir. (./wysiwyg.php)<br />
+
+<br />
+<br />
+<u>Bugfix:</u><br />
+- Paramètres Généraux: La liste des états par défaut ne tenait pas compte du renommage dans la liste des états (./admin/parameters.php) <br />
+- Connecteur IMAP: erreur lors de la réception des mails (./mail2ticket.php) <br />
+- Connecteur LDAP: Erreur de modification d'une fiche utilisateur suite synchro AD(./login.php) <br />
+- Mail: Message d'erreur si le champ début de mail était à vide et l'utilisateur avec la langue anglaise (./core/mail.php) <br />
+- Mail: Erreur lors de l'utilisation du bouton mail par l'utilisateur (./core/mail.php) <br />
+- Mail: Erreur lors de l'envoi de mail avec le profile utilisateur avec pouvoir sur les mails d'ouverture automatique  (./core/auto_mail.php) <br />
+- Variable non initialisée: La variable user_agent n'était pas initialisée, si non transmise par le navigateur (./index.php) <br />
+- Ticket: Le champ résolution pouvaient ne pas être pris en compte sur les nouveaux tickets (./core/ticket.php) <br />
+- Enregistrement utilisateurs: Certains message d'erreur n'était pas traduit si une langue différente du français était détectée (./register.php) <br />
+- Liste des réseaux des équipements: Sur certaines colonnes la traduction n'était pas correct (./admin/list.php) <br />
+- Équipements: Gestion de la date de derniers ping par interface (./core/asset_network_scan.php) <br />
+- Fonction sondage: erreur SQL sur l'utilisation du lien présent dans le mail (./survey.php) <br />
+- Statistiques: Le filtre par technicien n'était pas appliqué sur certains tableaux (./stat/tables.php) <br />
+- Installation: Erreur de détection de l'HTTPS (./install/index.php) <br />
+- Liste des équipements: La liste des équipements pouvait être mélangé si aucune ip n'étaient renseignés (./asset_list.php) <br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 04/12/2017             <br />
+# @Version : 3.1.28     	 	 <br />
+#################################<br />
+<br />
+<u>Update:</u><br />
+- Composant PHPImap: Nouvelle version 3.0.5 (./components/PHPImap/*)<br />
+- Équipement: Le bouton ping sur l'équipement IP, lance désormais un ping sur toutes les interfaces et affiche le drapeau à coté (./core/ping.php, ./asset.php)<br />
+- Ticket: L'ordre d'affichage de la liste des catégories peut être définie manuellement dans l'administration des listes (./admin/list.php, ./ticket.php)<br />
+- Fiche utilisateur: La saisie de mot de passe vide n'est plus autorisé (./admin/user.php)<br />
+
+<br />
+<br />
+<u>Bugfix:</u><br />
+- Menu Société: l'ouverture des tickets du menu société s'affichait avec une page blanche (./index.php) <br />
+- Variable non initialisée: Si User-Agent header est filtré par un firewall (./index.php) <br />
+- Variable non initialisée: La variable imap_user n'était pas initialisée(./admin/parameters.php) <br />
+- Ticket: Dans certains cas des erreurs s'affichaient dans la liste des demandeurs (./ticket.php) <br />
+- Ticket: AccessKey du bouton "Enregistrer et fermer" est désormais F (./ticket.php) <br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 17/10/2017             <br />
+# @Version : 3.1.27     	 	 <br />
+#################################<br />
+<br />
+<u>Update:</u><br />
+- Composant PHPMailer: Nouvelle version 6.0.1 (./components/PHPMailer/*)<br />
+- Ticket: Pour les utilisateurs du champ "service du demandeur" ce dernier est désormais associé au service du demandeur par défaut, si il n'en dispose que d'un (./ticket.php)<br />
+- Profile utilisateur: Si la gestion des agences est activé alors il est possible de visualiser et modifier les associations d'agences sur la fiche utilisateur (./ticket.php)<br />
+- Système: Ajout d'une section sécurité. (./system.php)<br />
+<br />
+<br />
+<u>Bugfix:</u><br />
+- Procédure: Les fichiers de plus de 10MO n'étaient pas transférés (./procedure.php) <br />
+- Mails: Erreur lors de l'envoi de mail automatique alors que l'utilisateur ne dispose pas de mail ou que le demandeur "Aucun" à été sélectionné (./core/auto_mail.php) <br />
+- Ticket: Suppression de l'affichage du pourcentage d'avancement du ticket dans le titre si le temps passé et temps estimé ne sont pas affichés (./core/ticket.php) <br />
+- Ticket: L'ordre de trie des criticité tien uniquement compte de l'ordre définit dans la gestion des listes. (./ticket.php) <br />
+- Liste des tickets: L'icône horloge rouge indiquant un retard, ne s'affiche plus si le droit sur la date de résolution estimé du ticket est désactivé. (./dashboard.php) <br />
+- Barre utilisateur: Suppression de l'affichage du bloc "Charge" si l'affichage du temps passé et estimé ne sont pas affichés (./index.php) <br />
+- Ticket non lu: erreur lors de l'utilisation du bouton cloture de ticket sur un profil technicien ou administrateur (./core/ticket.php)<br />
+- Système: Erreur de contrôle de la quantité de mémoire quand la valeur était en gigabytes. (./system.php)<br />
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 14/09/2017             <br />
+# @Version : 3.1.26     	 	 <br />
+#################################<br />
+
+<br />
+<u>Update:</u><br />
+- Ticket: Deux icônes sont présent dans la barre des titre si un ticket est planifié ou si une alerte est positionnée (./ticket.php)<br />
+- Ticket: Possibilité d'activer ou de désactiver le cloisonnement par service du champ type via un nouveau droit ticket_type_service_limit  (./ticket.php)<br />
+- Ticket: Lors de la suppression d'une entrée dans la liste des temps, la valeur était perdu sur le ticket lors d'un nouvel enregistrement (./ticket.php)<br />
+- Équipements: Il est possible de cloisonner les équipements par société, jonction entre un équipement et une société via l'utilisateur associé cf droit asset_list_company_only et doc. (./menu.php ./asset_list.php)<br />
+- Procédure: Il est possible de cloisonner les procédure par société cf droit procedure_list_company_only et procedure_company. (./procedure.php)<br />
+- Procédure: Le bouton de création d'une nouvelle procédure est désormais dans le menu de gauche, afin de s'uniformiser avec les création de ticket ou d'équipement. (./menu.php ./procedure)<br />
+- Statistique Équipements: Il est possible de filtrer les graphiques par société a l'aide d'un nouveau filtre. (./procedure.php)<br />
+- Export CSV Équipements: Le fichier CSV exporté contenant les équipement dispose d'une nouvelle colonne société. (./core/export_asset.php)<br />
+
+<br /><br />
+<u>Bugfix:</u><br />
+- Ticket: Les tickets supprimés était encore accessible via le lien sur un mail (./index.php) <br />
+- Calendrier: Les tickets supprimés était encore visible (./planning.php) <br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 04/09/2017             <br />
+# @Version : 3.1.25     	 	 <br />
+#################################<br />
+
+<br />
+<u>Update:</u><br />
+- Composant PHPImap: Nouvelle version 2.0.9 (./components/PHPimap/*)<br />
+- Composant PHPMailer: Nouvelle version majeure 6.0.0 (./components/PHPMailer/*)<br />
+- Mobile: Optimisation de l'affichage des tickets et des matériels sur mobile<br />
+- Ticket et Fiche équipement: Il est possible d'utiliser les raccourcis clavier ALT+SHIFT+ X consulter les infos bulles des boutons pour connaitre les raccourcis (./ticket.php asset.php)<br />
+- Ticket: Il est possible de cloisonner le type et la priorité par service (./ticket.php)<br />
+- Liste des tickets: Sur les colonnes techniciens et utilisateur affichage du prénom et nom complet au survol de la souris (./dashboard.php)<br />
+
+<br /><br />
+<u>Bugfix:</u><br />
+- Ticket: Nouveau droit permettant d'activer ou désactiver le verrouillage du champ technicien lorsque la limite par ticket est activée et qu'il déclare un ticket pour un autre service (./ticket.php) <br />
+- Ticket: Lors de l'utilisation d'un modèle de ticket le lieu n'était pas dupliqué (./ticket_template.php) <br />
+- Ticket: Lors de la modification d'un ticket, lors de la modification du service le premier changement n'était pas pris en compte (./ticket.php) <br />
+- Liste des tickets: Dans la vue activité erreur lors de l'utilisation du filtre technicien deux fois de suite (./index.php ./dashboard.php) <br />
+- Liste des tickets: Dans la vue activité lors de l'utilisation du bouton nouveau ticket si l'on envoi un mail la redirection n'était pas faites sur la vue activité (./menu.php ./core/ticket.php ./core/mail.php) <br />
+- Mobile: Les champs d'auto complétion ne fonctionnait pas sur mobile (./asset.php ./ticket.php) <br />
+- Statistique: La courbe des tickets résolu tenait compte uniquement de la date de résolution et pas de l'état(./stat/line_tickets.php ) <br />
+- Système: Variable non initialisée si apache est en mode ServerTokens=Prod (./stat/system.php ) <br />
+- Mails: Défaut d'affichage des mail dans outlook lors de l'impression liée à la taille du cadre (./core/mail.php ) <br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 04/08/2017             <br />
+# @Version : 3.1.24     	 	 <br />
+#################################<br />
+
+<br />
+<u>Update:</u><br />
+- Composant PHPMailer: Nouvelle version disponible https://github.com/PHPMailer/PHPMailer/releases/tag/v5.2.24 (./components/PHPMailer/*)<br />
+- Liste des tickets: Il est possible de personnaliser pour l'ensemble des utilisateurs de l'application l'état par défaut à la connexion de l'application (nouveau paramètre). (./parameters.php ./login.php)<br />
+- Tickets: Dans les éléments de résolution si un texte type lien est détecté, il est alors convertit en lien hypertexte. (./threads.php)<br />
+- Équipements: les champs demandeur et localisation ont été optimisés avec de l'auto-complétion (./index.php ./asset.php)<br />
+- Équipements: Amélioration de la vue garantie (./index.php ./asset.php)<br />
+- Gestion des agences: Un utilisateur peut faire partie d'un service et d'une agence (./index.php)<br />
+<br /><br />
+<u>Bugfix:</u><br />
+- Liste des tickets: Un défaut d'affichage pouvait apparaitre lors l'affichage de la colonne société (./dashboard.php) <br />
+- Liste des tickets: Sur la vue activité certains anciens tickets pouvaient s'afficher en non lus (./dashboard.php) <br />
+- Ticket: le bouton impression ne lançait plus la fenêtre système d'impression (./ticket_print.php) <br />
+- Composant: le fichier de version de php-gettext pouvais ne pas être présent (components\php-gettext\VERSION) <br />
+- Impressions: Les impressions dans le navigateur n'affiche plus les URL de tous les liens (./template/bootstrap) <br />
+- Mail automatique: Avec certaines combinaison de paramétrage dans les mail automatique, l'option d'envoi de mail au technicien lors de la modification d'un ticket par un utilisateur ne fonctionnait pas (./core/auto_mail.php) <br />
+- Statistiques: Sur le premier graphique d'évolution des tickets, les compteurs sous le titre étaient erronés et la courbe des tickets avancés ne donnait pas le nombre de tickets distinct (./stat_line.php ./stat/line_ticket.php)<br  />
+- Statistiques: Sur le premier graphique la courbe des tickets avancés tenait compte des tickets fermés également (./core/ticket_line.php )<br  />
+- Statistiques: Sur le filtre par technicien les administrateurs n'était pas présent dans la liste si paramétré  (./ticket_stat.php)<br  />
+- Administration: Dans la gestion des listes les nom des colonnes sont désormais traduite (./admin/list.php)<br />
+- Connecteur LDAP: la mise a jour d'adresse mail avec des apostrophes posait problème (./core/ldap.php)<br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 18/07/2017             <br />
+# @Version : 3.1.23     	 	 <br />
+#################################<br />
+
+<br />
+<u>Update:</u><br />
+- Liste des tickets: Nouveaux compteurs disponible dans la vue activité, avec les tickets ouverts, fermés et avancé dans la période (./dashboard.php)<br />
+- Liste des tickets: Nouvelles couleurs sur les numéros de tickets voir le détail en passant le curseur sur le numéro, un nouvel indicateur de nouveau ticket est présent: une pastille rouge, les couleurs sont valables sur la vue activité prenant en compte la période sélectionnée et sur les listes des tickets (./dashboard.php)<br />
+- Liste des tickets: Nouvelle colonne disponible "service du demandeur" activable par un nouveau droit "dashboard_col_user_service" (./dashboard.php)<br />
+- Ticket: Sur le champ agence avec un profil technicien lors de l'enregistrement d'un ticket, la liste des agences reste limité à celles associées au demandeur (./ticket.php)<br />
+- Statistiques: Changement des couleurs des courbes d'évolution des tickets, rouge ouverts, vert fermés, bleu avancés (./stats/line_ticket.php)<br />
+- Statistiques: Ajout de deux nouvelles colonnes dans le tableau des répartition des temps par statuts (./stats/tables.php)<br />
+- Gestion des agences: Un technicien peut faire partie d'une agence et d'un service (./admin/parameters.php ./core/mail.php)<br />
+<br /><br />
+<u>Bugfix:</u><br />
+- Ticket: l'ordre de trie du champ criticité après validation était inversé (./ticket.php)<br />
+- Ticket: Le champ équipement restait affiché si la fonction équipement était active et que le champ était désactivé dans les droits (./ticket.php)<br />
+- Liste des tickets: le filtre par lieu avoir des dysfonctionnements dans certains cas (./dashboard.php)<br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 05/07/2017             <br />
+# @Version : 3.1.22     	 	 <br />
+#################################<br />
+
+<br />
+<u>Update:</u><br />
+- Connecteur IMAP: Il est possible de supprimer l'indicateur "--- vous pouvez répondre..." dans les messages émit via une nouvelle option dans Administration > Paramètres > Connecteur IMAP "Gérer les réponses dans les mails" (./admin/parameters.php ./core/mail.php)<br />
+- Connecteur IMAP: Possibilité d'activer ou désactiver la verification des certificats SSL du serveur de messagerie (./admin/parameters.php)<br />
+- Connecteur LDAP: Il est possible de ne pas désactiver les utilisateurs crée manuellement dans GestSup lors d'une synchronisation LDAP cf paramètre du connecteur (./admin/parameters.php ./core/ldap.php)<br />
+- Fonction sondage: L'adresse mail d'émission du mail de sondage est celle paramétré dans "Adresse de l'émetteur", si ce paramètre n'est pas renseigné alors c'est l'adresse mail du technicien qui est utilisé (./core/auto_mail.php)<br />
+- Ticket: Il est possible d'associer un équipement à un ticket en fonction de l'utilisateur cf documentation et nouveaux droits (ticket_new_asset_disp,ticket_asset_disp,ticket_asset,ticket_asset_mandatory,dashboard_col_asset) (./ticket.php ./index.php ./core/ticket.php ./dashboard.php) <br />
+- Ticket: Un nouveau droit permet d'afficher les techniciens sans les administrateurs dans la liste des techniciens cf "ticket_tech_admin" (./ticket.php) <br />
+- Ticket: Un nouveau droit permet d'afficher les superviseurs dans la liste des techniciens cf "ticket_tech_super" (./ticket.php) <br />
+- Ticket: Un nouveau paramètre permet de définir l'état par défaut des tickets (./ticket.php) <br />
+- Menu: lors de l'utilisation du menu de gauche réduit avec le thème bleu affichage de l'icône de creation d'un nouveau ticket (./manu.php) <br />
+<br /><br />
+<u>Bugfix:</u><br />
+- Lien nouvel onglet: Dans certains les liens sur nouveaux onglets ne fonctionnaient pas (./*) <br />
+- Lien mail: Des anomalies pouvait être rencontré lors de l'utilisation du lien envoyé dans les mails aux utilisateurs (./login.php) <br />
+- Fonction sondage: La date de résolution n'était pas automatiquement inséré lors de la cloture du ticket automatique par l'utilisateur (./survey.php) <br />
+- Fonction sondage: Pas de mail de sondage à l'utilisateur si l'envoi de mail automatique à la création du ticket était paramétré et que le changement d'état avait lieu à l'ouverture du tickets (./survey.php) <br />
+- Fonction sondage: L'utilisateur pouvait valider le sondage sans répondre à la dernière question (./survey.php) <br />
+- Fonction sondage: Le mail à destination de l'utilisateur est émit avec l'adresse paramétré dans "Adresse de l'émetteur" dans les paramètres, si le champ est vide alors le mail sera émit avec l'adresse du technicien en charge du ticket (./core/auto_mail.php) <br />
+- Fonction sondage: Le mail émit à destination de l'utilisateur gère désormais les serveurs de messagerie avec des certificats non vérifier (./core/messages.php) <br />
+- Fonction disponibilité: La condition de prise en compte d'un ticket, ne fonctionnait pas avec le type (./ticket.php) <br />
+- Fonction équipement: le WOL sur linux ne fonctionnait plus (./core/wol.php) <br />
+- Fonction équipement: Dans l'administration de la liste des modèle lors de la création d'un nouvelle équipement la valeur IP n'était pas conservé. (./admin/list.php) <br />
+- Fonction équipement: Augmentation du nombre de caractère disponible sur le champs numéro de prise de 10 à 50. (SQL) <br />
+- Ticket: Erreur de changement automatique d'état lors de lors d'un transfert d'un technicien à un groupe de technicien (./survey.php) <br />
+- Ticket: Lors de l'utilisation du paramètre "les utilisateurs ne voient que les tickets de leurs service" un technicien ne pouvait pas visualiser un ticket qu'il avait ouvert pour un autre service (./index.php ./dashboard.php ./menu.php) <br />
+- Ticket: La liste des demandeurs n'affiche plus les utilisateurs n'ayant ni prénom ni nom.(./index.php ./dashboard.php ./menu.php) <br />
+- Ticket: La liste priorité n'était pas trié par numéro.(./ticket.php) <br />
+- Ticket: Erreur sur la priorité par défaut lors de la suppression des valeurs par défaut dans la liste des priorité.(./ticket.php) <br />
+- Liste des tickets: Lorsque le demandeur ne possédait pas de prénom il n'était pas visible dans le filtre des demandeurs.(./dashboard.php) <br />
+- Connecteur IMAP: Suppression de la gestion du protocole POP ne gérant pas les mails non lus (./admin/parameters.php) <br />
+- Connecteur IMAP: Affichage des messages d'erreurs si le mode debug est activé (./mail2ticket.php) <br />
+- Connecteur IMAP: erreur d'association avec l'utilisateur lorsque deux utilisateurs avait le même mail et l'un était désactivé (./mail2ticket.php) <br />
+- Connecteur LDAP: Sur la synchronisation d'agences et de service le caractère Œ n'était pas gérée (./core/ldap_services.php, ./core/ldap_agencies.php) <br />
+- Connecteur LDAP: Sur la synchronisation du champ société, gestion de la casse lors des mises à jours  (./ldap.php) <br />
+- Connecteur LDAP: La liste des agences pour le déplacement n'était pas trié par ordre alphabétique (./admin/parameters.php) <br />
+- Connecteur LDAP: Les unité d'organisations avec accents et espace sont géré (./core/ldap.php) <br />
+- Statistique: Dans la répartition du temps par status, le temps total de traitement ne tenait pas compte du filtre par technicien (./stats/tables.php) <br />
+- Statistique: Dans le tableau du top 10 demandeur la période sélectionnée n'était pas prise en compte (./stats/tables.php) <br />
+- Enregistrement utilisateur: sur le formulaire d'enregistrement autonome des utilisateurs, les champs saisis étaient perdus en cas d'erreur (./register.php) <br />
+- Utilisateur: Augmentation du nombre maximal de caractère pour le champ fonction, passage à 100 (SQL) <br />
+- Service: Augmentation du nombre maximal de caractères pour le champ nom, passage à 100 (SQL) <br />
+- Profil utilisateur: La liste des service ne tenait pas compte de la désactivation des services. (./admin/user.php) <br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 23/05/2017             <br />
+# @Version : 3.1.21      	 	 <br />
+#################################<br />
+
+<br />
+<u>Update:</u><br />
+- Équipements: Les équipements IP qui n'ont pas de modèle IP mais possèdent une adresse IP disposent des boutons d'action IP et du drapeau de dernier ping (./asset.php)<br />
+- Équipements: Module de scan réseau permettant de créer et mettre à jour des équipements IP, module en ligne de commande uniquement cf doc (./core/asset_network_scan.php)<br />
+- Équipements: Nouveau paramètre dans la fonction équipement pour activer la prise de contrôle web VNC vers un équipement distant cf doc (./asset.php ./ticket.php ./admin/parameters.php)<br />
+- Équipements: La fonction d'import des équipements gère les mises à jour dans GestSup si l'adresse MAC est renseigné, l'import peut être automatisé en ligne de commande cf doc (./core/import_asset.php)<br /> 
+- Liste des équipements: Amélioration du tri par adresses ip avec INET_ATON (./asset_list.php)<br />
+- Ticket: Les champs: technicien, titre et description peuvent remplit de manière obligatoire cf droits: ticket_tech_mandatory, ticket_title_mandatory, ticket_description_mandatory (./ticket.php ./core/ticket.php)<br /> 
+- Ticket: Focus par défaut sur le champ demandeur (./ticket.php)<br />
+- Mails: Possibilité de paramétrer le texte de fin de mail (Administration > Paramètres généraux), des balises sont disponibles pour le prénom, nom et téléphone du technicien (./core/mail.php ./admin/parameters.php)<br />
+- Moniteur: Ajout de nouveaux compteurs (./monitor.php)<br />
+- Statistiques: Fusion des graphiques sur les tickets ouverts et fermés et les résolutions (./monitor.php)<br />
+<br /><br />
+<u>Bugfix:</u><br />
+- Ticket: Dans certains cas le champ service était affiché alors que le droit était désactivé (./ticket.php) <br />
+- Ticket: Erreur de redirection avec les boutons annuler et clôturer ticket avec un profil utilisateur et le paramètre "Les utilisateurs peuvent voir tous les tickets de leur société" (./index.php) <br />
+- Mail: le lien vers le ticket n'était pas inséré dans le mail lorsqu'un technicien n'avait pas de téléphone (./core/mail.php) <br />
+- Statistiques: Dans certains cas une variable pouvait ne pas être initialisée sur le tableau d'évolutions des résolutions (./stat/line_tickets_activity.php)<br />
+- Statistiques: Le filtre par agence ne fonctionnait pas pour certains profil (./stat.php)<br />
+- Statistiques: Dans la répartition des temps par status certains états n'avait pas de valeurs (./stat.php)<br />
+- Statistiques: Avec la gestion des agences et la restriction par service l'export des tickets en admin était vide (./core/export.php)<br />
+- Équipement: Désactivation des interfaces associées à un équipement supprimé (./core/asset.php)<br />
+- Ajout utilisateur: Lors de l'ajout d'un utilisateur ayant le profil technicien ou admin la selection d'une vue personnel effaçait les valeurs du formulaire saisie (./admin/user.php)<br />
+
+<br />
+#################################<br />
+# @Name : GestSup Release Notes  <br />
+# @Date : 03/05/2017             <br />
 # @Version : 3.1.20        	 	 <br />
 #################################<br />
 
@@ -14,7 +307,7 @@
 - Paramètre: Cloisonnement des utilisateurs par service<br />
 - Paramètre: Cloisonnement des utilisateurs par agences<br />
 - Utilisateur: Gestion de plusieurs service par utilisateur<br />
-- LDAP: Synchronisation des groupe LDAP de service ou d'agence<br />
+- Connecteur LDAP: Synchronisation des groupe LDAP de service ou d'agence<br />
 - Connecteur IMAP: Gestion multi-bal par service<br />
 - Fonction sondage: Nouvelle fonction sondage permettant de demander à l'utilisateur de remplir un questionnaire.(./survey.php ./core/export_surevey.php ./core/auto_mail.php ./core/ticket.php)<br />
 
@@ -27,7 +320,7 @@
 - Liste des tickets: Lors de l'utilisation du filtre par date de création ou date de résolution sur la vue activité redirection sur tous les ticket de la date sélectionnée (./core/ticket.php) <br />
 - Liste des tickets: Lors de l'affichage de la colonne société avec un compte utilisateur un message d'erreur apparaissait (./dashboard.php) <br />
 - Ticket: Lors de l'activation des champs obligatoire sur un ticket, les informations de changement d'état dans les éléments de résolution pouvaient être insérés en double (./core/ticket.php) <br />
-- Ticket: Lors de la création d'un nouveau ticket le bouton impression est déactivé car aucune donnée n'est encore enregistrée (./ticket.php) <br />
+- Ticket: Lors de la création d'un nouveau ticket le bouton impression est désactivé car aucune donnée n'est encore enregistrée (./ticket.php) <br />
 - Ticket: Avec Internet explorer ajout de commentaire vide lors de l'enregistrement si l'on ajoute pas de texte (./core/ticket.php)<br />
 - Ticket: Utilisateur Aucun était en double dans la liste des demandeurs lors de création d'un nouveau ticket dans certains cas (./ticket.php)<br />
 - Ticket: Lorsqu'un utilisateur appuyai sur le bouton "clôture ticket" la date de résolution n'était pas inséré sur le ticket (./core/ticket.php)<br />

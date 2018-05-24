@@ -5,8 +5,8 @@
 # @call : ./asset.php
 # @Author : Flox
 # @Create : 28/10/2013
-# @Update : 03/04/2017
-# @Version : 3.1.19
+# @Update : 19/12/2017
+# @Version : 3.1.29
 ################################################################################
 
 //initialize variable
@@ -39,6 +39,13 @@ if(!isset($_GET['ip'])) $_GET['ip'] = '';
 if(!isset($_GET['sn_internal'])) $_GET['sn_internal'] = '';	
 if(!isset($_GET['description'])) $_GET['description'] = '';	
 if(!isset($_GET['iptoping'])) $_GET['iptoping'] = '';	
+if(!isset($_GET['scan'])) $_GET['scan'] = '';	
+if(!isset($_GET['iface'])) $_GET['iface'] = '';	
+
+$_GET['scan']=strip_tags($_GET['scan']);
+$_GET['iface']=strip_tags($_GET['iface']);
+$_GET['findip']=strip_tags($_GET['findip']);
+$_GET['disable']=strip_tags($_GET['disable']);
 
 if(!isset($error)) $error="0";
 
@@ -52,9 +59,15 @@ if ($rparameters['debug']==1) {echo "<b><u>DEBUG MODE:</u></b><br />";}
 //use stock asset if exist
 if($_POST['model']!='' && $_GET['action']=='new')
 {
-	$query=$db->query("SELECT * FROM tassets WHERE sn_internal=(SELECT MIN(sn_internal) FROM tassets WHERE state=1 AND model=$_POST[model] AND disable=0)");
-	$row=$query->fetch();
-	$query->closeCursor(); 
+	$qry = $db->prepare("SELECT `id` FROM `tassets` WHERE `sn_internal`=(SELECT MIN(sn_internal) FROM `tassets` WHERE state=:state AND model=:model AND disable=:disable)");
+	$qry->execute(array(
+		'state' => 1,
+		'model' => $_POST['model'],
+		'disable' => 0,
+		));
+	$row=$qry->fetch();
+	$qry->closeCursor();
+	
 	if ($row[0])
 	{
 		//redirect
@@ -73,22 +86,31 @@ if($_POST['model']!='' && $_GET['action']=='new')
 //find next asset number
 if($_GET['action']=='new')
 {
-	$query=$db->query("SELECT MAX(CONVERT(sn_internal, SIGNED INTEGER)) FROM tassets");
-	$row_sn_internal=$query->fetch();
-	$query->closeCursor(); 
-	$query=$db->query("SELECT MAX(id) FROM tassets");
-	$row_id=$query->fetch();
-	$query->closeCursor(); 
+	$qry = $db->prepare("SELECT MAX(CONVERT(sn_internal, SIGNED INTEGER)) FROM tassets");
+	$qry->execute();
+	$row_sn_internal=$qry->fetch();
+	$qry->closeCursor();
+
+	$qry = $db->prepare("SELECT MAX(id) FROM tassets");
+	$qry->execute();
+	$row_id=$qry->fetch();
+	$qry->closeCursor(); 
+	
 	$_POST['sn_internal'] =$row_sn_internal[0]+1;
 	$_GET['id'] =$row_id[0]+1;
-	
 }
 
 //action delete asset
 if (($_GET['action']=="delete") && ($rright['asset_delete']!=0))
 {
 	//disable asset
-	$db->exec('UPDATE tassets SET disable=1 WHERE id=\''.$_GET['id'].'\'');
+	$qry=$db->prepare("UPDATE `tassets` SET `disable`=:disable WHERE `id`=:id");
+	$qry->execute(array('disable' => 1,'id' => $_GET['id']));
+	
+	//disable iface
+	$qry=$db->prepare("UPDATE `tassets_iface` SET `disable`=:disable WHERE `asset_id`=:id");
+	$qry->execute(array('disable' => 1,'id' => $_GET['id']));
+
 	//display delete message
 	echo '<div class="alert alert-block alert-success"><center><i class="icon-ok green"></i>	'.T_('Équipement supprimé').'.</center></div>';
 	//redirect
@@ -103,10 +125,17 @@ if (($_GET['action']=="delete") && ($rright['asset_delete']!=0))
 		</SCRIPT>";
 }
 
+//action for enable or disable network scan
+if($rright['asset_net_scan']!=0 && $_GET['scan']!='') {
+	$qry=$db->prepare("UPDATE `tassets` SET `net_scan`=:net_scan WHERE `id`=:id");
+	$qry->execute(array('net_scan' => $_GET['scan'],'id' => $_GET['id']));
+}
+
 //master query
-$globalquery = $db->query("SELECT * FROM tassets WHERE id LIKE '$_GET[id]'");
-$globalrow=$globalquery->fetch();
-$query->closeCursor();
+$qry = $db->prepare("SELECT * FROM `tassets` WHERE `id`=:id");
+$qry->execute(array('id' => $_GET['id']));
+$globalrow=$qry->fetch();
+$qry->closeCursor();
 
 //auto convert state if new asset
 if ($globalrow['state']==1 && $_GET['fromnew']==1) {$globalrow['state']=2;}
@@ -149,7 +178,8 @@ if ($_GET['action']=="wol")
 //delete selected interface
 if($_GET['action']=='delete_iface') {
 	//disable iface 
-	$db->exec('UPDATE tassets_iface SET disable=1 WHERE id=\''.$_GET['iface'].'\'');
+	$qry=$db->prepare("UPDATE `tassets_iface` SET `disable`=:disable WHERE `id`=:id");
+	$qry->execute(array('disable' => 1,'id' => $_GET['id']));
 	//display delete message
 	echo '<div class="alert alert-block alert-success"><center><i class="icon-ok green"></i>	'.T_('Interface supprimé').'.</center></div>';
 	//redirect
@@ -163,7 +193,6 @@ if($_GET['action']=='delete_iface') {
 				-->
 		</SCRIPT>";
 } 
-
 
 //convert posted date to SQL format, if yyyy-mm-dd is detected
 if($_POST['date_stock'] && !strpos($_POST['date_stock'], "-"))
@@ -194,21 +223,21 @@ if($_POST['date_recycle'] && !strpos($_POST['date_recycle'], "-"))
 
 //update ip send from searchip popup and save on iface
 if($_GET['findip'] && $_GET['iface']) {
-	
-	$db->exec("UPDATE tassets_iface SET ip='$_GET[findip]' WHERE id='$_GET[iface]'");
+	$qry=$db->prepare("UPDATE `tassets_iface` SET `ip`=:ip WHERE `id`=:id");
+	$qry->execute(array('ip' => $_GET['findip'],'id' => $_GET['id']));
 }
 
 //database inputs if submit
 if($_POST['modify']||$_POST['quit']||$_POST['action']) 
 {
-	//escape special char and secure string before database insert
-	$db_netbios=strip_tags($db->quote($_POST['netbios']));
-	$db_sn_internal=strip_tags($db->quote($_POST['sn_internal']));
-	$db_sn_manufacturer=strip_tags($db->quote($_POST['sn_manufacturer']));
-	$db_description=strip_tags($db->quote($_POST['description']));
-	$db_sn_indent=strip_tags($db->quote($_POST['sn_indent']));
-	$db_socket=strip_tags($db->quote($_POST['socket']));
-	$globalrow['sn_internal']=$db->quote($globalrow['sn_internal']);  //avoid database simple quote
+	//secure string
+	$_POST['netbios']=strip_tags($_POST['netbios']);
+	$_POST['sn_internal']=strip_tags($_POST['sn_internal']);
+	$_POST['sn_manufacturer']=strip_tags($_POST['sn_manufacturer']);
+	$_POST['description']=strip_tags($_POST['description']);
+	$_POST['sn_indent']=strip_tags($_POST['sn_indent']);
+	$_POST['socket']=strip_tags($_POST['socket']);
+	$globalrow['sn_internal']=strip_tags($globalrow['sn_internal']);  //avoid database simple quote
 	
 	//auto insert date if change state on editing ticket
 	if ($_GET['action']!='new')
@@ -219,20 +248,40 @@ if($_POST['modify']||$_POST['quit']||$_POST['action'])
 	}
 
 	//check duplicate sn_internal
-	$query = $db->query("SELECT * FROM tassets WHERE sn_internal LIKE $db_sn_internal AND sn_internal!='' AND state!='4' AND id!=$_GET[id] AND disable='0'");
-	$row=$query->fetch();
-	$query->closeCursor();
-	if ($row[0]!='' && ($db_sn_internal!=$globalrow['sn_internal'])) {$error=T_('Un autre équipement possède déjà cet identifiant').'. (<a target="_blank" href="./index.php?page=asset&id='.$row['id'].'" >'.T_('Voir sa fiche').'</a>)';} 
+	$qry = $db->prepare("SELECT `id` FROM `tassets` WHERE sn_internal=:sn_internal AND sn_internal!=:sn_internal2 AND state!=:state AND id!=:id AND disable=:disable");
+	$qry->execute(array(
+		'sn_internal' => $_POST['sn_internal'],
+		'sn_internal2' => '',
+		'state' => 4,
+		'id' => $_GET['id'],
+		'disable' => 0
+		));
+	$row=$qry->fetch();
+	$qry->closeCursor();
+
+	if ($row[0]!='' && ($_POST['sn_internal']!=$globalrow['sn_internal'])) {$error=T_('Un autre équipement possède déjà cet identifiant').'. (<a target="_blank" href="./index.php?page=asset&id='.$row['id'].'" >'.T_('Voir sa fiche').'</a>)';} 
 
 	//check duplicate manufacturer
-	$query = $db->query("SELECT * FROM tassets WHERE sn_manufacturer LIKE $db_sn_manufacturer AND sn_manufacturer!='' AND state!=4 AND id!=$_GET[id] AND disable=0");
-	$row=$query->fetch();
-	$query->closeCursor();
-	if ($row[0]!='' && ($db_sn_manufacturer!=$globalrow['sn_manufacturer'])) {$error=T_('Un autre équipement possède déjà ce numéro de série fabriquant').' (<a target="_blank" href="./index.php?page=asset&id='.$row['id'].'" >'.T_('Voir sa fiche').'</a>).';} 
+	$qry = $db->prepare("SELECT `id` FROM `tassets` WHERE `sn_manufacturer`=:sn_manufacturer AND sn_manufacturer!=:sn_manufacturer2 AND state!=:state AND id!=:id AND disable=:disable");
+	$qry->execute(array(
+		'sn_manufacturer' => $_POST['sn_manufacturer'],
+		'sn_manufacturer2' => '',
+		'state' => 4,
+		'id' => $_GET['id'],
+		'disable' => 0
+		));
+	$row=$qry->fetch();
+	$qry->closeCursor();
+	if ($row[0]!='' && ($_POST['sn_manufacturer']!=$globalrow['sn_manufacturer'])) {$error=T_('Un autre équipement possède déjà ce numéro de série fabriquant').' (<a target="_blank" href="./index.php?page=asset&id='.$row['id'].'" >'.T_('Voir sa fiche').'</a>).';} 
 	
 	//iface existing treatment
-	$query = $db->query("SELECT * FROM tassets_iface WHERE asset_id='$_GET[id]' AND disable='0'");
-	while ($row = $query->fetch()) 
+
+	$qry = $db->prepare("SELECT * FROM `tassets_iface` WHERE `asset_id`=:asset_id AND `disable`=:disable");
+	$qry->execute(array(
+		'asset_id' => $_GET['id'],
+		'disable' => 0
+		));
+	while ($row = $qry->fetch()) 
 	{
 		//init post values
 		if(!isset($iface_netbios)) $iface_netbios = '';
@@ -252,27 +301,41 @@ if($_POST['modify']||$_POST['quit']||$_POST['action'])
 		$iface_mac=$_POST[$iface_mac];
 		
 		//check duplicate ip
-		$query2 = $db->query("
+		$qry2 = $db->prepare("
 		SELECT tassets_iface.* 
 		FROM tassets_iface
 		INNER JOIN tassets ON tassets.id=tassets_iface.asset_id
 		INNER JOIN tassets_state ON tassets_state.id=tassets.state
 		WHERE 
-		tassets_state.block_ip_search=1 AND
-		tassets_iface.ip='$iface_ip' AND
-		tassets_iface.ip!='' AND
-		tassets_iface.asset_id!='$globalrow[id]' AND
-		tassets_iface.disable='0' AND
-		tassets.disable='0'
+		tassets_state.block_ip_search=:block_ip_search AND
+		tassets_iface.ip=:ip AND
+		tassets_iface.ip!=:ip2 AND
+		tassets_iface.asset_id!=:asset_id AND
+		tassets_iface.disable=:iface_disable AND
+		tassets.disable=:asset_disable
 		");
-		$row2=$query2->fetch();
-		$query2->closeCursor();
+		$qry2->execute(array(
+		'block_ip_search' => 1,
+		'ip' => $iface_ip,
+		'ip2' => '',
+		'asset_id' => $globalrow['id'],
+		'iface_disable' => 0,
+		'asset_disable' => 0
+		));
+		$row2=$qry2->fetch();
+		$qry2->closeCursor();
 		if ($row2[0]!='') {$error=T_('Un autre équipement possède déjà cette l\'adresse IP').'. (<a target="_blank" href="./index.php?page=asset&id='.$row2['asset_id'].'" >'.T_('Voir sa fiche').'</a>)';} 
 		
 		//check duplicate mac
-		$query2 = $db->query("SELECT * FROM tassets_iface WHERE mac='$iface_mac' AND mac!='' AND asset_id!='$globalrow[id]' AND disable='0'");
-		$row2=$query2->fetch();
-		$query2->closeCursor();
+		$qry2 = $db->prepare("SELECT `id`,`asset_id` FROM `tassets_iface` WHERE `mac`=:mac AND `mac`!=:mac2 AND `asset_id`!=:asset_id AND `disable`=:disable");
+		$qry2->execute(array(
+			'mac' => $iface_mac,
+			'mac2' => '',
+			'asset_id' => $globalrow['id'],
+			'disable' => 0
+			));
+		$row2=$qry2->fetch();
+		$qry2->closeCursor();
 		if ($row2[0]!='') {$error=T_('Un autre équipement possède déjà cette adresse MAC').'. (<a target="_blank" href="./index.php?page=asset&id='.$row2['asset_id'].'" >'.T_('Voir sa fiche').'</a>)';} 
 		
 		//control number of digit of MAC address
@@ -282,59 +345,78 @@ if($_POST['modify']||$_POST['quit']||$_POST['action'])
 		if ((strlen($iface_ip)<7) && $iface_ip!='') {$error=T_('Les adresses IP doivent contenir au moins 7 caractères').' ('.strlen($iface_ip).' '.T_('caractères détectés').').';} 
 		
 		//escape special char and secure string before database update
-		$iface_netbios=strip_tags($db->quote($iface_netbios));
-		$iface_ip=strip_tags($db->quote($iface_ip));
-		$iface_mac=strip_tags($db->quote($iface_mac));
+		$iface_netbios=strip_tags($iface_netbios);
+		$iface_ip=strip_tags($iface_ip);
+		$iface_mac=strip_tags($iface_mac);
 		
 		//update tassets_iface table
 		if($error=='0')
 		{
-			$query2 = "UPDATE tassets_iface SET netbios=$iface_netbios,ip=$iface_ip,mac=$iface_mac WHERE id LIKE '$row[id]'";
-			if ($rparameters['debug']==1) {echo "QRY IFACE=$query2<br />";}
-			$db->exec($query2);
+			$qry2=$db->prepare("UPDATE `tassets_iface` SET `netbios`=:netbios,`ip`=:ip ,`mac`=:mac WHERE `id`=:id");
+			$qry2->execute(array(
+			'netbios' => $iface_netbios,
+			'ip' => $iface_ip,
+			'mac' => $iface_mac,
+			'id' => $row['id']
+			));
 		}	
 	}
-	$query->closeCursor();
+	$qry->closeCursor();
 	
 	//check fields for new asset
 	if($error=='0')
 	{
 		//find asset id to add iface
 		if (!isset($globalrow['id'])) {
-			$query = $db->query("SELECT MAX(id) FROM tassets WHERE disable='0'");
-			$asset_id=$query->fetch();
-			$query->closeCursor();
+			$qry = $db->prepare("SELECT MAX(id) FROM tassets WHERE disable=:disable");
+			$qry->execute(array(
+				'disable' => 0
+				));
+			$asset_id=$qry->fetch();
+			$qry->closeCursor();
 			$asset_id=$asset_id[0]+1;
 		} else {$asset_id=$globalrow['id'];}
 		
 		if(($_POST['netbios_lan_new'] || $_POST['ip_lan_new'] || $_POST['mac_lan_new']) && $error=='0')
 		{
-			//escape special char and secure string before database insert
-			$db_netbios_lan_new=strip_tags($db->quote($_POST['netbios_lan_new']));
-			$db_ip_lan_new=strip_tags($db->quote($_POST['ip_lan_new']));
-			$db_mac_lan_new=strip_tags($db->quote($_POST['mac_lan_new']));
+			//secure string
+			$db_netbios_lan_new=strip_tags($_POST['netbios_lan_new']);
+			$db_ip_lan_new=strip_tags($_POST['ip_lan_new']);
+			$db_mac_lan_new=strip_tags($_POST['mac_lan_new']);
 			
 			//check fields for new asset LAN IP
-			$query = $db->query("
+			$qry = $db->prepare("
 			SELECT tassets_iface.* 
 			FROM tassets_iface
 			INNER JOIN tassets ON tassets.id=tassets_iface.asset_id
 			INNER JOIN tassets_state ON tassets_state.id=tassets.state
 			WHERE 
-			tassets_state.block_ip_search=1 AND
-			tassets_iface.ip=$db_ip_lan_new AND
-			tassets_iface.ip!='' AND
-			tassets_iface.disable='0' AND
-			tassets.disable='0'
+			tassets_state.block_ip_search=:block_ip_search AND
+			tassets_iface.ip=:ip AND
+			tassets_iface.ip!=:ip2 AND
+			tassets_iface.disable=:iface_disable AND
+			tassets.disable=:asset_disable
 			");
-			$row=$query->fetch();
-			$query->closeCursor();
+			$qry->execute(array(
+				'block_ip_search' => 1,
+				'ip' => $db_ip_lan_new,
+				'ip2' => '',
+				'iface_disable' => 0,
+				'asset_disable' => 0
+				));
+			$row=$qry->fetch();
+			$qry->closeCursor();
 			if ($row[0]!='') {$error=T_('Un autre équipement possède déjà  l\'adresse IP').': '.$db_ip_lan_new.'. (<a target="_blank" href="./index.php?page=asset&id='.$row['asset_id'].'" >'.T_('Voir sa fiche').'</a>)';} 
 			
 			//check fields for new asset LAN MAC
-			$query = $db->query("SELECT * FROM tassets_iface WHERE mac=$db_mac_lan_new AND mac!='' AND disable='0'");
-			$row=$query->fetch();
-			$query->closeCursor();
+			$qry = $db->prepare("SELECT * FROM tassets_iface WHERE mac=:mac AND mac!=:mac2 AND disable=:disable");
+			$qry->execute(array(
+				'mac' => $db_mac_lan_new,
+				'mac2' => '',
+				'disable' => 0
+				));
+			$row=$qry->fetch();
+			$qry->closeCursor();
 			if ($row[0]!='') {$error=T_('Un autre équipement possède déjà  l\'adresse MAC').': '.$db_mac_lan_new.'. (<a target="_blank" href="./index.php?page=asset&id='.$row['asset_id'].'" >'.T_('Voir sa fiche').'</a>)';} 
 			
 			//control number of digit of LAN MAC address
@@ -347,31 +429,43 @@ if($_POST['modify']||$_POST['quit']||$_POST['action'])
 		if(($_POST['netbios_wifi_new'] || $_POST['ip_wifi_new'] || $_POST['mac_wifi_new']) && $error=='0')
 		{
 			//escape special char and secure string before database insert
-			$db_netbios_wifi_new=strip_tags($db->quote($_POST['netbios_wifi_new']));
-			$db_ip_wifi_new=strip_tags($db->quote($_POST['ip_wifi_new']));
-			$db_mac_wifi_new=strip_tags($db->quote($_POST['mac_wifi_new']));
+			$db_netbios_wifi_new=strip_tags($_POST['netbios_wifi_new']);
+			$db_ip_wifi_new=strip_tags($_POST['ip_wifi_new']);
+			$db_mac_wifi_new=strip_tags($_POST['mac_wifi_new']);
 			
 			//check fields for new asset WIFI IP
-			$query = $db->query("
+			$qry = $db->prepare("
 			SELECT tassets_iface.* 
 			FROM tassets_iface
 			INNER JOIN tassets ON tassets.id=tassets_iface.asset_id
 			INNER JOIN tassets_state ON tassets_state.id=tassets.state
 			WHERE 
-			tassets_state.block_ip_search=1 AND
-			tassets_iface.ip=$db_ip_wifi_new AND
-			tassets_iface.ip!='' AND
-			tassets_iface.disable='0' AND
-			tassets.disable='0'
+			tassets_state.block_ip_search=:block_ip_search AND
+			tassets_iface.ip=:ip AND
+			tassets_iface.ip!=:ip2 AND
+			tassets_iface.disable=:iface_disable AND
+			tassets.disable=:asset_disable
 			");
-			$row=$query->fetch();
-			$query->closeCursor();
+			$qry->execute(array(
+				'block_ip_search' => 1,
+				'ip' => $db_ip_wifi_new,
+				'ip2' => '',
+				'iface_disable' => 0,
+				'asset_disable' => 0
+				));
+			$row=$qry->fetch();
+			$qry->closeCursor();
 			if ($row[0]!='') {$error=T_('Un autre équipement possède déjà  l\'adresse IP').': '.$db_ip_wifi_new.'. (<a target="_blank" href="./index.php?page=asset&id='.$row['asset_id'].'" >'.T_('Voir sa fiche').'</a>)';} 
 			
 			//check fields for new asset WIFI MAC
-			$query = $db->query("SELECT * FROM tassets_iface WHERE mac=$db_mac_wifi_new AND mac!='' AND disable='0'");
-			$row=$query->fetch();
-			$query->closeCursor();
+			$qry = $db->prepare("SELECT * FROM tassets_iface WHERE mac=:mac mac!=:mac2 AND disable=:disable");
+			$qry->execute(array(
+				'mac' => $db_mac_wifi_new,
+				'mac2' => '',
+				'disable' => 0
+				));
+			$row=$qry->fetch();
+			$qry->closeCursor();
 			if ($row[0]!='') {$error=T_('Un autre équipement possède déjà  l\'adresse MAC').': '.$db_mac_wifi_new.'. (<a target="_blank" href="./index.php?page=asset&id='.$row['asset_id'].'" >'.T_('Voir sa fiche').'</a>)';} 
 			
 			//control number of digit of WIFI MAC address
@@ -385,22 +479,36 @@ if($_POST['modify']||$_POST['quit']||$_POST['action'])
 	//SQL insert for new asset
 	if(($_POST['netbios_lan_new'] || $_POST['ip_lan_new'] || $_POST['mac_lan_new']) && $error=='0')
 	{
-		$query = "INSERT INTO tassets_iface (role_id,asset_id,netbios,ip,mac,disable) VALUES ('1',$asset_id,$db_netbios_lan_new,$db_ip_lan_new,$db_mac_lan_new,'0')";
-		if ($rparameters['debug']==1) {echo "QRY NEW LAN IFACE= $query<br />";}
-		$db->exec($query);
+		if ($rparameters['debug']==1) {echo "NEW LAN IFACE<br />";}
+		$qry=$db->prepare("INSERT INTO tassets_iface (role_id,asset_id,netbios,ip,mac,disable) VALUES (:role_id,:asset_id,:netbios,:ip,:mac,:disable)");
+		$qry->execute(array(
+			'role_id' => 1,
+			'asset_id' => $asset_id,
+			'netbios' => $db_netbios_lan_new,
+			'ip' => $db_ip_lan_new,
+			'mac' => $db_mac_lan_new,
+			'disable' => 0
+			));
 	}
 	if(($_POST['netbios_wifi_new'] || $_POST['ip_wifi_new'] || $_POST['mac_wifi_new']) && $error=='0')
 	{
-		$query = "INSERT INTO tassets_iface (role_id,asset_id,netbios,ip,mac,disable) VALUES ('2',$asset_id,$db_netbios_wifi_new,$db_ip_wifi_new,$db_mac_wifi_new,'0')";
-		if ($rparameters['debug']==1) {echo "QRY NEW WIFI IFACE= $query<br />";}
-		$db->exec($query);
+		if ($rparameters['debug']==1) {echo "NEW WIFI IFACE<br />";}
+		$qry=$db->prepare("INSERT INTO tassets_iface (role_id,asset_id,netbios,ip,mac,disable) VALUES (:role_id,:asset_id,:netbios,:ip,:mac,:disable)");
+		$qry->execute(array(
+			'role_id' => 12,
+			'asset_id' => $asset_id,
+			'netbios' => $db_netbios_wifi_new,
+			'ip' => $db_ip_wifi_new,
+			'mac' => $db_mac_wifi_new,
+			'disable' => 0
+			));
 	}
 	
 	//SQL insert and update in tassets table
 	if (($_GET['action']=='new') && ($error=="0"))
 	{	
 		//insert asset
-		$db->exec("
+		$qry=$db->prepare("
 		INSERT INTO tassets (
 		sn_internal,
 		sn_manufacturer,
@@ -425,59 +533,109 @@ if($_POST['modify']||$_POST['quit']||$_POST['action'])
 		maintenance,
 		disable
 		) VALUES (
-		$db_sn_internal,
-		$db_sn_manufacturer,
-		$db_sn_indent,
-		$db_netbios,
-		$db_description,
-		'$_POST[type]',
-		'$_POST[manufacturer]',
-		'$_POST[model]',
-		'$_POST[virtualization]',
-		'$_POST[user]',
-		'$_POST[state]',
-		'$_POST[department]',
-		'$_POST[date_install]',
-		'$_POST[date_end_warranty]',
-		'$_POST[date_stock]',
-		'$_POST[date_standbye]',
-		'$_POST[date_recycle]',
-		'$_POST[location]',
-		$db_socket,
-		'$_POST[technician]',
-		'$_POST[maintenance]',
-		'0'
-		)");
-	    
+		:sn_internal,
+		:sn_manufacturer,
+		:sn_indent,
+		:netbios,
+		:description,
+		:type,
+		:manufacturer,
+		:model,
+		:virtualization,
+		:user,
+		:state,
+		:department,
+		:date_install,
+		:date_end_warranty,
+		:date_stock,
+		:date_standbye,
+		:date_recycle,
+		:location,
+		:socket,
+		:technician,
+		:maintenance,
+		:disable
+		)
+		");
+		$qry->execute(array(
+			'sn_internal' => $_POST['sn_internal'],
+			'sn_manufacturer' => $_POST['sn_manufacturer'],
+			'sn_indent' => $_POST['sn_indent'],
+			'netbios' => $_POST['netbios'],
+			'description' => $_POST['description'],
+			'type' => $_POST['type'],
+			'manufacturer' => $_POST['manufacturer'],
+			'model' => $_POST['model'],
+			'virtualization' => $_POST['virtualization'],
+			'user' => $_POST['user'],
+			'state' => $_POST['state'],
+			'department' => $_POST['department'],
+			'date_install' => $_POST['date_install'],
+			'date_end_warranty' => $_POST['date_end_warranty'],
+			'date_stock' => $_POST['date_stock'],
+			'date_standbye' => $_POST['date_standbye'],
+			'date_recycle' => $_POST['date_recycle'],
+			'location' => $_POST['location'],
+			'socket' => $_POST['socket'],
+			'technician' => $_POST['technician'],
+			'maintenance' => $_POST['maintenance'],
+			'disable' => 0
+			));
 	} elseif ($error=="0")  {
 		//update asset
-		$query = "UPDATE tassets SET 
-		sn_internal=$db_sn_internal,
-		sn_manufacturer=$db_sn_manufacturer,
-		sn_indent=$db_sn_indent,
-		netbios=$db_netbios,
-		description=$db_description,
-		type='$_POST[type]',
-		manufacturer='$_POST[manufacturer]',
-		model='$_POST[model]',
-		virtualization='$_POST[virtualization]',
-		user='$_POST[user]',
-		state='$_POST[state]',
-		department='$_POST[department]',
-		date_install='$_POST[date_install]',
-		date_end_warranty='$_POST[date_end_warranty]',
-		date_stock='$_POST[date_stock]',
-		date_standbye='$_POST[date_standbye]',
-		date_recycle='$_POST[date_recycle]',
-		location='$_POST[location]',
-		socket=$db_socket,
-		technician='$_POST[technician]',
-		maintenance='$_POST[maintenance]',
-		disable='$_GET[disable]'
+		$qry=$db->prepare("
+		UPDATE tassets SET 
+		sn_internal=:sn_internal,
+		sn_manufacturer=:sn_manufacturer,
+		sn_indent=:sn_indent,
+		netbios=:netbios,
+		description=:description,
+		type=:type,
+		manufacturer=:manufacturer,
+		model=:model,
+		virtualization=:virtualization,
+		user=:user,
+		state=:state,
+		department=:department,
+		date_install=:date_install,
+		date_end_warranty=:date_end_warranty,
+		date_stock=:date_stock,
+		date_standbye=:date_standbye,
+		date_recycle=:date_recycle,
+		location=:location,
+		socket=:socket,
+		technician=:technician,
+		maintenance=:maintenance,
+		disable=:disable
 		WHERE
-		id LIKE '$_GET[id]'";
-		if ($rparameters['debug']==1) {echo "QRY ASSET=$query<br />";}
-		$db->exec($query);	
+		id=:id
+		");
+		$qry->execute(array(
+			'sn_internal' => $_POST['sn_internal'],
+			'sn_manufacturer' => $_POST['sn_manufacturer'],
+			'sn_indent' => $_POST['sn_indent'],
+			'netbios' => $_POST['netbios'],
+			'description' => $_POST['description'],
+			'type' => $_POST['type'],
+			'manufacturer' => $_POST['manufacturer'],
+			'model' => $_POST['model'],
+			'virtualization' => $_POST['virtualization'],
+			'user' => $_POST['user'],
+			'state' => $_POST['state'],
+			'department' => $_POST['department'],
+			'date_install' => $_POST['date_install'],
+			'date_end_warranty' => $_POST['date_end_warranty'],
+			'date_stock' => $_POST['date_stock'],
+			'date_standbye' => $_POST['date_standbye'],
+			'date_recycle' => $_POST['date_recycle'],
+			'location' => $_POST['location'],
+			'socket' => $_POST['socket'],
+			'technician' => $_POST['technician'],
+			'maintenance' => $_POST['maintenance'],
+			'disable' => 0,
+			'id' =>$_GET['id']
+			));
+		if ($rparameters['debug']==1) {echo "UPDATE ASSET<br />";}
 	}
 	
 	//display message

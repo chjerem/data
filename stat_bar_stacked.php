@@ -1,9 +1,9 @@
 <?php
 ################################################################################
 # @Name : stat_bar_stacked.php
-# @Desc : display bar graph to availability page
-# @call : /availability.php
-# @parameters : unit, values, names, libchart
+# @Description : display bar graph to availability page
+# @Call : /availability.php
+# @Parameters : unit, values, names, libchart
 # @Author : Flox
 # @Create : 05/06/2014
 # @Update : 27/12/2016

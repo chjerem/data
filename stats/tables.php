@@ -2,12 +2,12 @@
 ################################################################################
 # @Name : tables.php
 # @Description : Display Statistics in table format with different queries
-# @call : /stat.php
-# @parameters : 
+# @Call : /stat.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 15/02/2014
-# @Update : 20/04/2017
-# @Version : 3.1.20 patch 2
+# @Update : 04/01/2018
+# @Version : 3.1.29
 ################################################################################
 
 echo '
@@ -96,6 +96,7 @@ echo '
 						SELECT tpriority.name, count(*) AS number
 						FROM tincidents INNER JOIN tpriority ON (tincidents.priority=tpriority.id ) 
 						WHERE tincidents.disable='0' AND
+						tincidents.technician LIKE '$_POST[tech]' AND
 						tincidents.type LIKE '$_POST[type]' AND
 						tincidents.criticality like '$_POST[criticality]' AND
 						tincidents.u_service LIKE '$_POST[service]' $where_service $where_agency AND
@@ -145,6 +146,7 @@ echo '
 						SELECT tcriticality.name, count(*) AS number
 						FROM tincidents INNER JOIN tcriticality ON (tincidents.criticality=tcriticality.id ) 
 						WHERE tincidents.disable='0' AND
+						tincidents.technician LIKE '$_POST[tech]' AND
 						tincidents.type LIKE '$_POST[type]' AND
 						tincidents.criticality like '$_POST[criticality]' AND
 						tincidents.u_service LIKE '$_POST[service]' $where_service $where_agency AND
@@ -256,8 +258,13 @@ echo '
 						INNER JOIN tusers ON (tincidents.user=tusers.id)  
 						WHERE tincidents.time NOT LIKE '0' AND
 						tincidents.time NOT LIKE '0' AND
-						tincidents.disable='0'
-						AND tincidents.u_service LIKE '$_POST[service]' $where_service $where_agency
+						tincidents.disable='0' AND
+						tincidents.type LIKE '$_POST[type]' AND
+						tincidents.criticality like '$_POST[criticality]' AND
+						tincidents.category LIKE '$_POST[category]' AND
+						tincidents.date_create LIKE '%-$_POST[month]-%' AND
+						tincidents.date_create LIKE '$_POST[year]-%' AND 
+						tincidents.u_service LIKE '$_POST[service]' $where_service $where_agency
 						GROUP BY tincidents.user
 						ORDER BY sum(time) DESC limit 10";
 						if ($rparameters['debug']==1) {echo $query;}
@@ -306,9 +313,16 @@ echo '
 								</th>
 								<th w>
 									<i class="icon-calendar"></i>
-									'.T_('Plus de 10 jours').'
+									'.T_('10 à 30 jours').'
 								</th>
-								
+								<th w>
+									<i class="icon-calendar"></i>
+									'.T_('30 à 90 jours').'
+								</th>
+								<th w>
+									<i class="icon-calendar"></i>
+									'.T_('Plus de 90 jours').'
+								</th>
 							</tr>
 						</thead>
 						<tbody>';
@@ -316,22 +330,30 @@ echo '
 							$cnt_state_wait_pec_1=0;
 							$cnt_state_wait_pec_2_4=0;
 							$cnt_state_wait_pec_5_10=0;
-							$cnt_state_wait_pec_10=0;
+							$cnt_state_wait_pec_10_30=0;
+							$cnt_state_wait_pec_30_90=0;
+							$cnt_state_wait_pec_90=0;
 							
 							$cnt_state_current_1=0;
 							$cnt_state_current_2_4=0;
 							$cnt_state_current_5_10=0;
-							$cnt_state_current_10=0;
+							$cnt_state_current_10_30=0;
+							$cnt_state_current_30_90=0;
+							$cnt_state_current_90=0;
 							
 							$cnt_state_wait_user_1=0;
 							$cnt_state_wait_user_2_4=0;
 							$cnt_state_wait_user_5_10=0;
-							$cnt_state_wait_user_10=0;
+							$cnt_state_wait_user_10_30=0;
+							$cnt_state_wait_user_30_90=0;
+							$cnt_state_wait_user_90=0;
 							
 							$cnt_state_attribution_1=0;
 							$cnt_state_attribution_2_4=0;
 							$cnt_state_attribution_5_10=0;
-							$cnt_state_attribution_10=0;
+							$cnt_state_attribution_10_30=0;
+							$cnt_state_attribution_30_90=0;
+							$cnt_state_attribution_90=0;
 							
 							$count=0;
 							
@@ -342,11 +364,14 @@ echo '
 							WHERE 
 							tincidents.disable='0' AND
 							tincidents.type LIKE '$_POST[type]' AND
+							tincidents.technician LIKE '$_POST[tech]' AND
 							tincidents.criticality like '$_POST[criticality]' AND
 							tincidents.u_service LIKE '$_POST[service]' $where_service $where_agency AND
 							tincidents.category LIKE '$_POST[category]' AND
-							tincidents.date_create LIKE '%-$_POST[month]-%' AND
-							tincidents.date_create LIKE '$_POST[year]-%' 
+							(
+								tincidents.date_create LIKE '$_POST[year]-$_POST[month]-%' OR
+								tincidents.date_res LIKE '$_POST[year]-$_POST[month]-%'
+							)
 							";
 							$query2 = $db->query($query2);
 							while ($row2 = $query2->fetch())
@@ -366,10 +391,12 @@ echo '
 											$query4=$db->query($query4);
 											$days=$query4->fetch();
 											$query4->closeCursor(); 
-											if($days[0]<1) {$cnt_state_wait_pec_1=$cnt_state_wait_pec_1+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 1]";}}
-											if($days[0]>2 && $days[0]<4) {$cnt_state_wait_pec_2_4=$cnt_state_wait_pec_2_4+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 2_4]";}}
-											if($days[0]>5 && $days[0]<10) {$cnt_state_wait_pec_5_10=$cnt_state_wait_pec_5_10+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 5_10]";}}
-											if($days[0]>10) {$cnt_state_wait_pec_10=$cnt_state_wait_pec_10+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 10]";}}
+											if($days[0]<=1) {$cnt_state_wait_pec_1=$cnt_state_wait_pec_1+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 1]";}}
+											if($days[0]>1 && $days[0]<=4) {$cnt_state_wait_pec_2_4=$cnt_state_wait_pec_2_4+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 2_4]";}}
+											if($days[0]>4 && $days[0]<=10) {$cnt_state_wait_pec_5_10=$cnt_state_wait_pec_5_10+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 5_10]";}}
+											if($days[0]>10 && $days[0]<=30) {$cnt_state_wait_pec_10_30=$cnt_state_wait_pec_10_30+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 10_30]";}}
+											if($days[0]>30 && $days[0]<=90) {$cnt_state_wait_pec_30_90=$cnt_state_wait_pec_30_90+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 30_90]";}}
+											if($days[0]>90) {$cnt_state_wait_pec_90=$cnt_state_wait_pec_90+1; if ($rparameters['debug']==1) {echo "[WAIT TECH 90]";}}
 										}
 										if ($previous_type==5 && $previous_state==2)
 										{
@@ -377,10 +404,12 @@ echo '
 											$query4=$db->query($query4);
 											$days=$query4->fetch();
 											$query4->closeCursor(); 
-											if($days[0]<1) {$cnt_state_current_1=$cnt_state_current_1+1; if ($rparameters['debug']==1) {echo "[CURRENT 1]";}}
-											if($days[0]>2 && $days[0]<4) {$cnt_state_current_2_4=$cnt_state_current_2_4+1; if ($rparameters['debug']==1) {echo "[CURRENT 2_4]";}}
-											if($days[0]>5 && $days[0]<10) {$cnt_state_current_5_10=$cnt_state_current_5_10+1; if ($rparameters['debug']==1) {echo "[CURRENT 5_10]";}}
-											if($days[0]>10) {$cnt_state_current_10=$cnt_state_current_10+1; if ($rparameters['debug']==1) {echo "[CURRENT 10]";}}
+											if($days[0]<=1) {$cnt_state_current_1=$cnt_state_current_1+1; if ($rparameters['debug']==1) {echo "[CURRENT 1]";}}
+											if($days[0]>1 && $days[0]<=4) {$cnt_state_current_2_4=$cnt_state_current_2_4+1; if ($rparameters['debug']==1) {echo "[CURRENT 2_4]";}}
+											if($days[0]>4 && $days[0]<=10) {$cnt_state_current_5_10=$cnt_state_current_5_10+1; if ($rparameters['debug']==1) {echo "[CURRENT 5_10]";}}
+											if($days[0]>10 && $days[0]<=30 ) {$cnt_state_current_10_30=$cnt_state_current_10_30+1; if ($rparameters['debug']==1) {echo "[CURRENT 10_30]";}}
+											if($days[0]>30 && $days[0]<90 ) {$cnt_state_current_30_90=$cnt_state_current_30_90+1; if ($rparameters['debug']==1) {echo "[CURRENT 30_90]";}}
+											if($days[0]>90) {$cnt_state_current_90=$cnt_state_current_90+1; if ($rparameters['debug']==1) {echo "[CURRENT 90]";}}
 										}
 										if ($previous_type==5 && $previous_state==6)
 										{
@@ -388,10 +417,12 @@ echo '
 											$query4=$db->query($query4);
 											$days=$query4->fetch();
 											$query4->closeCursor(); 
-											if($days[0]<1) {$cnt_state_wait_user_1=$cnt_state_wait_user_1+1; if ($rparameters['debug']==1) {echo "[WAIT USER 1]";}}
-											if($days[0]>2 && $days[0]<4) {$cnt_state_wait_user_2_4=$cnt_state_wait_user_2_4+1; if ($rparameters['debug']==1) {echo "[WAIT USER 2_4]<";}}
-											if($days[0]>5 && $days[0]<10) {$cnt_state_wait_user_5_10=$cnt_state_wait_user_5_10+1; if ($rparameters['debug']==1) {echo "[WAIT USER 5_10]";}}
-											if($days[0]>10) {$cnt_state_wait_user_10=$cnt_state_wait_user_10+1; if ($rparameters['debug']==1) {echo "[WAIT USER 10]";}}
+											if($days[0]<=1) {$cnt_state_wait_user_1=$cnt_state_wait_user_1+1; if ($rparameters['debug']==1) {echo "[WAIT USER 1]";}}
+											if($days[0]>1 && $days[0]<=4) {$cnt_state_wait_user_2_4=$cnt_state_wait_user_2_4+1; if ($rparameters['debug']==1) {echo "[WAIT USER 2_4]<";}}
+											if($days[0]>4 && $days[0]<=10) {$cnt_state_wait_user_5_10=$cnt_state_wait_user_5_10+1; if ($rparameters['debug']==1) {echo "[WAIT USER 5_10]";}}
+											if($days[0]>10 && $days[0]<=30) {$cnt_state_wait_user_10_30=$cnt_state_wait_user_10_30+1; if ($rparameters['debug']==1) {echo "[WAIT USER 10_30]";}}
+											if($days[0]>30 && $days[0]<=90) {$cnt_state_wait_user_30_90=$cnt_state_wait_user_30_90+1; if ($rparameters['debug']==1) {echo "[WAIT USER 30_90]";}}
+											if($days[0]>90) {$cnt_state_wait_user_90=$cnt_state_wait_user_90+1; if ($rparameters['debug']==1) {echo "[WAIT USER 90]";}}
 										}
 										if ($previous_type==5 && $previous_state==5)
 										{
@@ -399,10 +430,12 @@ echo '
 											$query4=$db->query($query4);
 											$days=$query4->fetch();
 											$query4->closeCursor(); 
-											if($days[0]<1) {$cnt_state_attribution_1=$cnt_state_attribution_1+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 1]";}}
-											if($days[0]>2 && $days[0]<4) {$cnt_state_attribution_2_4=$cnt_state_attribution_2_4+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 2_4]";}}
-											if($days[0]>5 && $days[0]<10) {$cnt_state_attribution_5_10=$cnt_state_attribution_5_10+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 5_10]";}}
-											if($days[0]>10) {$cnt_state_attribution_10=$cnt_state_attribution_10+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 10]";}}
+											if($days[0]<=1) {$cnt_state_attribution_1=$cnt_state_attribution_1+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 1]";}}
+											if($days[0]>1 && $days[0]<=4) {$cnt_state_attribution_2_4=$cnt_state_attribution_2_4+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 2_4]";}}
+											if($days[0]>4 && $days[0]<=10) {$cnt_state_attribution_5_10=$cnt_state_attribution_5_10+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 5_10]";}}
+											if($days[0]>10 && $days[0]<=30) {$cnt_state_attribution_10_30=$cnt_state_attribution_10_30+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 10_30]";}}
+											if($days[0]>30 && $days[0]<=90) {$cnt_state_attribution_30_90=$cnt_state_attribution_30_90+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 30_90]";}}
+											if($days[0]>90) {$cnt_state_attribution_90=$cnt_state_attribution_90+1; if ($rparameters['debug']==1) {echo "[ATTRIBUTION 90]";}}
 										}
 									}
 									$previous_date=$row3['date'];
@@ -414,57 +447,73 @@ echo '
 							} 
 							$query2->closecursor();
 							//calculate percentage
-							$total_cnt_state_wait_pec=$cnt_state_wait_pec_1+$cnt_state_wait_pec_2_4+$cnt_state_wait_pec_5_10+$cnt_state_wait_pec_10;
+							$total_cnt_state_wait_pec=$cnt_state_wait_pec_1+$cnt_state_wait_pec_2_4+$cnt_state_wait_pec_5_10+$cnt_state_wait_pec_10_30+$cnt_state_wait_pec_30_90+$cnt_state_wait_pec_90;
 							if($total_cnt_state_wait_pec!=0)
 							{
 								$percent_wait_pec_1=round(($cnt_state_wait_pec_1*100)/$total_cnt_state_wait_pec,2);
 								$percent_wait_pec_2_4=round(($cnt_state_wait_pec_2_4*100)/$total_cnt_state_wait_pec,2);
 								$percent_wait_pec_5_10=round(($cnt_state_wait_pec_5_10*100)/$total_cnt_state_wait_pec,2);
-								$percent_wait_pec_10=round(($cnt_state_wait_pec_10*100)/$total_cnt_state_wait_pec,2);
+								$percent_wait_pec_10_30=round(($cnt_state_wait_pec_10_30*100)/$total_cnt_state_wait_pec,2);
+								$percent_wait_pec_30_90=round(($cnt_state_wait_pec_30_90*100)/$total_cnt_state_wait_pec,2);
+								$percent_wait_pec_90=round(($cnt_state_wait_pec_90*100)/$total_cnt_state_wait_pec,2);
 							} else {
 								$percent_wait_pec_1=0;
 								$percent_wait_pec_2_4=0;
 								$percent_wait_pec_5_10=0;
-								$percent_wait_pec_10=0;
+								$percent_wait_pec_10_30=0;
+								$percent_wait_pec_30_90=0;
+								$percent_wait_pec_90=0;
 							}
-							$total_cnt_state_current=$cnt_state_current_1+$cnt_state_current_2_4+$cnt_state_current_5_10+$cnt_state_current_10;
+							$total_cnt_state_current=$cnt_state_current_1+$cnt_state_current_2_4+$cnt_state_current_5_10+$cnt_state_current_10_30+$cnt_state_current_30_90+$cnt_state_current_90;
 							if($total_cnt_state_current!=0)
 							{
 								$percent_current_1=round(($cnt_state_current_1*100)/$total_cnt_state_current,2);
 								$percent_current_2_4=round(($cnt_state_current_2_4*100)/$total_cnt_state_current,2);
 								$percent_current_5_10=round(($cnt_state_current_5_10*100)/$total_cnt_state_current,2);
-								$percent_current_10=round(($cnt_state_current_10*100)/$total_cnt_state_current,2);
+								$percent_current_10_30=round(($cnt_state_current_10_30*100)/$total_cnt_state_current,2);
+								$percent_current_30_90=round(($cnt_state_current_30_90*100)/$total_cnt_state_current,2);
+								$percent_current_90=round(($cnt_state_current_90*100)/$total_cnt_state_current,2);
 							} else {
 								$percent_current_1=0;
 								$percent_current_2_4=0;
 								$percent_current_5_10=0;
-								$percent_current_10=0;
+								$percent_current_10_30=0;
+								$percent_current_30_90=0;
+								$percent_current_90=0;
 							}
-							$total_cnt_state_wait_user=$cnt_state_wait_user_1+$cnt_state_wait_user_2_4+$cnt_state_wait_user_5_10+$cnt_state_wait_user_10;
+							$total_cnt_state_wait_user=$cnt_state_wait_user_1+$cnt_state_wait_user_2_4+$cnt_state_wait_user_5_10+$cnt_state_wait_user_10_30+$cnt_state_wait_user_30_90+$cnt_state_wait_user_90;
 							if($total_cnt_state_wait_user!=0)
 							{
 								$percent_wait_user_1=round(($cnt_state_wait_user_1*100)/$total_cnt_state_wait_user,2);
 								$percent_wait_user_2_4=round(($cnt_state_wait_user_2_4*100)/$total_cnt_state_wait_user,2);
 								$percent_wait_user_5_10=round(($cnt_state_wait_user_5_10*100)/$total_cnt_state_wait_user,2);
-								$percent_wait_user_10=round(($cnt_state_wait_user_10*100)/$total_cnt_state_wait_user,2);
+								$percent_wait_user_10_30=round(($cnt_state_wait_user_10_30*100)/$total_cnt_state_wait_user,2);
+								$percent_wait_user_30_90=round(($cnt_state_wait_user_30_90*100)/$total_cnt_state_wait_user,2);
+								$percent_wait_user_90=round(($cnt_state_wait_user_90*100)/$total_cnt_state_wait_user,2);
 							} else {
 								$percent_wait_user_1=0;
 								$percent_wait_user_2_4=0;
 								$percent_wait_user_5_10=0;
-								$percent_wait_user_10=0;
+								$percent_wait_user_10_30=0;
+								$percent_wait_user_30_90=0;
+								$percent_wait_user_90=0;
 							}
-							$total_cnt_state_attribution=$cnt_state_attribution_1+$cnt_state_attribution_2_4+$cnt_state_attribution_5_10+$cnt_state_attribution_10;
+							$total_cnt_state_attribution=$cnt_state_attribution_1+$cnt_state_attribution_2_4+$cnt_state_attribution_5_10+$cnt_state_attribution_10_30+$cnt_state_attribution_30_90+$cnt_state_attribution_90;
 							if($total_cnt_state_attribution!=0)
 							{
 								$percent_attribution_1=round(($cnt_state_attribution_1*100)/$total_cnt_state_attribution,2);
 								$percent_attribution_2_4=round(($cnt_state_attribution_2_4*100)/$total_cnt_state_attribution,2);
 								$percent_attribution_5_10=round(($cnt_state_attribution_5_10*100)/$total_cnt_state_attribution,2);
-								$percent_attribution_10=round(($cnt_state_attribution_10*100)/$total_cnt_state_attribution,2);
+								$percent_attribution_10_30=round(($cnt_state_attribution_10_30*100)/$total_cnt_state_attribution,2);
+								$percent_attribution_30_90=round(($cnt_state_attribution_30_90*100)/$total_cnt_state_attribution,2);
+								$percent_attribution_90=round(($cnt_state_attribution_90*100)/$total_cnt_state_attribution,2);
 							} else {
 								$percent_attribution_1=0;
 								$percent_attribution_2_4=0;
 								$percent_attribution_5_10=0;
-								$percent_attribution_10=0;
+								$percent_attribution_10_30=0;
+								$percent_attribution_30_90=0;
+								$percent_attribution_90=0;
 							}
 							if ($rparameters['debug']==1) {	echo '<br />Ticket analysed: '.$count.'<br />';}
 							
@@ -494,11 +543,24 @@ echo '
 										if($row['id']==5){echo $percent_attribution_5_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_attribution_5_10.' tickets)';}} 
 									echo '</td>
 									<td align="center">';
-										if($row['id']==1){echo $percent_wait_pec_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_pec_10.' tickets)';}}
-										if($row['id']==2){echo $percent_current_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_current_10.' tickets)';}}
-										if($row['id']==6){echo $percent_wait_user_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_user_10.' tickets)';}}
-										if($row['id']==5){echo $percent_attribution_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_attribution_10.' tickets)';}}
+										if($row['id']==1){echo $percent_wait_pec_10_30.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_pec_10_30.' tickets)';}}
+										if($row['id']==2){echo $percent_current_10_30.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_current_10_30.' tickets)';}}
+										if($row['id']==6){echo $percent_wait_user_10_30.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_user_10_30.' tickets)';}}
+										if($row['id']==5){echo $percent_attribution_10_30.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_attribution_10_30.' tickets)';}}
 									echo '</td>
+									<td align="center">';
+										if($row['id']==1){echo $percent_wait_pec_30_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_pec_30_90.' tickets)';}}
+										if($row['id']==2){echo $percent_current_30_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_current_30_90.' tickets)';}}
+										if($row['id']==6){echo $percent_wait_user_30_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_user_30_90.' tickets)';}}
+										if($row['id']==5){echo $percent_attribution_30_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_attribution_30_90.' tickets)';}}
+									echo '</td>
+									<td align="center">';
+										if($row['id']==1){echo $percent_wait_pec_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_pec_90.' tickets)';}}
+										if($row['id']==2){echo $percent_current_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_current_90.' tickets)';}}
+										if($row['id']==6){echo $percent_wait_user_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_wait_user_90.' tickets)';}}
+										if($row['id']==5){echo $percent_attribution_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_state_attribution_90.' tickets)';}}
+									echo '</td>
+									
 								</tr>';
 							} 
 							$query->closecursor();
@@ -506,7 +568,9 @@ echo '
 							$cnt_total_1=0;
 							$cnt_total_2_4=0;
 							$cnt_total_5_10=0;
-							$cnt_total_10=0;
+							$cnt_total_10_30=0;
+							$cnt_total_30_90=0;
+							$cnt_total_90=0;
 							if ($rparameters['debug']==1) {	echo '<hr />TOTAL<hr />';}
 							$query="
 							SELECT id, date_create, date_res
@@ -517,9 +581,11 @@ echo '
 							tincidents.criticality like '$_POST[criticality]' AND
 							tincidents.u_service LIKE '$_POST[service]' $where_service $where_agency AND
 							tincidents.category LIKE '$_POST[category]' AND
-							tincidents.date_create LIKE '%-$_POST[month]-%' AND
-							tincidents.date_create LIKE '$_POST[year]-%' AND
-							tincidents.state=3							
+							tincidents.state=3 AND
+							(
+								tincidents.date_create LIKE '$_POST[year]-$_POST[month]-%' OR
+								tincidents.date_res LIKE '$_POST[year]-$_POST[month]-%'
+							)
 							";
 							$query = $db->query($query);
 							while ($row = $query->fetch())
@@ -530,26 +596,31 @@ echo '
 								$query2->closeCursor(); 
 								if ($rparameters['debug']==1)  {echo "ANALYSE TICKET: $row[id] day $days[0] ";}
 								if($days[0]<=1) {$cnt_total_1=$cnt_total_1+1; if ($rparameters['debug']==1) {echo "[CLOSE 1]";}}
-								if($days[0]>2 && $days[0]<4) {$cnt_total_2_4=$cnt_total_2_4+1; if ($rparameters['debug']==1) {echo "[CLOSE 2_4]";}}
-								if($days[0]>5 && $days[0]<10) {$cnt_total_5_10=$cnt_total_5_10+1; if ($rparameters['debug']==1) {echo "[CLOSE 5_10]";}}
-								if($days[0]>10) {$cnt_total_10=$cnt_total_10+1; if ($rparameters['debug']==1) {echo "[CLOSE 10]";}}
+								if($days[0]>1 && $days[0]<=4) {$cnt_total_2_4=$cnt_total_2_4+1; if ($rparameters['debug']==1) {echo "[CLOSE 2_4]";}}
+								if($days[0]>4 && $days[0]<=10) {$cnt_total_5_10=$cnt_total_5_10+1; if ($rparameters['debug']==1) {echo "[CLOSE 5_10]";}}
+								if($days[0]>10 && $days[0]<=30) {$cnt_total_10_30=$cnt_total_10_30+1; if ($rparameters['debug']==1) {echo "[CLOSE 10_30]";}}
+								if($days[0]>30 && $days[0]<=90) {$cnt_total_30_90=$cnt_total_30_90+1; if ($rparameters['debug']==1) {echo "[CLOSE 30_90]";}}
+								if($days[0]>90) {$cnt_total_90=$cnt_total_90+1; if ($rparameters['debug']==1) {echo "[CLOSE 90]";}}
 								if ($rparameters['debug']==1) {	echo '<br />';}
-								
 							}
-							$total_cnt_total=$cnt_total_1+$cnt_total_2_4+$cnt_total_5_10+$cnt_total_10;
+							$total_cnt_total=$cnt_total_1+$cnt_total_2_4+$cnt_total_5_10+$cnt_total_10_30+$cnt_total_30_90+$cnt_total_90;
 							if($total_cnt_total!=0)
 							{
 								$percent_total_1=round(($cnt_total_1*100)/$total_cnt_total,2);
 								$percent_total_2_4=round(($cnt_total_2_4*100)/$total_cnt_total,2);
 								$percent_total_5_10=round(($cnt_total_5_10*100)/$total_cnt_total,2);
-								$percent_total_10=round(($cnt_total_10*100)/$total_cnt_total,2);
+								$percent_total_10_30=round(($cnt_total_10_30*100)/$total_cnt_total,2);
+								$percent_total_30_90=round(($cnt_total_30_90*100)/$total_cnt_total,2);
+								$percent_total_90=round(($cnt_total_90*100)/$total_cnt_total,2);
 							} else {
 								$percent_total_1=0;
 								$percent_total_2_4=0;
 								$percent_total_5_10=0;
-								$percent_total_10=0;
+								$percent_total_10_30=0;
+								$percent_total_30_90=0;
+								$percent_total_90=0;
 							}
-							echo '<tr><td>'.T_('Temps total de traitement').'</td><td align="center">'.$percent_total_1.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_1.' tickets)';} echo '</td><td align="center">'.$percent_total_2_4.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_2_4.' tickets)';} echo '</td><td align="center">'.$percent_total_5_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_5_10.' tickets)';} echo '</td><td align="center">'.$percent_total_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_10.' tickets)';} echo '</td></tr>';
+							echo '<tr><td>'.T_('Temps total de traitement').'</td><td align="center">'.$percent_total_1.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_1.' tickets)';} echo '</td><td align="center">'.$percent_total_2_4.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_2_4.' tickets)';} echo '</td><td align="center">'.$percent_total_5_10.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_5_10.' tickets)';} echo '</td><td align="center">'.$percent_total_10_30.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_10_30.' tickets)';} echo '</td><td align="center">'.$percent_total_30_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_30_90.' tickets)';} echo '</td><td align="center">'.$percent_total_90.'%'; if ($rparameters['debug']==1) {echo ' ('.$cnt_total_90.' tickets)';} echo '</td></tr>';
 							echo '
 						</tbody>
 					</table>

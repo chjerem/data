@@ -6,8 +6,8 @@
 # @Parameters : GET_[ip] or globalping and server key for command line execution
 # @Author : Flox
 # @Create : 19/12/2015
-# @Update : 27/04/2017
-# @Version : 3.1.20
+# @Update : 15/11/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -111,48 +111,59 @@ if ($argv[1]=='globalping')
 		$query->closeCursor();	
 	} else {echo "ERROR: Wrong server key go to application system page to get your key";}
 } elseif($_GET['iptoping']) { //single ping from ticket with OS detection
-	$test_ip=$_GET['iptoping'];
-	
-	//check if ipv4 is well formed
-	$error='';
-	$cnt=0;
-	if(!preg_match('#\.#', $test_ip)) {$error='error no point detected';}
-	foreach (explode('.',$test_ip) as $val) {$cnt++;if (!is_numeric($val)) { $error='not numeric value'; break;} if($val>254) { $error='error bloc more than 255'; break;}}
-	if(!$error) {if ($cnt!=4) {$error='error not 4 blocs';}}
-	
-	if (!$error)
+	//test each iface with ip
+	$query = $db->query("SELECT id,ip,date_ping_ok,date_ping_ko FROM `tassets_iface` WHERE asset_id='$globalrow[id]' AND disable='0' ");
+	while ($row = $query->fetch()) 
 	{
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			$result=exec("ping -n 1 -w 1 $test_ip");	
-			//test result
-			if((preg_match('#Minimum#', $result)))
+		if($row['ip'])
+		{
+			$test_ip=$row['ip'];
+			//check if ipv4 is well formed
+			$error='';
+			$cnt=0;
+			if(!preg_match('#\.#', $test_ip)) {$error='error no point detected';}
+			foreach (explode('.',$test_ip) as $val) {$cnt++;if (!is_numeric($val)) { $error='not numeric value'; break;} if($val>254) { $error='error bloc more than 255'; break;}}
+			if(!$error) {if ($cnt!=4) {$error='error not 4 blocs';}}
+			
+			if (!$error)
 			{
-				//display message
-				echo '<div class="alert alert-block alert-success"><center><i class="icon-exchange bigger-130 green"></i>&nbsp; <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : OK <span style="font-size: x-small;">('.$result.')</span> </center></div>';
-				//update asset flag
-				$db->exec('UPDATE tassets SET date_last_ping=\''.$today.'\' WHERE id=\''.$globalrow['id'].'\'');
+				if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+					$result=exec("ping -n 1 -w 1 $test_ip");	
+					//test result
+					if((preg_match('#Minimum#', $result)))
+					{
+						//display message
+						echo '<div class="alert alert-block alert-success"><i class="icon-exchange bigger-130 green"></i>&nbsp; <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : OK <span style="font-size: x-small;">('.$result.')</span></div>';
+						//update asset flag
+						$db->exec('UPDATE tassets SET date_last_ping=\''.$today.'\' WHERE id=\''.$globalrow['id'].'\'');
+						$db->exec('UPDATE tassets_iface SET date_ping_ok=\''.date('Y-m-d H-i-s').'\' WHERE id=\''.$row['id'].'\'');
+					} else {
+						$result=mb_convert_encoding($result, "UTF-8");
+						//display message
+						echo '<div class="alert alert-danger"><i class="icon-remove"></i> <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : KO <span style="font-size: x-small;">('.$result.')</span></div>';
+						$db->exec('UPDATE tassets_iface SET date_ping_ko=\''.date('Y-m-d H-i-s').'\' WHERE id=\''.$row['id'].'\'');
+				}
+				} else {
+					$result=exec("ping -W 1 -c 1 $test_ip");
+					//test result
+					if((preg_match('#min#', $result)))
+					{
+						//display message
+						echo '<div class="alert alert-block alert-success"><i class="icon-exchange bigger-130 green"></i>&nbsp; <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : OK <span style="font-size: x-small;">('.$result.')</span></div>';
+						//update asset flag
+						$db->exec('UPDATE tassets SET date_last_ping=\''.$today.'\' WHERE id=\''.$globalrow['id'].'\'');
+						$db->exec('UPDATE tassets_iface SET date_ping_ok=\''.date('Y-m-d H-i-s').'\' WHERE id=\''.$row['id'].'\'');
+					} else {
+						$result=mb_convert_encoding($result, "UTF-8");
+						//display message
+						echo '<div class="alert alert-danger"><i class="icon-remove"></i><strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : KO <span style="font-size: x-small;">('.$result.')</span> </div>';
+						$db->exec('UPDATE tassets_iface SET date_ping_ko=\''.date('Y-m-d H-i-s').'\' WHERE id=\''.$row['id'].'\'');
+					}
+				}
 			} else {
-				$result=mb_convert_encoding($result, "UTF-8");
-				//display message
-				echo '<div class="alert alert-danger"><i class="icon-remove"></i> <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : KO <span style="font-size: x-small;">('.$result.')</span> </center></div>';
-			}
-		} else {
-			$result=exec("ping -W 1 -c 1 $test_ip");
-			//test result
-			if((preg_match('#min#', $result)))
-			{
-				//display message
-				echo '<div class="alert alert-block alert-success"><center><i class="icon-exchange bigger-130 green"></i>&nbsp; <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : OK <span style="font-size: x-small;">('.$result.')</span> </center></div>';
-				//update asset flag
-				$db->exec('UPDATE tassets SET date_last_ping=\''.$today.'\' WHERE id=\''.$globalrow['id'].'\'');
-			} else {
-				$result=mb_convert_encoding($result, "UTF-8");
-				//display message
-				echo '<div class="alert alert-danger"><i class="icon-remove"></i><strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : KO <span style="font-size: x-small;">('.$result.')</span> </center></div>';
+				echo '<div class="alert alert-danger"><i class="icon-remove"></i> <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : KO <span style="font-size: x-small;">(Invalid IPv4 address: '.$error.')</span> </div>';
 			}
 		}
-	} else {
-		echo '<div class="alert alert-danger"><i class="icon-remove"></i> <strong>'.T_('PING').'</strong> de <b>'.$test_ip.'</b> : KO <span style="font-size: x-small;">(Invalid IPv4 address: '.$error.')</span> </center></div>';
-	}
+	}	
 }
 ?>

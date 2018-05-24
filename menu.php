@@ -6,8 +6,8 @@
 # @Parameters : 
 # @Author : Flox
 # @Create : 06/09/2013
-# @Update : 03/05/2017
-# @Version : 3.1.20
+# @Update : 14/09/2017
+# @Version : 3.1.26
 ################################################################################
 
 //initialize variables 
@@ -26,27 +26,30 @@ if(!isset($state)) $state = '';
 	</script>
 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
 		<?php
-		if (($rright['side_open_ticket']!=0) && (($_GET['page']!='asset_list') || ($rright['side_asset_create']==0)) && ($_GET['page']!='asset'))
+		if (($rright['side_open_ticket']!=0) && (($_GET['page']!='asset_list') || ($rright['side_asset_create']==0)) && ($_GET['page']!='asset')  && ($_GET['page']!='procedure'))
 		{
 			if ($ruser['default_ticket_state']!='')
 			{
 				if ($ruser['default_ticket_state']=='meta_all')
 				{
-					$target_url='./index.php?page=ticket&amp;action=new&amp;userid=%&amp;state=meta';
+					$target_url='./index.php?page=ticket&amp;action=new&amp;userid=%&amp;state=meta&view='.$_GET['view'].'&date_start='.$_GET['date_start'].'&date_end='.$_GET['date_end'];
 				} else {
-					$target_url='./index.php?page=ticket&amp;action=new&amp;userid='.$_SESSION['user_id'].'&amp;state='.$ruser['default_ticket_state'];
+					$target_url='./index.php?page=ticket&amp;action=new&amp;userid='.$_SESSION['user_id'].'&amp;state='.$ruser['default_ticket_state'].'&view='.$_GET['view'].'&date_start='.$_GET['date_start'].'&date_end='.$_GET['date_end'];
 				}
 			} else {
-				$target_url='./index.php?page=ticket&amp;action=new&amp;userid='.$_SESSION['user_id'].'&amp;state='.$_GET['state'];
+				$target_url='./index.php?page=ticket&amp;action=new&amp;userid='.$_SESSION['user_id'].'&amp;state='.$_GET['state'].'&view='.$_GET['view'].'&date_start='.$_GET['date_start'].'&date_end='.$_GET['date_end'];
 			}
 			echo'
 			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 					<a href="'.$target_url.'">
-						<button title="'.T_("Création d'un nouveau ticket").'" onclick=\'window.location.href="'.$target_url.'"\' class="btn btn-sm btn-success">
+						<button accesskey="n" title="'.T_("Ajoute un nouveau ticket").' (SHIFT+ALT+n)" onclick=\'window.location.href="'.$target_url.'"\' class="btn btn-sm btn-success">
 							&nbsp;
 							<i class="icon-plus bigger-120"></i> '.T_('Nouveau ticket').'
 						</button>
 					</a>
+			</div>
+			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+				<a href="'.$target_url.'"><span class="btn btn-success"></span></a>
 			</div>
 			';
 		}
@@ -55,11 +58,14 @@ if(!isset($state)) $state = '';
 			echo'
 			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
 					<a href="./index.php?page=asset&amp;action=new">
-						<button title="'.T_('Nouvel équipement').'" onclick=\'window.location.href="./index.php?page=asset&amp;action=new"\' class="btn btn-sm btn-purple">
+						<button accesskey="n" title="'.T_('Ajoute un nouvel équipement').' (SHIFT+ALT+n)" onclick=\'window.location.href="./index.php?page=asset&amp;action=new"\' class="btn btn-sm btn-success">
 							&nbsp;
 							<i class="icon-plus bigger-120"></i> '.T_('Nouvel équipement').'
 						</button>
 					</a>
+			</div>
+			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+				<a href="./index.php?page=asset&amp;action=new"><span class="btn btn-success"></span></a>
 			</div>
 			';
 		}
@@ -74,6 +80,25 @@ if(!isset($state)) $state = '';
 						</button>
 					</a>
 			</div>
+			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+				<a href="./index.php?page=asset_stock"><span class="btn btn-warning"></span></a>
+			</div>
+			';
+		}
+		if (($rright['procedure_add']!=0) && ($_GET['page']=='procedure'))
+		{
+			echo'
+			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+					<a href="index.php?page=procedure&amp;action=add">
+						<button accesskey="n" title="'.T_('Ajoute une nouvelle procédure').' (SHIFT+ALT+n)" class="btn btn-sm btn-success">
+							&nbsp;
+							<i class="icon-plus bigger-120"></i> '.T_('Nouvelle procédure').'
+						</button>
+					</a>
+			</div>
+			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+				<a href="index.php?page=procedure&amp;action=add"><span class="btn btn-success"></span></a>
+			</div>
 			';
 		}
 		?>
@@ -84,8 +109,15 @@ if(!isset($state)) $state = '';
 		//display tickets of current user
 		if ($rright['side_your']!=0)
 		{
-			
-			$query=$db->query("SELECT count(*) FROM `tincidents` WHERE $profile='$uid' $where_service_your $where_agency_your AND disable='0'");
+			//special case to count technician ticket, included ticket where technician is sender 
+			if($_SESSION['profile_id']==0 && $rparameters['user_limit_service']==1 && $_GET['userid']!='%')
+			{
+				$where_profil="(user='$uid' OR technician='$uid')";
+			} else {
+				$where_profil="$profile='$uid'";
+			}
+			$query="SELECT count(*) FROM `tincidents` WHERE $where_profil $where_service_your $where_agency_your AND disable='0'";
+			$query=$db->query($query);
 			$cntall=$query->fetch();
 			$query->closeCursor(); 
 			
@@ -111,7 +143,7 @@ if(!isset($state)) $state = '';
 					 //display meta states link
 					if ($rparameters['meta_state']==1 && $rright['side_your_meta']!=0)
 					{
-						$query=$db->query("SELECT count(*) FROM `tincidents` WHERE $profile='$uid' $where_service_your $where_agency_your AND disable='0' AND (state=1 OR state=2 OR state=6)");
+						$query=$db->query("SELECT count(*) FROM `tincidents` WHERE $where_profil $where_service_your $where_agency_your AND disable='0' AND (state=1 OR state=2 OR state=6)");
 						$cntmeta=$query->fetch();
 						$query->closeCursor();  
     					if ($_GET['userid']!='%' && $_GET['state']=='meta') {echo '<li class="active">';} else {echo "<li>";} echo "
@@ -136,7 +168,7 @@ if(!isset($state)) $state = '';
 					$query = $db->query("SELECT * FROM `tstates` WHERE id NOT LIKE 5 ORDER BY number");
 					while ($row = $query->fetch())
 					{
-						$query2=$db->query("SELECT count(id) FROM `tincidents` WHERE $profile='$uid' $where_service_your $where_agency_your AND state='$row[id]' AND disable='0'");
+						$query2=$db->query("SELECT count(id) FROM `tincidents` WHERE $where_profil $where_service_your $where_agency_your AND state='$row[id]' AND disable='0'");
 						$cnt=$query2->fetch();
 						$query2->closeCursor(); 
 						echo '
@@ -244,7 +276,8 @@ if(!isset($state)) $state = '';
 		//display side menu for all tickets of current connected user
 		if (($rright['side_all']!=0 && $rparameters['user_limit_service']==0) || ($rright['side_all']!=0 && $rparameters['user_limit_service']==1 && ($cnt_service!=0 || $cnt_agency!=0)) || ($rright['side_all']!=0 && $rparameters['user_limit_service']==1 && $rright['admin'])) //not display all tickets for supervisor without service or agency, whithout user_limit_service tech must view all tickets
 		{
-			$query=$db->query("SELECT count(*) FROM `tincidents` WHERE disable='0' $where_service $where_agency");
+			$query=
+			$query=$db->query("SELECT count(*) FROM `tincidents` WHERE disable='0' $where_agency $where_service $parenthese2");
 			$cntall=$query->fetch();
 			$query->closeCursor(); 
 			if (($_GET['userid']=='%' || $_GET['userid']=='0') && $_GET['viewid']=='' && $_GET['companyview']=='') echo '<li  class="active">'; else echo '<li>'; echo '
@@ -270,7 +303,7 @@ if(!isset($state)) $state = '';
 						if ($_GET['userid']=='0' && $_GET['state']=='%') echo '<li class="active">'; else echo '<li>'; echo '
 							<a href="./index.php?page=dashboard&amp;userid=0&amp;t_group=0&amp;state=%">
 								<i class="icon-double-angle-right"></i>
-								'.T_('Nouveaux').' ('.$cnt5[0].')&nbsp;&nbsp;&nbsp;<i title="'.T_('Des nouveaux tickets sont à attribués').'" class="icon-warning-sign red bigger-130"></i>
+								'.T_('Nouveaux').' ('.$cnt5[0].')&nbsp;&nbsp;&nbsp;<i title="'.T_('Des nouveaux tickets sont à attribuer').'" class="icon-warning-sign red bigger-130"></i>
 							</a>
 						</li>';
 						
@@ -278,7 +311,7 @@ if(!isset($state)) $state = '';
 					//display meta states link
 					if ($rparameters['meta_state']==1  && $rright['side_all_meta']!=0)
 					{
-						$query=$db->query("SELECT count(*) FROM `tincidents` WHERE disable='0' AND (state=1 OR state=2 OR state=6) $where_service $where_agency");
+						$query=$db->query("SELECT count(*) FROM `tincidents` WHERE disable='0' AND (state=1 OR state=2 OR state=6) $where_agency $where_service $parenthese2");
 						$cntmetaall=$query->fetch();
 						$query->closeCursor(); 
     					if ($_GET['userid']=='%' && $_GET['state']=='meta') {echo '<li class="active">';} else {echo "<li>";}
@@ -293,7 +326,7 @@ if(!isset($state)) $state = '';
 					$query = $db->query("SELECT * FROM `tstates` WHERE id not like 5 ORDER BY number");
 					while ($row = $query->fetch())
 					{
-						$query2=$db->query("SELECT count(id) FROM `tincidents` WHERE state='$row[id]' $where_service $where_agency AND disable='0'");
+						$query2=$db->query("SELECT count(id) FROM `tincidents` WHERE state='$row[id]' $where_agency $where_service $parenthese2 AND disable='0'");
 						$cnt=$query2->fetch();
 						$query2->closeCursor(); 
 						echo '
@@ -333,7 +366,8 @@ if(!isset($state)) $state = '';
 						//case for no sub categories
 						if ($row['subcat']==0) $subcat='%'; else $subcat=$row['subcat']; 
 						//count entries
-						$query2=$db->query("SELECT COUNT(*) FROM `tincidents` WHERE category='$row[category]' AND subcat LIKE '$subcat' AND (state='1' OR state='2' OR state='6') $where_service $where_agency AND disable='0'");
+						$query2="SELECT COUNT(*) FROM `tincidents` WHERE category='$row[category]' AND subcat LIKE '$subcat' AND (state='1' OR state='2' OR state='6') $where_agency $where_service $parenthese2 AND disable='0'";
+						$query2=$db->query($query2);
 						$n=$query2->fetch();
 						$query2->closeCursor();
 						// echo '<li '; if ($_GET['viewid']==$row['id'])  echo'class="active"'; echo '><a href="./index.php?page=dashboard&amp;userid=%&amp;category='.$row['category'].'&amp;subcat='.$subcat.'&amp;viewid='.$row['id'].'">Vue '.$row['name'].' ('.$n[0].')</a></li>';
@@ -362,8 +396,15 @@ if(!isset($state)) $state = '';
 				{
 					echo '
 					<ul class="submenu">
-						<li'; 
-							$query2=$db->query("SELECT count(id) FROM `tassets` WHERE disable='0'");
+						<li';
+							//query count all assets or assets of company
+							if($rright['asset_list_company_only']!=0)
+							{
+								$query2="SELECT count(tassets.id) FROM `tassets`,`tusers` WHERE tassets.user=tusers.id AND tassets.disable='0' AND tusers.company='$ruser[company]'";
+							} else {
+								$query2="SELECT count(id) FROM `tassets` WHERE disable='0'";
+							}
+							$query2=$db->query($query2);
 							$cnt=$query2->fetch();
 							$query2->closeCursor();
 							if (($_GET['page']=='asset_list' || $_GET['page']=='asset') && $_GET['state']=='%') echo ' class="active"';
@@ -378,7 +419,14 @@ if(!isset($state)) $state = '';
 						$query = $db->query("SELECT * FROM `tassets_state` WHERE disable='0' ORDER BY `order`");
 						while ($row = $query->fetch())
 						{
-							$query2=$db->query("SELECT count(id) FROM `tassets` WHERE state LIKE '$row[id]' AND disable='0'");
+							//query count all assets or assets of company
+							if($rright['asset_list_company_only']!=0)
+							{
+								$query2="SELECT count(tassets.id) FROM `tassets`,`tusers` WHERE tassets.user=tusers.id AND tassets.state LIKE '$row[id]' AND tassets.disable='0' AND tusers.company='$ruser[company]'";
+							} else {
+								$query2="SELECT count(id) FROM `tassets` WHERE state LIKE '$row[id]' AND disable='0'";
+							}
+							$query2=$db->query($query2);
 							$cnt=$query2->fetch();
 							$query2->closeCursor(); 
 							echo '
@@ -396,7 +444,14 @@ if(!isset($state)) $state = '';
 						if($rparameters['asset_warranty']==1)
 						{
 							$today=date('Y-m-d');
-							$query2=$db->query("SELECT count(*) FROM `tassets` WHERE state LIKE '2' AND date_end_warranty > '$today' AND disable='0'");
+							//query count all assets or assets of company
+							if($rright['asset_list_company_only']!=0)
+							{
+								$query2="SELECT count(tassets.id) FROM `tassets`,`tusers` WHERE tassets.user=tusers.id AND tassets.state LIKE '2' AND tassets.date_end_warranty > '$today' AND tassets.disable='0' AND tusers.company='$ruser[company]'";
+							} else {
+								$query2="SELECT count(id) FROM `tassets` WHERE state LIKE '2' AND date_end_warranty > '$today' AND disable='0'";
+							}
+							$query2=$db->query($query2);
 							$cnt=$query2->fetch();
 							$query2->closeCursor(); 
 							echo '
@@ -424,15 +479,6 @@ if(!isset($state)) $state = '';
 				</a>
 			</li>
 			';
-		}
-		if ($rright['documentation']!=0 && $rparameters['documentation']==1)
-		{
-			if($_GET['page']=='documentation') echo '<li class="active">'; else echo '<li>'; echo '
-				<a href="./index.php?page=documentation">
-					<i class="icon-book"></i>
-					<span class="menu-text">'.T_('Documentation').'</span>
-				</a>
-			</li>';
 		}
 		if ($rright['planning']!=0 && $rparameters['planning']==1)
 		{
@@ -516,16 +562,6 @@ if(!isset($state)) $state = '';
 							</a>
 						</li>';
 					}
-					//AJOUT ZZZ
-					if($rright['admin_lists']!=0 || $rright['admin']!=0) {
-						if($_GET['page']=='admin' && $_GET['subpage']=='docs') echo '<li class="active">'; else echo '<li>'; echo '
-							<a href="./index.php?page=admin&subpage=docs">
-								<i class="icon-list"></i>
-								'.T_('Gestion documentation').'
-							</a>
-						</li>';
-					}
-					//FIN AJOUT ZZZ
 					if($rright['admin']!=0)
 					{
 						if($_GET['page']=='admin' && $_GET['subpage']=='backup') echo '<li class="active">'; else echo '<li>'; echo '

@@ -2,12 +2,12 @@
 ################################################################################
 # @Name : pie_assets_service.php
 # @Description : Display Statistics 
-# @call : /stat.php
-# @parameters : 
+# @Call : /stat.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 13/02/2016
-# @Update : 05/04/2017
-# @Version : 3.1.19
+# @Update : 13/09/2017
+# @Version : 3.1.26
 ################################################################################
 
 //array declaration
@@ -21,16 +21,18 @@ $unit=T_('Équipements');
 //query
 $query1 = "
 SELECT tservices.name as service, COUNT(*) as nb
-FROM tassets, tservices
+FROM tassets, tservices, tusers 
 WHERE 
 tservices.id=tassets.department AND
+tassets.user=tusers.id AND
 tassets.disable='0' AND
 tassets.type LIKE '$_POST[type]' AND
 tassets.department LIKE '$_POST[service]' AND
 tassets.model LIKE '$_POST[model]' AND
 tassets.date_install LIKE '%-$_POST[month]-%' AND
 tassets.date_install LIKE '$_POST[year]-%' AND
-tassets.technician LIKE '$_POST[tech]'
+tassets.technician LIKE '$_POST[tech]' AND
+tusers.company LIKE '$_POST[company]'
 GROUP BY tservices.name 
 ORDER BY nb
 DESC ";

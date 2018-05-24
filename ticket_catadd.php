@@ -2,12 +2,12 @@
 ################################################################################
 # @Name : edit_categories.php
 # @Description : add and modify categories
-# @call : ./ticket.php
-# @parameters :  
+# @Call : ./ticket.php
+# @Parameters :  
 # @Author : Flox
 # @Create : 07/01/2014
-# @Update : 27/04/2017
-# @Version : 3.1.20
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -23,9 +23,11 @@ if(!isset($subcat)) $subcat = '';
 if(!isset($subcatname)) $subcatname = '';
 if(!isset($name)) $name = '';
 
+$db_cat=strip_tags($db->quote($_GET['cat']));
+$db_editcat=strip_tags($db->quote($_GET['editcat']));
 
 if($_POST['addsubcat']){
-	$db->exec("INSERT INTO tsubcat (cat,name) VALUES ('$_GET[cat]','$_POST[subcatname]')");
+	$db->exec("INSERT INTO tsubcat (cat,name) VALUES ($db_cat,'$_POST[subcatname]')");
 	//redirect
 	$www = "./index.php?page=ticket&id=$_GET[id]&userid=$_GET[userid]";
 	echo '<script language="Javascript">
@@ -35,7 +37,7 @@ if($_POST['addsubcat']){
 	</script>';
 }
 if($_POST['modifysubcat']){
-	$db->exec("UPDATE tsubcat SET name='$_POST[name]' where id like '$_GET[editcat]'");
+	$db->exec("UPDATE tsubcat SET name='$_POST[name]' where id like $db_editcat");
 	//redirect
 	$www = "./index.php?page=ticket&id=$_GET[id]&userid=$_GET[userid]";
 	echo '<script language="Javascript">
@@ -64,7 +66,7 @@ if ($_GET['action']=="addcat")
 				{$boxtext= $boxtext.'<option value="'.$row['id'].'">'.$row['name'].'</option>';}
 			} 
 			$query->closeCursor(); 
-			$query = $db->query("SELECT * FROM `tcategory` WHERE id like '$_GET[cat]'");
+			$query = $db->query("SELECT * FROM `tcategory` WHERE id like $db_cat");
 			$row=$query->fetch();
 			$query->closeCursor();
 			$boxtext= $boxtext.'<option value="'.$row['id'].'" selected>'.$row['name'].'</option>';
@@ -94,7 +96,7 @@ else
 		$query = $db->query("SELECT * FROM `tcategory` order by name ASC");
 		while ($row = $query->fetch())
 		{
-			$query2 = $db->query("SELECT id FROM `tcategory` WHERE id like '$_GET[cat]'");
+			$query2 = $db->query("SELECT id FROM `tcategory` WHERE id like $db_cat");
 			$row2=$query2->fetch();
 			$query2->closeCursor();
 			if($row2['id']==$row['id']) {$selected='selected';} else {$selected='';}
@@ -104,7 +106,7 @@ else
 			{$boxtext= $boxtext.'<option value="'.$row['id'].'" '.$selected.'>'.$row['name'].'</option>';}
 		}
 		$query->closeCursor(); 
-		$query=$db->query("SELECT * FROM tsubcat WHERE id LIKE '$_GET[editcat]'");
+		$query=$db->query("SELECT * FROM tsubcat WHERE id LIKE $db_editcat");
 		$row=$query->fetch();
 		$query->closeCursor();
 		$boxtext=$boxtext.'

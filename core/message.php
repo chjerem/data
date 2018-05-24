@@ -6,12 +6,15 @@
 # @parameters : $from, $to, $message, $object
 # @Author : Flox
 # @Create : 21/11/2012
-# @Update : 27/06/2017
-# @Version : 3.1.22
+# @Update : 04/09/2017
+# @Version : 3.1.25
 ################################################################################
 
-require_once("components/PHPMailer/PHPMailerAutoload.php");
-$mail = new PHPmailer();
+require_once("components/PHPMailer/src/PHPMailer.php");
+require_once("components/PHPMailer/src/SMTP.php");
+require_once("components/PHPMailer/src/Exception.php");
+$mail = new PHPMailer\PHPMailer\PHPMailer(true);
+
 $mail->CharSet = 'UTF-8'; //ISO-8859-1 possible if string problems
 if ($rparameters['mail_smtp_class']=='IsSendMail()') {$mail->IsSendMail();} else {$mail->IsSMTP();} 
 if($rparameters['mail_secure']=='SSL') 

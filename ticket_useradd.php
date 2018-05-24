@@ -6,8 +6,8 @@
 # @parameters :  
 # @Author : Flox
 # @Create : 07/03/2014
-# @Update : 27/02/2017
-# @Version : 3.1.18
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -20,6 +20,8 @@ if(!isset($_POST['firstname'])) $_POST['firstname'] = '';
 if(!isset($_POST['lastname'])) $_POST['lastname'] = ''; 
 if(!isset($_POST['usermail'])) $_POST['usermail'] = ''; 
 if(!isset($_POST['company'])) $_POST['company'] = ''; 
+
+$db_edituser=strip_tags($db->quote($_GET['edituser']));
 
 //secure text string and remove special char
 $_POST['firstname'] =$db->quote($_POST['firstname']);
@@ -40,7 +42,7 @@ if($_POST['add'])
 }
 if($_POST['modifyuser'])
 {
-	$db->exec("UPDATE tusers SET lastname=$_POST[lastname], phone='$_POST[phone]', mail='$_POST[usermail]', firstname=$_POST[firstname], company='$_POST[company]' where id like '$_GET[edituser]'");
+	$db->exec("UPDATE tusers SET lastname=$_POST[lastname], phone='$_POST[phone]', mail='$_POST[usermail]', firstname=$_POST[firstname], company='$_POST[company]' where id LIKE $db_edituser");
 	
 	//redirect
 	$www = "./index.php?page=ticket&id=$_GET[id]&userid=$_GET[userid]";
@@ -105,7 +107,7 @@ if ($_GET['action']=="adduser")
 else //case for modify an existing user
 {
 	$boxtitle='<i class=\'icon-user blue bigger-120\'></i> '.T_('Modification d\'un utilisateur');
-	$query=$db->query("SELECT * FROM tusers WHERE id LIKE '$_GET[edituser]'");
+	$query=$db->query("SELECT * FROM tusers WHERE id LIKE $db_edituser");
 	$row=$query->fetch();
 	$query->closeCursor();
 	$boxtext= '

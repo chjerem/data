@@ -6,8 +6,8 @@
 # @Parameters : 
 # @Author : Flox
 # @Create : 27/11/2015
-# @Update : 03/05/2017
-# @Version : 3.1.20
+# @Update : 28/11/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -37,6 +37,7 @@ if(!isset($_POST['cursor'])) $_POST['cursor']= '';
 
 if(!isset($_GET['findip'])) $_GET['findip']= '';  
 if(!isset($_GET['findip2'])) $_GET['findip2']= '';  
+$db_id=strip_tags($db->quote($_GET['id']));
 
 //core asset actions
 include('./core/asset.php');
@@ -49,6 +50,7 @@ if(!isset($globalrow['manufacturer'])) $globalrow['manufacturer']= '';
 if(!isset($globalrow['model'])) $globalrow['model']= ''; 
 if(!isset($globalrow['department'])) $globalrow['department']= ''; 
 if(!isset($globalrow['virtualization'])) $globalrow['virtualization']= ''; 
+if(!isset($globalrow['net_scan'])) $globalrow['net_scan']='1'; 
 if(!isset($globalrow['user'])) $globalrow['user']= ''; 
 if(!isset($globalrow['sn_indent'])) $globalrow['sn_indent']= ''; 
 if(!isset($globalrow['state'])) $globalrow['state']= '2'; 
@@ -76,10 +78,18 @@ if(!isset($globalrow['cursor'])) $globalrow['cursor']= '';
 //avoid problem new asset check iface
 if ($_GET['action']=='new') {if(!isset($globalrow['id'])) $globalrow['id']= ''; }
 
+//get iface to check if asset have ip
+if($_GET['action']!='new' && $_GET['id'])
+{
+	$query = $db->query("SELECT ip FROM tassets_iface WHERE asset_id=$db_id AND disable='0'"); 
+	$iface = $query->fetch();
+	$query->closeCursor();	
+} else {$iface='';}
+
 //test if ip asset to display specific input
 if (($_GET['id']!='') && ($_GET['action']!='new'))
 {
-	$query = $db->query("SELECT tassets_model.ip FROM `tassets_model`,`tassets` WHERE tassets.model=tassets_model.id AND tassets.id LIKE '$_GET[id]'"); 
+	$query = $db->query("SELECT tassets_model.ip FROM `tassets_model`,`tassets` WHERE tassets.model=tassets_model.id AND tassets.id LIKE $db_id"); 
 	$ripmodel = $query->fetch();
 	$query->closeCursor();
 	if ($ripmodel['ip']=='1') {$ip_asset='1';} else {$ip_asset='0';}
@@ -93,7 +103,7 @@ if (($_GET['id']!='') && ($_GET['action']!='new'))
 //test if wifi asset to display specific row
 if (($_GET['id']!='') && ($_GET['action']!='new'))
 {
-	$query = $db->query("SELECT tassets_model.wifi FROM `tassets_model`,`tassets` WHERE tassets.model=tassets_model.id AND tassets.id LIKE '$_GET[id]'"); 
+	$query = $db->query("SELECT tassets_model.wifi FROM `tassets_model`,`tassets` WHERE tassets.model=tassets_model.id AND tassets.id LIKE $db_id"); 
 	$ripmodel = $query->fetch();
 	$query->closeCursor();
 	if ($ripmodel['wifi']=='1') {$wifi_asset='1';} else {$wifi_asset='0';}
@@ -150,30 +160,15 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 								echo T_('Ajout d\'un équipement'); 
 							} else { 
 								//get internal id of this asset
-								$query = $db->query("SELECT * FROM `tassets` WHERE id LIKE '$_GET[id]'"); 
+								$query = $db->query("SELECT * FROM `tassets` WHERE id LIKE $db_id"); 
 								$rsn = $query->fetch();
 								$query->closeCursor();
 								
-								//get internal id of this asset
-								echo T_('Édition de l\'équipement').' n°'.$rsn['sn_internal'].': '.$rsn['netbios'].'</i>';
-								
-								//display last ping information if it's IP asset
-								if(($ip_asset==1) || ($wifi_asset==1))
+								if ($mobile==0)
 								{
-									if ($globalrow['date_last_ping']=='0000-00-00')
-									{
-										echo ' <i title="'.T_('L\'équipement n\'a jamais répondu sur réseau').'" class="icon-flag red"></i>';
-									} else {
-										$date_last_ping = date("d/m/Y", strtotime($globalrow['date_last_ping']));
-										$querydiff=$db->query("SELECT DATEDIFF(NOW(), '$globalrow[date_last_ping]') "); 
-										$resultdiff=$querydiff->fetch();
-										if($resultdiff[0]>60)
-										{
-											echo ' <i title="'.T_('Dernier ping réussi il y a plus de 60j le').' '.$date_last_ping.'" class="icon-flag orange"></i>';
-										} else {
-											echo ' <i title="'.T_('Dernier ping réussi le').' '.$date_last_ping.'" class="icon-flag green"></i>';
-										}
-									}
+									echo T_('Édition de l\'équipement').' n°'.$rsn['sn_internal'].' : '.$rsn['netbios'].'</i>';
+								} else {
+									echo 'n°'.$rsn['sn_internal'].': '.$rsn['netbios'].'</i>';
 								}
 							}
 						?>
@@ -181,8 +176,19 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 					<span class="widget-toolbar">
 						<?php 
 							//display specific buttons for IP asset
-							if(($ip_asset==1) || ($wifi_asset==1))
+							if(($ip_asset==1) || ($wifi_asset==1) || $iface)
 							{
+								if($rparameters['asset_vnc_link']==1){
+									echo '<a target="_blank" href="http://'.$iface['ip'].':5800"><img title="'.T_('Ouvre un nouvel onglet sur le prise de contrôle distant web VNC').'" src="./images/remote.png" /></a>&nbsp;&nbsp;';
+								}
+								if($rright['asset_net_scan']!=0){
+									if ($globalrow['net_scan']==1)
+									{
+										echo '<a href="./index.php?page=asset&id='.$_GET['id'].'&scan=0&'.$url_get_parameters.'"><img title="'.T_('Scan IP activé sur cet équipement, cliquer pour désactiver').'" src="./images/scan_on.png" /></a>&nbsp;&nbsp;';
+									} else {
+										echo '<a href="./index.php?page=asset&id='.$_GET['id'].'&scan=1&'.$url_get_parameters.'"><img title="'.T_('Scan IP désactivé sur cet équipement, cliquer pour activer').'" src="./images/scan_off.png" /></a>&nbsp;&nbsp;';
+									}
+								}
 								echo '<a href="./index.php?page=asset&id='.$_GET['id'].'&action=addiface&'.$url_get_parameters.'"><img title="'.T_('Ajouter une interface IP').'" src="./images/plug.png" /></a>&nbsp;&nbsp;';
 								//select IP display ping button
 								$query = $db->query("SELECT * FROM tassets_iface WHERE asset_id='$globalrow[id]' AND disable='0'");
@@ -193,6 +199,7 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 									if($row['role_id']==1 && $row['mac']!='') {$wol_mac=$row['mac'];}
 									if($wol_mac=='') {$wol_mac=$row['mac'];}
 								}
+								$query->closeCursor();
 								if ($ping_ip) {echo '<a href="./index.php?page=asset&id='.$globalrow['id'].'&action=ping&iptoping='.$ping_ip.'&'.$url_get_parameters.'"><i title="'.T_("Ping de cet équipement sur l'adresse IP:").' '.$ping_ip.' " class="icon-exchange info bigger-130"></i></a>&nbsp;&nbsp;';}
 								if ($wol_mac) {echo '<a href="./index.php?page=asset&id='.$globalrow['id'].'&action=wol&mac='.$wol_mac.'&'.$url_get_parameters.'"><i title="'.T_("Allumer cet équipement avec l'adresse MAC:").' '.$wol_mac.' " class="icon-power-off orange bigger-130"></i></a>&nbsp;&nbsp;';}
 							}
@@ -334,10 +341,17 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 										<?php echo T_('Utilisateur'); ?>:
 									</label>
 									<div class="col-sm-4">
-										<select id="user" name="user" style="width:195px" onchange="loadVal(); submit();">
+										<select <?php if($mobile==0) {echo 'class="chosen-select"';}?> id="user" name="user" style="width:195px" onchange="loadVal(); submit();">
 											<?php
+											//limit select list to users who have the same company than current connected user
+											if($rright['asset_list_company_only']!=0)
+											{
+												$query="SELECT * FROM `tusers` WHERE disable='0' AND company='$ruser[company]' ORDER BY lastname ASC, firstname ASC";
+											} else {
+												$query="SELECT * FROM `tusers` WHERE disable='0' ORDER BY lastname ASC, firstname ASC";
+											}
 											//display user list
-											$query = $db->query("SELECT * FROM `tusers` WHERE disable='0' ORDER BY lastname ASC, firstname ASC");
+											$query = $db->query($query);
 											while ($row = $query->fetch()) {echo "<option value=\"$row[id]\">$row[lastname] $row[firstname]</option>";}
 											//selection
 											if ($_POST['user'])	{$user=$_POST['user'];}	elseif ($globalrow['user']!=''){$user=$globalrow['user'];} else {$user=0;}
@@ -403,7 +417,19 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 											//display if bloc
 											echo '
 											<div class="form-group">
-												<label class="col-sm-4 control-label no-padding-right" for="iface">'.T_('Interface IP').' '.$iface_name.':</label>
+												<label class="col-sm-4 control-label no-padding-right" for="iface">
+													';
+													//display ping flags
+													if($row['date_ping_ok']>$row['date_ping_ko'])
+													{
+														echo '<i title="'.T_('Dernier ping réussi le').' '.date("d/m/Y H:i:s", strtotime($row['date_ping_ok'])).'" class="icon-flag green"></i>';
+													} elseif($row['date_ping_ko']>$row['date_ping_ok']) 
+													{
+														echo '<i title="'.T_('Dernier ping échoué le').' '.date("d/m/Y H:i:s", strtotime($row['date_ping_ko'])).'" class="icon-flag red"></i>';
+													}
+													echo '
+													'.T_('Interface IP').' '.$iface_name.':
+												</label>
 												<div class="col-sm-8">
 													<input name="netbios_'.$row['id'].'" id="netbios_'.$row['id'].'" type="text" placeholder="Nom NetBIOS" size="12" value="';if($_POST["netbios_$row[id]"]) {echo $_POST["netbios_$row[id]"];} else { echo $row['netbios'];} echo'" />
 													<input name="ip_'.$row['id'].'" id="ip_'.$row['id'].'" type="text" size="14" placeholder="Adresse IP" value="';if($_GET['findip'] && $_GET['iface']==$row['id']) {echo $_GET['findip'];} elseif($_POST["ip_$row[id]"]) {echo $_POST["ip_$row[id]"];} else { echo $row['ip'];} echo'" />
@@ -465,11 +491,12 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 								<?php
 								if ($globalrow['virtualization']==0)
 								{
+									if($mobile==0) {$sn_manufacturer_size='41';} else {$sn_manufacturer_size='30';}
 									echo '
 									<div class="form-group">
 										<label class="col-sm-4 control-label no-padding-right" for="sn_manufacturer">'.T_('Numéro de série fabricant').':</label>
 										<div class="col-sm-8">
-											<input  name="sn_manufacturer" id="sn_manufacturer" type="text" size="41"  value="'; if ($_POST['sn_manufacturer']) echo $_POST['sn_manufacturer']; else echo $globalrow['sn_manufacturer']; echo '"  />
+											<input  name="sn_manufacturer" id="sn_manufacturer" type="text" size="'.$sn_manufacturer_size.'"  value="'; if ($_POST['sn_manufacturer']) echo $_POST['sn_manufacturer']; else echo $globalrow['sn_manufacturer']; echo '"  />
 										</div>
 									</div>
 									';
@@ -481,11 +508,12 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 								<?php 
 								if ($globalrow['virtualization']==0)
 								{
+									if($mobile==0) {$sn_indent_size='41';} else {$sn_indent_size='30';}
 									echo '
 									<div class="form-group">
 										<label class="col-sm-4 control-label no-padding-right" for="sn_indent">'.T_('Numéro de commande').':</label>
 										<div class="col-sm-8">
-											<input  name="sn_indent" id="sn_indent" type="text" size="41"  value="'; if ($_POST['sn_indent']) echo $_POST['sn_indent']; else echo $globalrow['sn_indent']; echo '"  />
+											<input  name="sn_indent" id="sn_indent" type="text" size="'.$sn_indent_size.'"  value="'; if ($_POST['sn_indent']) echo $_POST['sn_indent']; else echo $globalrow['sn_indent']; echo '"  />
 										</div>
 									</div>
 									';
@@ -494,10 +522,11 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 								<!-- END sn_indent part -->
 								
 								<!-- START description part -->
+								<?php if($mobile==0) {$description_size='40';} else {$description_size='30';} ?>
 								<div class="form-group">
 									<label class="col-sm-4 control-label no-padding-right" for="description"><?php echo T_('Description'); ?>:</label>
 									<div class="col-sm-8">
-										<textarea name="description" id="description"  cols="40" rows="4"><?php if ($_POST['description']) echo $_POST['description']; else echo $globalrow['description']; ?></textarea>
+										<textarea name="description" id="description"  cols="<?php echo $description_size; ?>" rows="4"><?php if ($_POST['description']) echo $_POST['description']; else echo $globalrow['description']; ?></textarea>
 									</div>
 								</div>
 								<!-- END description part -->
@@ -512,10 +541,10 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 											'.T_('Localisation').'
 										</label>
 										<div class="col-sm-4">
-											<select id="location" name="location" style="width:195px" onchange="loadVal(); submit();">
+											<select '; if($mobile==0) {echo 'class="chosen-select"';} echo ' id="location" name="location" style="width:195px" onchange="loadVal(); submit();">
 												';
 												//display service list
-												$query = $db->query("SELECT * FROM `tassets_location` WHERE disable='0' ORDER BY name ASC");
+												$query = $db->query("SELECT * FROM `tassets_location` WHERE disable='0' ORDER BY id!=0,name ASC");
 												while ($row = $query->fetch()) 
 												{
 													if ($globalrow['location']==$row['id']) {
@@ -754,7 +783,7 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 										$query2=$db->query("SELECT ip FROM tassets_iface WHERE asset_id='$globalrow[id]' AND role_id='1' AND disable='0'");
 										$row2=$query2->fetch();
 										$query2->closeCursor();
-										if ($row2[0] && $row['image']!='') {echo '<a href="http://'.$row2['ip'].'" target="about_blank" title="'.T_('Accédez à l\'interface web de cet équipement:').' http://'.$row2['ip'].'" >';}
+										if ($row2[0] && $row['image']!='') {echo '<a href="http://'.$row2['ip'].'" target="_blank" title="'.T_('Accédez à l\'interface web de cet équipement:').' http://'.$row2['ip'].'" >';}
 									}
 									//display and re-size asset too large image
 									if ($row['image']!='') 
@@ -775,17 +804,19 @@ if ($globalrow['date_recycle']=='0000-00-00' || $globalrow['date_recycle']=='') 
 						<div class="row" align="center">
 							<div class="clearfix form-actions" >	
 
-								<button name="modify" id="modify" value="modify" type="submit" class="btn btn-sm btn-success">
+								<button title="ALT+SHIFT+s" accesskey="s" name="modify" id="modify" value="modify" type="submit" class="btn btn-sm btn-success">
 									<i class="icon-save icon-on-right bigger-110"></i> 
 									&nbsp;<?php echo T_('Enregistrer'); ?>
 								</button>
 								&nbsp;
-								<button name="quit" id="quit" value="quit" type="submit" class="btn btn-sm btn-purple">
+								<?php if($mobile==1) {echo '<br /><br />';} ?>
+								<button title="ALT+SHIFT+c" accesskey="c" name="quit" id="quit" value="quit" type="submit" class="btn btn-sm btn-purple">
 									<i class="icon-save icon-on-right bigger-110"></i> 
 									&nbsp;<?php echo T_('Enregistrer et Fermer'); ?>
 								</button>
 								&nbsp;
-								<button name="cancel" id="cancel" value="cancel" type="submit" class="btn btn-sm btn-danger">
+								<?php if($mobile==1) {echo '<br /><br />';} ?>
+								<button title="ALT+SHIFT+x" accesskey="x" name="cancel" id="cancel" value="cancel" type="submit" class="btn btn-sm btn-danger">
 									<i class="icon-remove icon-on-right bigger-110"></i> 
 									&nbsp;<?php echo T_('Annuler'); ?>
 								</button>

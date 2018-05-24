@@ -4,9 +4,9 @@
 # @Description : page to edit ticket
 # @Call : /ticket.php
 # @Author : Flox
-# @Version : 3.1.20
+# @Version : 3.1.28
 # @Create : 09/02/2014
-# @Update : 01/05/2017
+# @Update : 04/12/2017
 ################################################################################
 
 //initialize variables 
@@ -21,8 +21,11 @@ $db->exec('SET sql_mode = ""');
 //get userid to find language
 $_SESSION['user_id']=$_GET['user_id'];
 
+$db_id=strip_tags($db->quote($_GET['id']));
+$db_session_user_id=strip_tags($db->quote($_GET['user_id']));
+
 //load user table
-$quser=$db->query("SELECT * FROM tusers WHERE id=$_SESSION[user_id]");
+$quser=$db->query("SELECT * FROM tusers WHERE id=$db_session_user_id");
 $ruser=$quser->fetch();
 $quser->closeCursor(); 
 
@@ -37,7 +40,7 @@ if(!isset($_POST['user'])) $_POST['user'] = '';
 if(!isset($_POST['technician'])) $_POST['technician'] = ''; 
 
 //master query
-$globalquery = $db->query("SELECT * FROM tincidents WHERE id LIKE '$_GET[id]'");
+$globalquery = $db->query("SELECT * FROM tincidents WHERE id LIKE $db_id");
 $globalrow=$globalquery->fetch(); 
 $globalquery->closeCursor();
 
@@ -56,10 +59,9 @@ if ($_GET['token'] && $token['token']==$_GET['token'])
 	<!DOCTYPE html>
 	<html lang="fr">
 		<head>
+			
 		</head>
 		<body onload="window.print()"; > 
-		
-
 	';
 	echo T_('Impression du ticket').' n°'.$_GET['id'].':  '.$globalrow['title'].'';
 	?>
@@ -124,7 +126,7 @@ if ($_GET['token'] && $token['token']==$_GET['token'])
 	<br />
 	<u><?php echo T_('Résolution'); ?>:</u><br />
 	<?php
-		$query = $db->query("SELECT * FROM tthreads WHERE ticket='$_GET[id]' and type='0' ORDER BY date");
+		$query = $db->query("SELECT * FROM tthreads WHERE ticket=$db_id and type='0' ORDER BY date");
 		while ($row = $query->fetch())
 		{
 			echo "- $row[text]<br />";

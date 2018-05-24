@@ -2,16 +2,17 @@
 ################################################################################
 # @Name : asset_stat.php
 # @Description : Display Assets Statistics
-# @call : /stat.php
-# @parameters : 
+# @Call : /stat.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 25/01/2016
-# @Update : 04/04/2017
-# @Version : 3.1.19
+# @Update : 13/09/2017
+# @Version : 3.1.26
 ################################################################################
 
 //initialize variables 
 if(!isset($_POST['model'])) $_POST['model']='';
+
 ?>
 
 <form method="post" action="" name="filter" >
@@ -42,6 +43,25 @@ if(!isset($_POST['model'])) $_POST['model']='';
 		if ($_POST['service']=="%") {echo '<option value="%" selected>'.T_('Tous les services').'</option>';} else {echo '<option value="%" >'.T_('Tous les services').'</option>';}											
 		?>
 	</select>
+	<?php
+	if($company_filter==1)
+	{
+		echo '
+			<select name="company" onchange=submit()>
+				';
+				$query = $db->query("SELECT * FROM tcompany WHERE disable='0' ORDER BY name");				
+				while ($row=$query->fetch()) {
+					if ($row['id'] == $_POST['company']) {$selected2="selected";}
+					echo "<option value=\"$row[id]\" $selected2>$row[name]</option>"; 
+					$selected2="";
+				} 
+				$query->closeCursor();
+				if ($_POST['company']=="%") {echo '<option value="%" selected>'.T_('Toutes les sociétés').'</option>';} else {echo '<option value="%" >'.T_('Toutes les sociétés').'</option>';}											
+			echo '
+			</select>
+		';
+	}
+	?>
 	<select name="type" onchange=submit()>
 	<?php
 	$query = $db->query("SELECT * FROM tassets_type ORDER BY name");				

@@ -1,13 +1,13 @@
 <?php
 ################################################################################
 # @Name : install_update.php
-# @Desc : install update 
-# @call : admin.php
-# @parameters : 
+# @Description : install update 
+# @Call : update.php
+# @Parameters : $dedicated $type $installfile
 # @Author : Flox
 # @Create : 06/11/2012
-# @Update : 29/12/2016
-# @Version : 3.1.15
+# @Update : 17/01/2018
+# @Version : 3.1.29
 ################################################################################
 
 //initialize variables 
@@ -39,10 +39,10 @@ if ($step==1 && ($autoinstall==0))
 	<form name="form" method="POST" action="" id="form">
 		<input name="step" type="hidden" value="3">
 		<input name="install" type="hidden" value="1">
-		'.T_('Il est recommandé de réaliser une sauvegarde avant lancer la mise à jour (base de donnée et fichiers)').'.
+		'.T_('Il est fortement recommandé de réaliser une sauvegarde avant lancer la mise à jour (base de donnée et fichiers)').'.
 		<br />
 		<br />
-		<a target="about_blank" href="https://gestsup.fr/index.php?page=support&item1=backup#8">'.T_('Plus d\'informations').'</a>
+		<a target="_blank" href="https://gestsup.fr/index.php?page=support&item1=backup#8">'.T_('Plus d\'informations').'</a>
 	</form>
 	';
 	$valid=T_('Continuer');
@@ -144,7 +144,12 @@ if ($step==5)
 	//case patch update
 	if ($type=='patch')
 	{
-		$storefilename='update_'.$current_version2[0].'.'.$current_version2[1].'.'.$current_version2[2].'_to_'.$current_version2[0].'.'.$current_version2[1].'.'.$next_ftp_patch.'.sql';
+		if ($dedicated==1)
+		{
+			$storefilename='update_'.$current_version2[0].'.'.$current_version2[1].'.'.$current_version2[2].'.'.$current_version2[3].'_to_'.$current_version2[0].'.'.$current_version2[1].'.'.$current_version2[2].'.'.$next_ftp_patch.'.sql';
+		} else {
+			$storefilename='update_'.$current_version2[0].'.'.$current_version2[1].'.'.$current_version2[2].'_to_'.$current_version2[0].'.'.$current_version2[1].'.'.$next_ftp_patch.'.sql';
+		}
 		$sql_file=file_get_contents(__DIR__ .'/../download/tmp/_SQL/'.$storefilename.'');
 		$sql_file=explode(";", $sql_file);
 		foreach ($sql_file as $value) {
@@ -155,12 +160,24 @@ if ($step==5)
 		$rvactu = $qvactu->fetch();
 		$qvactu->closecursor();
 		$vactu="$rvactu[version]";
-		if ($vactu==$current_version2[0].'.'.$current_version2[1].'.'.$next_ftp_patch) {
+		
+		if ($dedicated==1)
+		{
+			if ($vactu==$current_version2[0].'.'.$current_version2[1].'.'.$current_version2[2].'.'.$next_ftp_patch) {
 			$result=$result.'- '.T_('Modification base de données').': <i class="icon-ok-sign icon-large green"></i><br />';
 			$step=6;
+			} else {
+				$result=$result.'- '.T_('Modification base de données').': <i class="icon-remove-sign icon-large red"></i><br />'; 
+				$error=1;
+			}
 		} else {
-			$result=$result.'- '.T_('Modification base de données').': <i class="icon-remove-sign icon-large red"></i><br />'; 
-			$error=1;
+			if ($vactu==$current_version2[0].'.'.$current_version2[1].'.'.$next_ftp_patch) {
+			$result=$result.'- '.T_('Modification base de données').': <i class="icon-ok-sign icon-large green"></i><br />';
+			$step=6;
+			} else {
+				$result=$result.'- '.T_('Modification base de données').': <i class="icon-remove-sign icon-large red"></i><br />'; 
+				$error=1;
+			}
 		}
 	}
 }
@@ -186,7 +203,7 @@ if ($step==6)
 		closedir($dir); 
 	}  
 	recurse_copy(__DIR__ ."/../download/tmp/",__DIR__ ."/../");
-	//restore connect.php file previously backuped
+	//restore connect.php file previously backup-ed
 	rename(__DIR__ .'/../backup/connect.php', __DIR__ .'/../connect.php'); 
 	$result=$result.'- '.T_('Copie des nouveaux fichiers').': <i class="icon-ok-sign icon-large green"></i><br />';
 	$step=7;
@@ -220,7 +237,7 @@ if ($step==8)
 	$boxtext='
 	<form name="form" method="POST" action="" id="form">
 		<input name="install" type="hidden" value="1">
-		'.T_('L\'installation c\'est correctement déroulée').':<br /><br />
+		'.T_('L\'installation s\'est correctement déroulée').':<br /><br />
 		'.$result.'<br />
 		'.T_('Afin de finaliser la procédure, déconnectez vous, videz le cache de votre navigateur, et relancer l\'application').'.
 	</form>

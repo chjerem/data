@@ -6,8 +6,8 @@
 # @Parameters : 
 # @Author : Flox
 # @Create : 17/07/2009
-# @Update : 02/05/2017
-# @Version : 3.1.20
+# @Update : 06/12/2017
+# @Version : 3.1.30 p2
 ################################################################################
 
 //initialize variables 
@@ -36,9 +36,12 @@ if(!isset($_GET['technician'])) $_GET['technician']= '';
 if(!isset($_GET['u_group'])) $_GET['u_group']= ''; 
 if(!isset($_GET['t_group'])) $_GET['t_group']= ''; 
 if(!isset($_GET['category'])) $_GET['category']= ''; 
-if(!isset($_GET['subcat'])) $_GET['subcat']= ''; 
+if(!isset($_GET['subcat'])) $_GET['subcat']= '';
+if(!isset($_GET['object'])) $_GET['object']= ''; 
+if(!isset($_GET['asset'])) $_GET['asset']= ''; 
 if(!isset($_GET['place'])) $_GET['place']= ''; 
 if(!isset($_GET['service'])) $_GET['service']= ''; 
+if(!isset($_GET['sender_service'])) $_GET['sender_service']= ''; 
 if(!isset($_GET['agency'])) $_GET['agency']= ''; 
 if(!isset($_GET['cursor'])) $_GET['cursor']= ''; 
 if(!isset($_GET['searchengine'])) $_GET['searchengine'] = ''; 
@@ -75,8 +78,11 @@ if(!isset($_POST['company'])) $_POST['company']= $_GET['company'];
 if(!isset($_POST['user'])) $_POST['user']= $_GET['user'];
 if(!isset($_POST['category'])) $_POST['category']=$_GET['category'];
 if(!isset($_POST['subcat'])) $_POST['subcat']=$_GET['subcat'];
+if(!isset($_POST['object'])) $_POST['subcat']=$_GET['object'];
+if(!isset($_POST['asset'])) $_POST['asset']=$_GET['asset'];
 if(!isset($_POST['place'])) $_POST['place']=$_GET['place'];
 if(!isset($_POST['service'])) $_POST['service']=$_GET['service'];
+if(!isset($_POST['sender_service'])) $_POST['sender_service']=$_GET['sender_service'];
 if(!isset($_POST['agency'])) $_POST['agency']=$_GET['agency'];
 if(!isset($_POST['date_create'])) $_POST['date_create']=$_GET['date_create']; 
 if(!isset($_POST['date_hope'])) $_POST['date_hope']=$_GET['date_hope']; 
@@ -98,6 +104,8 @@ if($_GET['category']=='') $_GET['category']= '%';
 if($_GET['t_group']=='') $_GET['t_group']= '%'; 
 if($_GET['u_group']=='') $_GET['u_group']= '%'; 
 if($_GET['subcat']=='') $_GET['subcat']= '%';
+if($_GET['object']=='') $_GET['object']= '%';
+if($_GET['asset']=='') $_GET['asset']= '%';
 if($_GET['place']=='') $_GET['place']= '%';
 if($_GET['cursor']=='') $_GET['cursor']='0'; 
 if($_GET['techread']=='') $_GET['techread']='%';
@@ -123,20 +131,16 @@ if($_SESSION['profile_id']==0 || $_SESSION['profile_id']==4)
 	if($_POST['technician']=='') $_POST['technician']= '%';
 }
 
-if ($_GET['date_range']=='today') 
-{
-	$_POST['date_create']=date("Y-m-d") ;
-	$_POST['date_res']=date("Y-m-d") ;
-} else {
-	if($_POST['date_create']=='') $_POST['date_create']= '%'; 
-	if($_POST['date_res']=='') $_POST['date_res']= '%'; 
-}
-
+if($_POST['date_create']=='') $_POST['date_create']= '%'; 
+if($_POST['date_res']=='') $_POST['date_res']= '%'; 
+if($_POST['sender_service']=='') $_POST['sender_service']= '%'; 
 if($_POST['title']=='') $_POST['title']= '%'; 
 if($_POST['ticket']=='') $_POST['ticket']= '%'; 
 if($_POST['userid']=='') $_POST['userid']= '%'; 
 if($_POST['category']=='') $_POST['category']= '%'; 
 if($_POST['subcat']=='') $_POST['subcat']= '%';
+if($_POST['object']=='') $_POST['object']= '%';
+if($_POST['asset']=='') $_POST['asset']= '%';
 if($_POST['place']=='') $_POST['place']= '%';
 if($_POST['service']=='') $_POST['service']= '%';
 if($_POST['agency']=='') $_POST['agency']= '%';
@@ -185,6 +189,18 @@ if (($filter=='on' || $_GET['order']=='')){
 elseif ($_GET['order']=='')
 {$_GET['order']='priority';}
 
+$db_order=strip_tags($db->quote($_GET['order']));
+$db_order=str_replace("'","",$db_order);
+if($_GET['way']=='ASC' || $_GET['way']=='DESC') {$db_way=$_GET['way'];} else {$db_way='DESC';}
+$db_state=strip_tags($db->quote($_GET['state']));
+$db_viewid=strip_tags($db->quote($_GET['viewid']));
+$db_techgroup=strip_tags($db->quote($_GET['techgroup']));
+$db_u_group=strip_tags($db->quote($_GET['u_group']));
+$db_t_group=strip_tags($db->quote($_GET['t_group']));
+$db_techread=strip_tags($db->quote($_GET['techread']));
+$db_keywords=strip_tags($db->quote($_GET['keywords']));
+if(is_numeric($_GET['cursor'])) {$db_cursor=$_GET['cursor'];} else {$db_cursor=0;}
+
 //meta state generation
 if($_GET['state']=='meta')
 {
@@ -198,11 +214,8 @@ if($_GET['state']=='meta')
 } else {
     $state='AND	tincidents.state LIKE \''.$_POST['state'].'\'';
 }
-
-
-//$url="index.php?page=dashboard&userid=$_GET[userid]&state=$_GET[state]&viewid=$_GET[viewid]&ticket=$_POST[ticket]&technician=$_POST[technician]&user=$_POST[user]&category=$_POST[category]&subcat=$_POST[subcat]&title=$_POST[title]&date_create=$_POST[date_create]&priority=$_POST[priority]&criticality=$_POST[criticality]&place=$_POST[place]&companyview=$_GET[companyview]&type=$_POST[type]&company=$_POST[company]&keywords=$_POST[keywords]&view=$_GET[view]&date_start=$_POST[date_start]&date_end=$_POST[date_end]";
-$url_post_parameters="userid=$_GET[userid]&state=$_POST[state]&viewid=$_GET[viewid]&ticket=$_POST[ticket]&technician=$_POST[technician]&user=$_POST[user]&category=$_POST[category]&subcat=$_POST[subcat]&title=$_POST[title]&date_create=$_POST[date_create]&priority=$_POST[priority]&criticality=$_POST[criticality]&place=$_POST[place]&service=$_POST[service]&agency=$_POST[agency]&companyview=$_GET[companyview]&type=$_POST[type]&company=$_POST[company]&keywords=$keywords&view=$_GET[view]&date_start=$_POST[date_start]&date_end=$_POST[date_end]";
-//special case redirect to all ticket if date create is post on activity viewid
+$url_post_parameters="userid=$_GET[userid]&state=$_POST[state]&viewid=$_GET[viewid]&ticket=$_POST[ticket]&technician=$_POST[technician]&user=$_POST[user]&sender_service=$_POST[sender_service]&category=$_POST[category]&subcat=$_POST[subcat]&object=$_POST[object]&asset=$_POST[asset]&title=$_POST[title]&date_create=$_POST[date_create]&priority=$_POST[priority]&criticality=$_POST[criticality]&place=$_POST[place]&service=$_POST[service]&agency=$_POST[agency]&companyview=$_GET[companyview]&type=$_POST[type]&company=$_POST[company]&keywords=$keywords&view=$_GET[view]&date_start=$_POST[date_start]&date_end=$_POST[date_end]";
+//special case redirect to all ticket if date create is filtered on activity view
 if(!isset($today)) {$today=date('Y-m-d');}
 if($_GET['view']=='activity' && $_POST['date_create']!=$today && $_POST['date_create']!='current' && $_POST['date_create']!='%')
 {
@@ -228,13 +241,17 @@ if($_GET['view']=='activity' && $_POST['date_res']!=$today && $_POST['date_res']
 				-->
 		</SCRIPT>";
 } 
+
 //load in url parameter of filter, for using back button of browser on ticket page
 if(
 	($_POST['ticket']!='%' && $_GET['ticket']=='%') ||
 	($_POST['technician']!='%' && $_GET['technician']=='%') ||
 	($_POST['user']!='%' && $_GET['user']=='%') ||
+	($_POST['sender_service']!='%' && $_GET['sender_service']=='%') ||
 	($_POST['category']!='%' && $_GET['category']=='%') ||
 	($_POST['subcat']!='%' && $_GET['subcat']=='%') ||
+    ($_POST['object']!='%' && $_GET['object']=='%') ||
+	($_POST['asset']!='%' && $_GET['asset']=='%') ||
 	($_POST['title']!='%' && $_GET['title']=='%') ||
 	($_POST['priority']!='%' && $_GET['priority']=='%') ||
 	($_POST['criticality']!='%' && $_GET['criticality']=='%') ||
@@ -258,7 +275,7 @@ if(
 				setTimeout('redirect()',0);
 				-->
 		</SCRIPT>";
-	echo '<i class="icon-spinner icon-spin"></i> '.T_('Chargement...');
+	echo '<i class="icon-spinner icon-spin"></i>&nbsp;'.T_('Chargement...');
 	exit;
 } else {$reload=0;}
 
@@ -302,34 +319,56 @@ if(
 		include "./core/searchengine_ticket.php";
 	} else {
 		//escape special char and secure string before database insert
+		$db_sender_service=strip_tags($db->quote($_POST['sender_service']));
+		$db_category=strip_tags($db->quote($_POST['category']));
+		$db_subcat=strip_tags($db->quote($_POST['subcat']));
+        $db_object=strip_tags($db->quote($_POST['object']));
+		$db_asset=strip_tags($db->quote($_POST['asset']));
+		$db_userid=strip_tags($db->quote($_POST['userid']));
+		$db_user=strip_tags($db->quote($_POST['user']));
 		$db_ticket=strip_tags($db->quote($_POST['ticket']));
+		$db_priority=strip_tags($db->quote($_POST['priority']));
+		$db_criticality=strip_tags($db->quote($_POST['criticality']));
+		$db_type=strip_tags($db->quote($_POST['type']));
+		$db_technician=strip_tags($db->quote($_POST['technician']));
 		$db_title=strip_tags($db->quote($_POST['title']));
 		$db_title=str_replace("'","",$db_title);
+		$db_u_group=strip_tags($db->quote($_GET['u_group']));
+		$db_t_group=strip_tags($db->quote($_GET['t_group']));
+		$db_techread=strip_tags($db->quote($_GET['techread']));
 		
 		//build SQL query
 		$select= "DISTINCT tincidents.*";
 		$from="tincidents";
 		$join='LEFT JOIN tstates ON tincidents.state=tstates.id ';
 		$where="
-		tincidents.user LIKE '$_POST[user]'
-		AND	tincidents.disable='0'
-		AND	tincidents.u_group LIKE '$_GET[u_group]'
-		AND	tincidents.technician LIKE '$_POST[technician]'
-		AND	tincidents.t_group LIKE '$_GET[t_group]'
-		AND	tincidents.techread LIKE '$_GET[techread]'
-		AND	tincidents.category LIKE '$_POST[category]'
-		AND	tincidents.subcat LIKE '$_POST[subcat]'
+		tincidents.disable='0'
+		AND	tincidents.sender_service LIKE $db_sender_service
+		AND	tincidents.u_group LIKE $db_u_group
+		AND	tincidents.t_group LIKE $db_t_group
+		AND	tincidents.techread LIKE $db_techread
+		AND	tincidents.category LIKE $db_category
+		AND	tincidents.subcat LIKE $db_subcat
+        AND	tincidents.object LIKE $db_object
+		AND	tincidents.asset_id LIKE $db_asset
 		AND	tincidents.id LIKE $db_ticket
-		AND	tincidents.user LIKE '$_POST[userid]'
+		AND	tincidents.user LIKE $db_userid
 		AND tincidents.date_hope LIKE '$_POST[date_hope]%'
-		AND	tincidents.priority LIKE '$_POST[priority]'
-		AND	tincidents.criticality LIKE '$_POST[criticality]'
-		AND	tincidents.type LIKE '$_POST[type]'
+		AND	tincidents.priority LIKE $db_priority
+		AND	tincidents.criticality LIKE $db_criticality
+		AND	tincidents.type LIKE $db_type
 		AND	tincidents.title LIKE '%$db_title%'
 		$state
 		";
+		//special case to display ticket where technician is user associated to the ticket, and service limit is enabled
+		if($_SESSION['profile_id']==0 && $rparameters['user_limit_service']==1 && $_GET['userid']!='%')
+		{
+			$where.="AND (tincidents.technician LIKE $db_technician OR tincidents.user LIKE $db_technician) ";
+		} else {
+			$where.="AND tincidents.user LIKE $db_user AND tincidents.technician LIKE $db_technician ";
+		}
 		//special case to filter query when company view is selected
-		if (($rparameters['user_company_view']==1) && ($rright['side_company']!=0) && ($_GET['companyview']==1))
+		if ($rparameters['user_company_view']==1 && $rright['side_company']!=0)
 		{
 			$join.='LEFT JOIN tusers ON tincidents.user=tusers.id ';
 			$where.="AND tusers.company='$ruser[company]' ";
@@ -337,27 +376,44 @@ if(
 		//special case to filter query when user company right is enable
 		if ($rright['dashboard_col_company']!=0)
 		{
+			$db_company=strip_tags($db->quote($_POST['company']));
 			if(!preg_match('#LEFT JOIN tusers#',$join)) {$join.='LEFT JOIN tusers ON tincidents.user=tusers.id ';}
 			$join.='LEFT JOIN tcompany ON tusers.company=tcompany.id';
-			$where.="AND tcompany.id LIKE '$_POST[company]' ";
+			$where.="AND tcompany.id LIKE $db_company ";
 		}
-		//special case query when agency parameter is enable to display agency ticket and user tickets
-		if($rparameters['user_agency']==1 && ($_GET['userid']=='%' || $_GET['userid']=='0')){$where.=$where_agency;} else {$where.=$where_agency_your;} 
+				
+		//special case where user have service and agency
+		if(($rparameters['user_agency']==1 && ($_GET['userid']=='%' || $_GET['userid']=='0'))&&($rparameters['user_limit_service']==1 && ($_GET['userid']=='%' || $_GET['userid']=='0'))&& $cnt_agency!=0 && $cnt_service!=0)
+		{
+			$where.= "$where_agency $where_service $parenthese2" ;
+		} else {
+			//special case query when agency parameter is enable to display agency ticket and user tickets
+			if($rparameters['user_agency']==1 && ($_GET['userid']=='%' || $_GET['userid']=='0')){$where.=$where_agency;} else {$where.=$where_agency_your;} 
 		
-		//special case query when service parameter is enable to display service ticket and user tickets
-		if($rparameters['user_limit_service']==1 && ($_GET['userid']=='%' || $_GET['userid']=='0')){$where.=$where_service;} else {$where.=$where_service_your;} 
+			//special case query when service parameter is enable to display service ticket and user tickets
+			if($rparameters['user_limit_service']==1 && ($_GET['userid']=='%' || $_GET['userid']=='0')){$where.=$where_service;} else {$where.=$where_service_your;} 
+		}
 		
 		//special case to filter query when place view is selected
-		if($rparameters['ticket_places']==1){$where.="AND tincidents.place LIKE '%$_POST[place]%' ";}
+		if($rparameters['ticket_places']==1){
+			$db_place=strip_tags($db->quote($_POST['place']));
+			$where.="AND tincidents.place LIKE $db_place ";
+		}
 		
 		//special case to filter query when service parameter is enable
-		if($rright['dashboard_col_service']!=0){$where.="AND tincidents.u_service LIKE '$_POST[service]' ";}
+		if($rright['dashboard_col_service']!=0){
+			$db_service=strip_tags($db->quote($_POST['service']));
+			$where.="AND tincidents.u_service LIKE $db_service ";
+		}
 		
 		//special case to filter query when agency parameter is enable
-		if($rright['dashboard_col_agency']!=0){$where.="AND tincidents.u_agency LIKE '$_POST[agency]' ";}
+		if($rright['dashboard_col_agency']!=0){
+			$db_agency=strip_tags($db->quote($_POST['agency']));
+			$where.="AND tincidents.u_agency LIKE $db_agency ";
+		}
 		
-		//special case to filter query when for today activities tickets
-		if ($_GET['view']=='activity' || $_GET['date_range']=='today')
+		//special case to filter query for activities tickets
+		if ($_GET['view']=='activity')
 		{
 			//case of range period selected else today tickets
 			if($_POST['date_start'] && $_POST['date_end'])
@@ -413,13 +469,18 @@ if(
 		$join_debug<br />
 		<b>WHERE</b> <br />
 		$where_debug<br />
-		<b>ORDER BY</b> $_GET[order] $_GET[way]<br />
-		<b>LIMIT</b> $_GET[cursor],	$rparameters[maxline]<br />
+		<b>ORDER BY</b> $db_order $db_way<br />
+		<b>LIMIT</b> $db_cursor,$rparameters[maxline]<br />
 		<b>VAR:</b>
-		POST_keywords=$_POST[keywords] GET_keywords=$_GET[keywords] keywords=$keywords |
+		POST_keywords=$_POST[keywords] GET_keywords=$db_keywords |
 		POST_state=$_POST[state] GET_state=$_GET[state] state=$state |
 		POST_date_create=$_POST[date_create] GET_date_create=$_GET[date_create] |
-		cnt_service=$cnt_service";
+		cnt_service=$cnt_service  |
+		GET_view=$_GET[view] | 
+		POST_date_start=$_POST[date_start] |
+		POST_date_end=$_POST[date_end]
+		";
+		
 		if($user_services) {echo ' user_services=';foreach($user_services as $value) {echo $value.' ';}} 
 		echo '| cnt_agency='.$cnt_agency;
 		if($user_agencies) {echo ' user_agencies=';foreach($user_agencies as $value) {echo $value.' ';}} 
@@ -432,8 +493,8 @@ if(
 		FROM $from
 		$join
 		WHERE $where
-		ORDER BY $_GET[order] $_GET[way]
-		LIMIT $_GET[cursor],
+		ORDER BY $db_order $db_way
+		LIMIT $db_cursor,
 		$rparameters[maxline]
 		"); 
 	} else {$masterquery='';}
@@ -488,27 +549,122 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 		<?php
 		if ($keywords)
 		{
-			echo '<i class="icon-search"></i> '.T_('Recherche de tickets').': '.$keywords.' ';
+			$disp_keyword=str_replace("'","",$db_keywords);
+			echo '<i class="icon-search"></i> '.T_('Recherche de tickets').': '.$disp_keyword.' ';
 		} 
 		elseif ($_GET['view']=='activity')
 		{
-			//case selected period 
-			if($_POST['date_start'] && $_POST['date_end'])
+			//convert and create date format to display
+			if($_POST['date_start'] && $_POST['date_end']) // case post date
 			{
 				//convert date to display
-				$date_start=DateTime::createFromFormat('Y-m-d', $_POST['date_start']);
-				$date_start=$date_start->format('d/m/Y');
-				$date_end=DateTime::createFromFormat('Y-m-d', $_POST['date_end']);
-				$date_end=$date_end->format('d/m/Y');
-				echo '<i title="'.T_('Liste des tickets ouverts ou fermés ou sur lesquels un élément de résolution à été ajouté, sur la période sélectionnée').'" class="icon-calendar"></i> '.T_('Activité').' <span  style="font-size:18px"> '.T_('du').' '.$date_start.' '.T_('au').' '.$date_end.'</span>';
-			} else {
-				echo '<i title="'.T_("Liste des tickets ouverts ou fermés ou sur lesquels un élément de résolution à été ajouté aujourd'hui").'" class="icon-calendar"></i> '.T_('Activité du jour');
+				$date_start_db=DateTime::createFromFormat('Y-m-d', $_POST['date_start']);
+				$date_end_db=DateTime::createFromFormat('Y-m-d', $_POST['date_end']);
+				$date_start=$date_start_db->format('d/m/Y');
+				$date_end=$date_end_db->format('d/m/Y');
+				$date_start_db=$date_start_db->format('Y-m-d');
+				$date_end_db=$date_end_db->format('Y-m-d');
+			} else { //default date is today date
+				$date_start_db=DateTime::createFromFormat('Y-m-d', date('Y-m-d'));
+				$date_end_db=DateTime::createFromFormat('Y-m-d', date('Y-m-d'));
+				$date_start=$date_start_db->format('d/m/Y');
+				$date_end=$date_end_db->format('d/m/Y');
+				$date_start_db=$date_start_db->format('Y-m-d');
+				$date_end_db=$date_end_db->format('Y-m-d');
 			}
+			//count open ticket for selected period
+			$query="
+			SELECT DISTINCT(id) FROM `tincidents`
+			WHERE
+			tincidents.date_create BETWEEN '$date_start_db 00:00:00' AND '$date_end_db 23:59:59' 
+			AND	tincidents.id LIKE $db_ticket
+			AND	tincidents.technician LIKE '$_POST[technician]'
+			AND	tincidents.user LIKE '$_POST[user]'
+			AND	tincidents.category LIKE '$_POST[category]'
+			AND	tincidents.subcat LIKE '$_POST[subcat]'
+            AND	tincidents.object LIKE '$_POST[object]'
+			AND	tincidents.title LIKE '%$db_title%'
+			AND tincidents.date_create LIKE '$_POST[date_create]%'
+			AND tincidents.date_hope LIKE '$_POST[date_hope]%'
+			AND tincidents.date_res LIKE '$_POST[date_res]%'
+			AND	tincidents.state LIKE '$_POST[state]'
+			AND	tincidents.criticality LIKE '$_POST[criticality]'
+			AND	tincidents.priority LIKE '$_POST[priority]'
+			AND disable='0'
+			$where_agency $where_service $parenthese2";
+			$query = $db->query($query);  
+			$cnt_activity_open=$query->rowCount();
+			$query->closecursor();
+			//count advanced ticket for selected period (technician add text resolution and ticket not disable)
+			$query="
+			SELECT DISTINCT(tthreads.id) FROM `tthreads`,`tincidents` 
+			WHERE 
+			tincidents.id=tthreads.ticket 
+			AND tincidents.technician=tthreads.author 
+			AND tincidents.state!=3 
+			AND	tincidents.id LIKE $db_ticket
+			AND	tincidents.technician LIKE '$_POST[technician]'
+			AND	tincidents.user LIKE '$_POST[user]'
+			AND	tincidents.category LIKE '$_POST[category]'
+			AND	tincidents.subcat LIKE '$_POST[subcat]'
+            AND	tincidents.object LIKE '$_POST[object]'
+			AND	tincidents.title LIKE '%$db_title%'
+			AND tincidents.date_create LIKE '$_POST[date_create]%'
+			AND tincidents.date_hope LIKE '$_POST[date_hope]%'
+			AND tincidents.date_res LIKE '$_POST[date_res]%'
+			AND	tincidents.state LIKE '$_POST[state]'
+			AND	tincidents.criticality LIKE '$_POST[criticality]'
+			AND	tincidents.priority LIKE '$_POST[priority]'
+			AND tincidents.disable=0
+			AND tthreads.type='0'
+			AND tthreads.date BETWEEN '$date_start_db 00:00:00' AND '$date_end_db 23:59:59' 
+			$where_agency $where_service $parenthese2
+			";
+			$query = $db->query($query);  
+			$cnt_activity_advanced=$query->rowCount();
+			$query->closecursor();
+			//count close tickets for selected period
+			$query="
+			SELECT DISTINCT(id) FROM `tincidents`
+			WHERE 
+			tincidents.state='3' 
+			AND	tincidents.id LIKE $db_ticket
+			AND	tincidents.technician LIKE '$_POST[technician]'
+			AND	tincidents.user LIKE '$_POST[user]'
+			AND	tincidents.category LIKE '$_POST[category]'
+			AND	tincidents.subcat LIKE '$_POST[subcat]'
+            AND	tincidents.object LIKE '$_POST[object]'
+			AND	tincidents.title LIKE '%$db_title%'
+			AND tincidents.date_create LIKE '$_POST[date_create]%'
+			AND tincidents.date_hope LIKE '$_POST[date_hope]%'
+			AND tincidents.date_res LIKE '$_POST[date_res]%'
+			AND	tincidents.state LIKE '$_POST[state]'
+			AND	tincidents.criticality LIKE '$_POST[criticality]'
+			AND	tincidents.priority LIKE '$_POST[priority]'
+			AND date_res BETWEEN '$date_start_db 00:00:00' AND '$date_end_db 23:59:59' 
+			AND disable='0' 
+			$where_agency $where_service $parenthese2";
+			$query = $db->query($query);  
+			$cnt_activity_close=$query->rowCount();
+			$query->closecursor();
+			
+			//display title with date selection form
+			echo '
+			<span title="'.T_("Liste des tickets modifiés: ouverts ou fermés ou sur lesquels un élément de résolution à été ajouté sur la période sélectionnée").'">
+			<i class="icon-calendar"></i> 
+			'.T_('Tickets modifiés du').'
+			</span>
+			<form style="display: inline-block;" class="form-horizontal" name="period" id="period" method="post" action="./index.php?page=dashboard&userid='.$_GET['userid'].'&state=%&view=activity&date_range=1" onsubmit="loadVal();" >
+				<input type="text" size="10" name="date_start" id="date_start" value="'.$date_start.'" onchange="submit();" >
+				'.T_('au').'
+				<input type="text" size="10" name="date_end" id="date_end" value="'.$date_end.'" onchange="submit();" >
+			</form>
+			';
 		}
 		else 
 		{
 		    //find state name for display in title
-           	$query=$db->query("SELECT description FROM tstates WHERE id='$_GET[state]'");
+           	$query=$db->query("SELECT description FROM tstates WHERE id=$db_state");
 			$rstate=$query->fetch();
 			$query->closeCursor();
             if (!$rstate && !$_GET['viewid'] && !$_GET['techgroup']) $rstate['description']=T_('tickets non lus'); //case not read
@@ -552,7 +708,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
             //find view name to display in title
             if ($_GET['viewid']) 
             {
-                $qview = $db->query("SELECT name FROM tviews WHERE id='$_GET[viewid]'");
+                $qview = $db->query("SELECT name FROM tviews WHERE id=$db_viewid");
                 $rview=$qview->fetch();
                 $rstate['description']=T_('tickets de la vue').' '.$rview['name'].'';
 				echo '<i class="icon-ticket"></i> '.T_('Tickets de la vue').' '.$rview['name'].'';
@@ -572,7 +728,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 			elseif ($_GET['techgroup'])
 			{
 				//get name of current group
-				$query = $db->query("SELECT name FROM tgroups WHERE id='$_GET[techgroup]'");
+				$query = $db->query("SELECT name FROM tgroups WHERE id=$db_techgroup");
                 $group_name=$query->fetch();
 				$query->closeCursor();
 				echo '<i class="icon-ticket"></i> '.T_('Vos tickets du groupe').' '.$group_name['name'];
@@ -585,27 +741,20 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 			&nbsp;<?php if($mobile==0) {echo T_('Nombre').':';} ?> <?php echo $resultcount[0]; ?></i>
 		</small>
 		<?php
-			//display period selection for activity page
+			//display counter section activity page
 			if ($_GET['view']=='activity')
 			{
-				echo '
-				|
-				<form style="display: inline-block;" class="form-horizontal" name="period" id="period" method="post" action="./index.php?page=dashboard&userid='.$_GET['userid'].'&state=%&view=activity&date_create=current&date_range=1" onsubmit="loadVal();" >
-					<small>
-						'.T_('Selection de la période du').' 
-						<input type="text" size="10" name="date_start" id="date_start" value="'.$date_start.'" >
-						'.T_('au').'
-						<input type="text" size="10" name="date_end" id="date_end" value="'.$date_end.'" onchange="submit();" >
-					</small>
-				</form>
-				';
+				echo ' 	| <small>
+				<span title="'.T_('Nombre de tickets pour lesquels la date de création est dans la période sélectionnée').'">'.T_('Ouverts').'</span>: '.$cnt_activity_open.'&nbsp;&nbsp;&nbsp;
+				<span title="'.T_("Nombre de tickets pour lesquels un élément de résolution textuel à été ajouté par le technicien en charge dans la période sélectionnée et qui ne sont pas dans l'état résolu").'">'.T_('Avancés').'</span>: '.$cnt_activity_advanced.'&nbsp;&nbsp;&nbsp;
+				<span title="'.T_("Nombre de tickets pour lesquels la date de résolution est dans la période sélectionnée et qui sont dans l'état résolu").'">'.T_('Fermés').':</span> '.$cnt_activity_close.'</small>';
 			}
 		?>
 	</h1>
 </div>
 <?php
 	//display message if search result is null
-	if($resultcount[0]==0 && $keywords!="") echo '<div class="alert alert-danger"><i class="icon-remove"></i> Aucun ticket trouvé pour la recherche: <strong>'.$keywords.'</strong></div>';
+	if($resultcount[0]==0 && $keywords!="") echo '<div class="alert alert-danger"><i class="icon-remove"></i> Aucun ticket trouvé pour la recherche: <strong>'.$db_keywords.'</strong></div>';
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -692,6 +841,27 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								</th>
 							";
 						}
+						//display user service column
+						if ($rright['dashboard_col_user_service']!=0) 
+						{
+							echo '
+							<th '; if ($_GET['order']=='sender_service') {echo 'class="active"';} echo '>
+								<center>
+									<a title="'.T_('Service du demandeur').'" href="./index.php?page=dashboard&'.$url_post_parameters.'&amp;order=sender_service&amp;way='.$arrow_way.'">
+										<i class="icon-group"></i><br />
+										'.T_('Service du demandeur');
+										//Display arrows
+										if ($_GET['order']=='sender_service'){
+											if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
+											if ($_GET['way']=='DESC') {echo ' <i class="icon-sort-down"></i>';}
+										}
+										echo"
+									</a>
+								</center>
+							</th>
+							";
+						}
+						//display ticket type column
 						if ($rright['dashboard_col_type']!=0) 
 						{
 							echo '
@@ -711,6 +881,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 							</th>
 							";
 						}
+						//display ticket category column
 						if ($rright['dashboard_col_category']!=0) 
 						{
 							echo '
@@ -730,6 +901,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								</th>
 							';
 						}
+						//display ticket subcat column
 						if ($rright['dashboard_col_subcat']!=0) 
 						{
 							echo'
@@ -740,6 +912,43 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 											'.T_('Sous-catégorie'); 
 											//Display arrows
 											if ($_GET['order']=='subcat'){
+												if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
+												if ($_GET['way']=='DESC') {echo ' <i class="icon-sort-down"></i>';}
+											}
+											echo '
+										</a>
+									</center>
+								</th>
+							';
+                            //display ticket object column
+                            echo'
+								<th '; if ($_GET['order']=='object') {echo 'class="active"';} echo ' >
+									<center>
+										<a title="'.T_('Objet').'"  href="./index.php?page=dashboard&'.$url_post_parameters.'&amp;order=object&amp;way='.$arrow_way.'">
+											<i class="glyphicon glyphicon-bookmark"></i><br />
+											'.T_('Objet'); 
+											//Display arrows
+											if ($_GET['order']=='object'){
+												if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
+												if ($_GET['way']=='DESC') {echo ' <i class="icon-sort-down"></i>';}
+											}
+											echo '
+										</a>
+									</center>
+								</th>
+							';
+						}
+						//display ticket asset column
+						if ($rright['dashboard_col_asset']!=0) 
+						{
+							echo'
+								<th '; if ($_GET['order']=='asset_id') {echo 'class="active"';} echo ' >
+									<center>
+										<a title="'.T_('Équipement').'"  href="./index.php?page=dashboard&'.$url_post_parameters.'&amp;order=asset_id&amp;way='.$arrow_way.'">
+											<i class="icon-desktop"></i><br />
+											'.T_('Équipement'); 
+											//Display arrows
+											if ($_GET['order']=='asset_id'){
 												if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
 												if ($_GET['way']=='DESC') {echo ' <i class="icon-sort-down"></i>';}
 											}
@@ -777,7 +986,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 											<i class="icon-group"></i><br />
 											'.T_('Service'); 
 											//Display arrows
-											if ($_GET['order']=='service'){
+											if ($_GET['order']=='u_service'){
 												if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
 												if ($_GET['way']=='DESC') {echo ' <i class="icon-sort-down"></i>';}
 											}
@@ -790,13 +999,13 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 						if ($rright['dashboard_col_agency']!=0) 
 						{
 							echo'
-								<th '; if ($_GET['order']=='agency') {echo 'class="active"';} echo ' >
+								<th '; if ($_GET['order']=='u_agency') {echo 'class="active"';} echo ' >
 									<center>
 										<a title="'.T_('Agence').'"  href="./index.php?page=dashboard&'.$url_post_parameters.'&amp;order=u_agency&amp;way='.$arrow_way.'">
 											<i class="icon-globe"></i><br />
 											'.T_('Agence'); 
 											//Display arrows
-											if ($_GET['order']=='agency'){
+											if ($_GET['order']=='u_agency'){
 												if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
 												if ($_GET['way']=='DESC') {echo ' <i class="icon-sort-down"></i>';}
 											}
@@ -886,7 +1095,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								<a title="<?php echo T_('État'); ?>" href="<?php echo './index.php?page=dashboard&'.$url_post_parameters; ?>&amp;order=state&amp;way=<?php echo $arrow_way; ?>">
 								<i class="icon-adjust"></i><br />
 								<?php 
-								echo T_('État'); 
+								if($_GET['view']=='activity') {echo T_('État actuel');} else {echo T_('État');}
 								//Display arrows
 								if (($_GET['order']=='state') || ($_GET['order']=='tstates.number, tincidents.date_hope, tincidents.priority, tincidents.criticality' && $_GET['state']=='%')){
 									if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
@@ -950,7 +1159,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								</center>
 							</td>			
 							<?php
-								//display technician column
+								//display filter of technician column
 								if ($_SESSION['profile_id']!=0 || $_SESSION['profile_id']!=4 || $_GET['userid']=='%')
 								{
 									echo '
@@ -958,9 +1167,14 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										<select style="width:80px" name="technician" onchange="submit()" >
 											<option value="%"></option>';
 											//tech list
-											echo "SELECT DISTINCT tusers.id,tusers.lastname,tusers.firstname FROM tusers INNER JOIN tincidents ON tusers.id=tincidents.technician INNER JOIN tcompany ON tusers.company=tcompany.id INNER JOIN tthreads ON tincidents.id=tthreads.ticket WHERE $where AND (profile=0 or profile=4) ORDER BY tusers.lastname";
 											if ($join)
-											{$query = $db->query("SELECT DISTINCT tusers.id,tusers.lastname,tusers.firstname FROM tusers INNER JOIN tincidents ON tusers.id=tincidents.technician INNER JOIN tcompany ON tusers.company=tcompany.id INNER JOIN tthreads ON tincidents.id=tthreads.ticket WHERE $where AND (profile='0' or profile='4') ORDER BY tusers.lastname");}
+											{
+												$query="SELECT DISTINCT tusers.id,tusers.lastname,tusers.firstname FROM tusers INNER JOIN tincidents ON tusers.id=tincidents.technician INNER JOIN tcompany ON tusers.company=tcompany.id INNER JOIN tthreads ON tincidents.id=tthreads.ticket $join WHERE $where AND (profile='0' or profile='4') ORDER BY tusers.lastname";
+												if(preg_match('#FROM tusers#',$query)) {$query=str_replace("LEFT JOIN tusers ON tincidents.user=tusers.id","",$query);} //avoid company columun pb
+												if(preg_match('#INNER JOIN tcompany#',$query)) {$query=str_replace("LEFT JOIN tcompany ON tusers.company=tcompany.id","",$query);} //avoid company columun pb
+												if($rparameters['debug']==1) {echo $query;}
+												$query = $db->query($query);
+											}
 											else
 											{$query = $db->query("SELECT tusers.id,tusers.lastname,tusers.firstname FROM tusers WHERE (profile='0' or profile='4') and disable='0' ORDER BY lastname");}
 											while ($row = $query->fetch())
@@ -979,7 +1193,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									</td>";
 								} 
 								
-								//display user company column
+								//display filter of user company column
 								if($rright['dashboard_col_company']!=0)
 								{
 									echo '
@@ -1002,7 +1216,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</select>
 									</td>';
 								}
-								//display user column
+								//display filter of user column
 								if (($_SESSION['profile_id']==0 || $_SESSION['profile_id']==3 || $_SESSION['profile_id']==4) || ($rright['side_all']!=0 && ($_GET['userid']=='%'|| $keywords!='')) || ($rparameters['user_company_view']!=0 && $_GET['userid']=='%' && ($rright['side_company']!=0|| $keywords!=''))) 
 								{
 									echo '
@@ -1011,7 +1225,13 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 											<option value="%"></option>';
 											//display users list
 											if ($join)
-											{$query = $db->query("SELECT DISTINCT tusers.id,tusers.firstname,tusers.lastname FROM tusers INNER JOIN tincidents ON tusers.id=tincidents.user INNER JOIN tcompany ON tusers.company=tcompany.id INNER JOIN tthreads ON tincidents.id=tthreads.ticket WHERE $where ORDER BY tusers.lastname");}
+											{
+												$query="SELECT DISTINCT tusers.id,tusers.firstname,tusers.lastname FROM tusers INNER JOIN tincidents ON tusers.id=tincidents.user INNER JOIN tcompany ON tusers.company=tcompany.id INNER JOIN tthreads ON tincidents.id=tthreads.ticket $join WHERE $where ORDER BY tusers.lastname";
+												if(preg_match('#FROM tusers#',$query)) {$query=str_replace("LEFT JOIN tusers ON tincidents.user=tusers.id","",$query);} //avoid company columun pb
+												if(preg_match('#INNER JOIN tcompany#',$query)) {$query=str_replace("LEFT JOIN tcompany ON tusers.company=tcompany.id","",$query);} //avoid company columun pb
+												if($rparameters['debug']==1) {echo $query;}
+												$query = $db->query($query);
+											}
 											else
 											{$query = $db->query("SELECT tusers.id,tusers.firstname,tusers.lastname FROM tusers WHERE disable='0' ORDER BY lastname");} //query for searchengine
 											while ($row=$query->fetch()) 
@@ -1019,7 +1239,8 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 												$cutfname=substr($row['firstname'], 0, 1);
 												if ($_POST['user']==$row['id']) 
 												{echo '<option selected value="'.$row['id'].'">'.$cutfname.'. '.$row['lastname'].'</option>';}
-												elseif($row['firstname']!='' && $row['lastname']!='') 
+												elseif($row['firstname']=='' && $row['lastname']=='') {}
+												else
 												{echo '<option value="'.$row['id'].'">'.$row['lastname'].' '.$cutfname.'. </option>';}
 											} 
 											//user group list
@@ -1032,7 +1253,37 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</select>
 									</td>';
 								}
-								//display type column
+								//display filter of user service column
+								if ($rright['dashboard_col_user_service']!=0) 
+								{
+									echo'
+									<td align="center">
+										<select style="width:60px" name="sender_service" onchange="submit()">
+											<option value="%"></option>
+											';
+												if ($join)
+												{
+													$query="SELECT DISTINCT tservices.id,tservices.name FROM tservices INNER JOIN tincidents ON tincidents.sender_service=tservices.id $join WHERE $where AND tservices.disable='0' ORDER BY tservices.name";
+													if($rparameters['debug']==1) {echo $query;}
+													$query = $db->query($query);
+												}
+												else
+												{$query = $db->query("SELECT tservices.id,tservices.name FROM tservices WHERE disable='0' ORDER BY name");}
+												
+												while ($row=$query->fetch())
+												{
+													if($row['id']==0) {$row['name']=T_($row['name']);} //translate only none database value
+													if ($_POST['sender_service']==$row['id']) 
+													{echo '<option selected value="'.$row['id'].'">'.$row['name'].'</option>';}
+													else
+													{echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';}
+												} 
+											echo '
+										</select>
+									</td>
+									';
+								}
+								//display filter of type column
 								if ($rright['dashboard_col_type']!=0) 
 								{
 									echo '
@@ -1053,7 +1304,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</td>
 									';	
 								}
-								//display category column
+								//display filter of category column
 								if ($rright['dashboard_col_category']!=0) 
 								{
 									echo '
@@ -1078,7 +1329,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									</td>
 									';
 								}
-								//display subcat column
+								//display filter of subcat column
 								if ($rright['dashboard_col_subcat']!=0) 
 								{
 									echo'
@@ -1113,6 +1364,68 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									</td>
 									';
 								}
+                            
+                                //display filter of object column
+								if ($rright['dashboard_col_subcat']!=0) 
+								{
+									echo'
+									<td align="center">
+										<select style="width:60px" name="subcat" onchange="submit()">
+											<option value="%"></option>
+											';
+												if($_POST['subcat']!='%')
+												{
+													if ($join)
+													{$query = $db->query("SELECT DISTINCT tobject.id,tobject.name FROM tobject INNER JOIN tincidents ON tincidents.object=tobject.id $join WHERE $where AND cat LIKE $_POST[subcat] ORDER BY torder.name");}
+													else
+													{$query = $db->query("SELECT tobject.id,tobject.name FROM tobject WHERE subcat LIKE $_POST[subcat] ORDER BY name");}
+												}
+												else
+												{
+													if ($join)
+													{$query = $db->query("SELECT DISTINCT tobject.id,tobject.name FROM tobject INNER JOIN tincidents ON tincidents.object=tobject.id $join WHERE $where AND tobject.name!='' ORDER BY tobject.name");}
+													else
+													{$query = $db->query("SELECT tobject.id,tobject.name FROM tobject ORDER BY name");}
+												}
+												while ($row=$query->fetch())
+												{
+													if($row['id']==0) {$row['name']=T_($row['name']);} //translate only none database value
+													if ($_POST['object']==$row['id']) 
+													{echo '<option selected value="'.$row['id'].'">'.$row['name'].'</option>';}
+													else
+													{echo '<option value="'.$row['id'].'">'.$row['name'].'</option>';}
+												} 
+											echo '
+										</select>
+									</td>
+									';
+								}
+                            
+								//display filter of asset column
+								if ($rright['dashboard_col_asset']!=0) 
+								{
+									echo '
+									<td align="center">
+										<select style="width:65px" name="asset" onchange="submit()" >
+											<option value="%"></option>
+											';
+												if ($join)
+												{$query = $db->query("SELECT DISTINCT tassets.id,tassets.netbios FROM tassets INNER JOIN tincidents ON tincidents.asset_id=tassets.id $join WHERE $where AND netbios!='' ORDER BY tassets.netbios");}
+												else
+												{$query = $db->query("SELECT DISTINCT tassets.id,tassets.netbios FROM tassets WHERE netbios!='' ORDER BY netbios");}
+												while ($row=$query->fetch()) 
+												{
+													if($row['id']==0) {$row['netbios']=T_($row['netbios']);} //translate only none database value
+													if ($_POST['asset']==$row['id']) 
+													{echo '<option selected value="'.$row['id'].'">'.$row['netbios'].'</option>';}
+													else 
+													{echo '<option value="'.$row['id'].'">'.$row['netbios'].'</option>';}
+												} 
+											echo '
+										</select>	
+									</td>
+									';
+								}
 							?>
 							<?php if($rparameters['ticket_places']==1){ ?>
 								<td align="center">
@@ -1136,7 +1449,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								</td>
 							<?php } ?>
 							<?php
-								//display service column
+								//display filter for service column
 								if ($rright['dashboard_col_service']!=0) 
 								{
 									echo'
@@ -1144,8 +1457,12 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										<select style="width:60px" name="service" onchange="submit()">
 											<option value="%"></option>
 											';
-												if ($join)
-												{$query = $db->query("SELECT DISTINCT tservices.id,tservices.name FROM tservices INNER JOIN tincidents ON tincidents.u_service=tservices.id $join WHERE $where AND tservices.disable='0' ORDER BY tservices.name");}
+												if ($join && $_GET['order']!='tservices.name')
+												{
+													$query="SELECT DISTINCT tservices.id,tservices.name FROM tservices INNER JOIN tincidents ON tincidents.u_service=tservices.id $join WHERE $where AND tservices.disable='0' ORDER BY tservices.name";
+													if($rparameters['debug']==1) {echo $query;}
+													$query = $db->query($query);
+												}
 												else
 												{$query = $db->query("SELECT tservices.id,tservices.name FROM tservices WHERE disable='0' ORDER BY name");}
 												while ($row=$query->fetch())
@@ -1161,7 +1478,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									</td>
 									';
 								}
-								//display agency column
+								//display filter of agency column
 								if ($rright['dashboard_col_agency']!=0) 
 								{
 									echo'
@@ -1191,6 +1508,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								<input name="title" style="width:100%" onchange="submit();" type="text"  value="<?php if ($_POST['title']!='%')echo $_POST['title']; ?>" />
 							</td>
 							<?php
+								//display filter of date create column
 								if($rright['dashboard_col_date_create']!=0)
 								{
 									if($_POST['date_create']!='%' && $_POST['date_create']  && $_POST['date_create']!='current')
@@ -1210,6 +1528,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									</td>
 									';
 								}
+								//display filter of date hope column
 								if($rright['dashboard_col_date_hope']!=0)
 								{
 									if($_POST['date_hope']!='%' && $_POST['date_hope'])
@@ -1229,6 +1548,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									</td>
 									';
 								}
+								//display filter of date res column
 								if (($rright['dashboard_col_date_res']!=0)  && (($_GET['state']==3) || ($_GET['state']==4) || ($_GET['state']=='%')))
 								{
 									if($_POST['date_res']!='%' && $_POST['date_res'])
@@ -1254,7 +1574,15 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									<option value=""></option>
 									<?php
 									if($join)
-									{$query = $db->query("SELECT DISTINCT tstates.id,tstates.number,tstates.name FROM tstates INNER JOIN tincidents ON tincidents.state=tstates.id INNER JOIN tusers ON tusers.id=tincidents.user INNER JOIN tcompany ON tusers.company=tcompany.id  INNER JOIN tthreads ON tincidents.id=tthreads.ticket WHERE $where ORDER BY tstates.number");}
+									//{$query = $db->query("SELECT DISTINCT tstates.id,tstates.number,tstates.name FROM tstates INNER JOIN tincidents ON tincidents.state=tstates.id INNER JOIN tusers ON tusers.id=tincidents.user INNER JOIN tcompany ON tusers.company=tcompany.id  INNER JOIN tthreads ON tincidents.id=tthreads.ticket WHERE $where ORDER BY tstates.number");}
+									{
+										$query="SELECT DISTINCT tstates.id,tstates.number,tstates.name FROM tstates INNER JOIN tincidents ON tincidents.state=tstates.id INNER JOIN tusers ON tusers.id=tincidents.user INNER JOIN tcompany ON tusers.company=tcompany.id  INNER JOIN tthreads ON tincidents.id=tthreads.ticket $join WHERE $where ORDER BY tstates.number";
+										if(preg_match('#INNER JOIN tusers#',$query)) {$query=str_replace("LEFT JOIN tusers ON tincidents.user=tusers.id","",$query);} //avoid company columun pb
+										if(preg_match('#INNER JOIN tcompany#',$query)) {$query=str_replace("LEFT JOIN tcompany ON tusers.company=tcompany.id","",$query);} //avoid company columun pb
+										if(preg_match('#LEFT JOIN tstates ON tincidents.state=tstates.id#',$query)) {$query=str_replace('LEFT JOIN tstates ON tincidents.state=tstates.id','',$query);}
+										if($rparameters['debug']==1) {echo $query;}
+										$query = $db->query($query);
+									}										
 									else
 									{
 										$query = $db->query("SELECT tstates.id,tstates.number,tstates.name FROM tstates ORDER BY name");
@@ -1273,7 +1601,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								</select>
 							</td>
 							<?php
-								//display priority column
+								//display filter of priority column
 								if($rright['dashboard_col_priority']!=0)
 								{
 									echo '
@@ -1293,7 +1621,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									</td>
 									';
 								}
-								//display criticality column
+								//display filter of criticality column
 								if ($rright['dashboard_col_criticality']!=0) 
 								{
 									echo '
@@ -1359,7 +1687,16 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 							$query=$db->query("SELECT name FROM tsubcat WHERE id LIKE '$row[subcat]'");
 							$resultscat=$query->fetch();
 							$query->closeCursor();
-							if($row['subcat']==0) {$resultscat['name']=T_($resultscat['name']);}
+							//select name of asset
+                            $query=$db->query("SELECT name FROM tobject WHERE id LIKE '$row[object]'");
+							$resultobject=$query->fetch();
+							$query->closeCursor();
+							//select name of asset
+							$query=$db->query("SELECT netbios FROM tassets WHERE id LIKE '$row[asset_id]'");
+							$resultasset=$query->fetch();
+							$query->closeCursor();
+							
+                            if($row['subcat']==0) {$resultscat['name']=T_($resultscat['name']);}
 							
 							if ($rright['dashboard_col_criticality']!=0)
 							{
@@ -1388,6 +1725,13 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								$resultservice=$query->fetch();
 								$query->closeCursor();
 								$nameservice = $resultservice["name"];
+							}
+							if($rright['dashboard_col_user_service']!=0) {
+								//get user service data
+								$query=$db->query("SELECT tservices.name FROM tservices WHERE id LIKE '$row[sender_service]'");
+								$resultsenderservice=$query->fetch();
+								$query->closeCursor();
+								$name_sender_service=$resultsenderservice["name"];
 							}
 							if($rright['dashboard_col_agency']!=0) {
 								//select name of agency
@@ -1428,39 +1772,78 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 								$rowdate_create=date_create($row['date_create']);
 								$rowdate_create= date_format($rowdate_create, 'd/m/Y H:i');
 							} else {$rowdate_create= date_cnv($row['date_create']);}
-							
 							//date hope
 							$img='';
-							if(!isset($row['date_hope'])) $row['date_hope']= ''; 
-							$date_hope=$row['date_hope'];
-							$querydiff=$db->query("SELECT DATEDIFF(NOW(), '$date_hope') "); 
-							$resultdiff=$querydiff->fetch();
-							if (($resultdiff[0]>0) && ($row['state']!='3')) $img = '<i title="'.$resultdiff[0].' jours de retard" class="icon-time red"></i>';
+							if($rright['ticket_date_hope_disp']!=0)
+							{
+								if(!isset($row['date_hope'])) $row['date_hope']= ''; 
+								$date_hope=$row['date_hope'];
+								$querydiff=$db->query("SELECT DATEDIFF(NOW(), '$date_hope') "); 
+								$resultdiff=$querydiff->fetch();
+								if (($resultdiff[0]>0) && ($row['state']!='3')) $img = '<i title="'.$resultdiff[0].' '.T_('jours de retard').'" class="icon-time red bigger-110"></i>';
+							}
 							
-							// Display line color
-							$bgcolor="";
+							//colorize ticket id and add tag
+							$new_ticket='';
+							$bgcolor='label-info'; //default value
+							$comment='';
+							if($_GET['view']=='activity') 
+							{
+								//ticket open in selected period
+								$date_create_day=explode(' ',$row['date_create']);
+								$date_create_day=$date_create_day[0];
+								if($date_create_day>=$date_start_db && $date_create_day<=$date_end_db) {$new_ticket='<i title="'.T_("Ticket ouvert dans la période sélectionnée le").' '.$rowdate_create.'" class="icon-certificate red bigger-110"></i>';}
+								//colorize ticket id in red for unread technician in selected period
+								if ($row['techread_date']!='0000-00-00 00:00:00') { 
+									if($row['techread_date']>"$date_end_db 23:59:59"){$bgcolor="label-danger"; $comment=T_("Ticket non lu par le technicien en charge dans la période indiquée");}
+								} elseif($row['techread']==0) {
+									$bgcolor="label-danger"; $comment=T_("Ticket non lu par le technicien en charge dans la période indiquée");
+								}
+								//colorize ticket id in purple read by technician but no text résolution in selected period
+								if ($row['techread_date']!='0000-00-00 00:00:00' || $row['techread']==1) {
+									$query ='SELECT id FROM tthreads WHERE ticket=\''.$row['id'].'\' AND date BETWEEN \''.$date_start_db.' 00:00:00\' AND \''.$date_end_db.' 23:59:59\' AND type=\'0\' AND author=\''.$row['technician'].'\' ';
+									$query=$db->query($query);
+									$tech_add_res=$query->rowCount();
+									$query->closeCursor();
+									if($tech_add_res==0)
+									{
+										if($row['state']==3)
+										{
+											$bgcolor="label-info"; $comment=T_("Ticket avancé, qui à été fermé dans la période sélectionnée");
+										} else {
+											$bgcolor="label-purple"; $comment=T_("Ticket lu par le technicien en charge mais aucun élément de réponse n'a été ajouté dans la période sélectionnée");
+										}
+									}
+									else
+									{$bgcolor="label-info"; $comment=T_("Ticket avancé, sur lequel un élément de résolution à été ajouté par le technicien en charge dans la période sélectionnée");}
+								}
+							} else {
+								//ticket open today
+								if (date('Y-m-d')==date('Y-m-d',strtotime($row['date_create']))) {$new_ticket='<i title="'.T_("Ticket ouvert aujourd'hui le").' '.$rowdate_create.'" class="icon-certificate red bigger-110"></i>';} 
+								//colorize ticket id
+								if ($row['techread']==0) {$bgcolor="label-danger"; $comment=T_("Ticket non lu par le technicien en charge");}
+								elseif (date('Y-m-d')==date('Y-m-d',strtotime($row['date_res']))) {$bgcolor="label-success"; $comment=T_("Ticket fermé aujourd'hui");}
+								else {
+									$query=$db->query('SELECT id FROM tthreads WHERE ticket=\''.$row['id'].'\' AND date LIKE \''.date('Y-m-d').'%\' AND type=\'0\' AND author=\''.$row['technician'].'\' ');
+									$today_res=$query->fetch();
+									$query->closeCursor();
+									if ($today_res!=0) {$bgcolor="label-info"; $comment=T_("Couleur par défaut des tickets");}
+									else {
+										$query=$db->query('SELECT id FROM tthreads WHERE ticket=\''.$row['id'].'\' AND type=\'0\' AND author=\''.$row['technician'].'\' ');
+										$tech_add_res=$query->rowCount();
+										$query->closeCursor();
+										if ($tech_add_res==0) {$bgcolor="label-purple"; $comment=T_("Ticket lu par le technicien en charge mais aucun élément de réponse n'a été ajouté");}
+									}
+								}
+							}
+							if ($comment=='') {$comment='Couleur par défaut des tickets';}
 							
-							//colorize ticket id
-							if (date('Y-m-d')==date('Y-m-d',strtotime($row['date_create']))) {$bgcolor="label-warning"; $comment="Ticket ouvert aujourd'hui";}
-							if ($row['techread']==0) {$bgcolor="label-danger"; $comment="Ticket non lu par le technicien en charge";}
-							$query=$db->query('SELECT id FROM tthreads WHERE ticket=\''.$row['id'].'\' AND date LIKE \''.date('Y-m-d').'%\' AND type=\'0\'');
-							$today_res=$query->fetch();
-							$query->closeCursor();
-							if ($today_res!=0) {$bgcolor="label-info"; $comment="Ticket sur lequel un élément de résolution à été ajouté aujourd'hui";}
-							if (date('Y-m-d')==date('Y-m-d',strtotime($row['date_res']))) {$bgcolor="label-success"; $comment="Ticket fermé aujourd'hui";}
-							// default background color
-							if ($bgcolor=="") {$bgcolor=""; $comment="";}
-							
-							//if title is too long cut
 							$title=$row['title']; 
-					
 							//display attach file icon if exist
 							if(!isset($row['img1'])) $row['img1']= ''; 
 							if($row['img1']!='') {$attach= "<i title=\"$row[img1]\" class=\"icon-paper-clip\"></i> ";} else {$attach='';}
-							
 							//display warning if date res hope is null and if it's mandatory field
-							if (($rright['ticket_date_hope_mandatory']!=0) && ($row['date_hope']=='0000-00-00') && ($row['technician']!='0') && ($row['state']!='3') && ($row['state']!='4')) {$warning_hope= "<i title=\"La date de résolution estimée n'a pas été renseignée\" class=\"icon-warning-sign red bigger-130\"></i> ";} else {$warning_hope='';}
-							
+							if (($rright['ticket_date_hope_mandatory']!=0) && ($row['date_hope']=='0000-00-00') && ($row['technician']!='0') && ($row['state']!='3') && ($row['state']!='4')) {$warning_hope= "<i title=\"La date de résolution estimée n'a pas été renseignée\" class=\"icon-warning-sign red bigger-110\"></i> ";} else {$warning_hope='';}
 							//generate open ticket link
 							$open_ticket_link="./index.php?page=ticket&amp;id=$row[id]&amp;$url_post_parameters&amp;order=$_GET[order]&amp;way=$_GET[way]&amp;cursor=$_GET[cursor]";
 							
@@ -1477,6 +1860,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										} 
 										echo "
 										&nbsp<a href=\"$open_ticket_link\"><span title=\"$comment\" class=\"label $bgcolor\">$row[id]</span></a>
+										$new_ticket
 										$img
 										$warning_hope
 										</center>
@@ -1485,7 +1869,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									//display tech
 									if ($_SESSION['profile_id']!=0 || $_SESSION['profile_id']!=4 || $_GET['userid']=='%') 
 									{
-										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'" ><center><a class="td" href="'.$open_ticket_link.'">'.T_(" $displaytechname").'</a></center></td>';
+										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'" ><center><a class="td" title="'.$resulttech['firstname'].' '.$resulttech['lastname'].'" href="'.$open_ticket_link.'">'.T_(" $displaytechname").'</a></center></td>';
 									} 
 									//display user company
 									if ($rright['dashboard_col_company']!=0) 
@@ -1495,7 +1879,13 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 									//display user
 									if (($_SESSION['profile_id']==0 || $_SESSION['profile_id']==3 || $_SESSION['profile_id']==4) || ($rright['side_all']!=0 && ($_GET['userid']=='%'|| $keywords!='')) || ($rparameters['user_company_view']!=0 && $_GET['userid']=='%' && ($rright['side_company']!=0|| $keywords!=''))) 
 									{
-										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'"><center><a class="td" title="'.T_('Tel').': '.$resultuser['phone'].' " href="'.$open_ticket_link.'">'.T_(" $displayusername").'</a></center></td>';
+										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'"><center><a class="td" title="'.$resultuser['firstname'].' '.$resultuser['lastname'].' '.T_('Tel').': '.$resultuser['phone'].' " href="'.$open_ticket_link.'">'.T_(" $displayusername").'</a></center></td>';
+									}
+									//display user service
+									if($rright['dashboard_col_user_service']!=0) {
+										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'">
+											<center><a class="td" href="'.$open_ticket_link.'">'.T_($name_sender_service).'</a></center>
+										</td>';
 									}
 									//display type
 									if ($rright['dashboard_col_type']!=0) 
@@ -1506,6 +1896,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</td>
 										';
 									}
+									//display category
 									if ($rright['dashboard_col_category']!=0) 
 									{
 										echo'
@@ -1514,6 +1905,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 											</td>
 										';
 									}
+									//display subcat
 									if ($rright['dashboard_col_subcat']!=0) 
 									{
 										echo'
@@ -1521,26 +1913,46 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 												<a class="td" href="'.$open_ticket_link.'">'.$resultscat['name'].'</a>
 											</td>
 										';
+                                        //display object
+                                        echo'
+											<td onclick="document.location=\' '.$open_ticket_link.' \'">
+												<a class="td" href="'.$open_ticket_link.'">'.$resultobject['name'].'</a>
+											</td>
+										';
 									}
+									//display asset
+									if ($rright['dashboard_col_asset']!=0) 
+									{
+										echo'
+											<td onclick="document.location=\' '.$open_ticket_link.' \'">
+												<a class="td" href="'.$open_ticket_link.'">'.$resultasset['netbios'].'</a>
+											</td>
+										';
+									}
+									//display place
 									if($rparameters['ticket_places']!=0){ 
 										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'">
 											<center><a class="td" href="'.$open_ticket_link.'">'.T_($nameplace).'</a></center>
 										</td>';
 									}
+									//display service
 									if($rright['dashboard_col_service']!=0){ 
 										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'">
 											<center><a class="td" href="'.$open_ticket_link.'">'.T_($nameservice).'</a></center>
 										</td>';
 									}
+									//display agency
 									if($rright['dashboard_col_agency']!=0){ 
 										echo '<td onclick="document.location=\' '.$open_ticket_link.' \'">
 											<center><a class="td" href="'.$open_ticket_link.'">'.T_($nameagency).'</a></center>
 										</td>';
 									}
+									//display title
 									echo "<td onclick=\"document.location='$open_ticket_link'\">
 										<a class=\"td\" title=\"$row[title] \" href=\"$open_ticket_link\">$title $attach</a>
 									</td>
 									";
+									//display date create
 									if($rright['dashboard_col_date_create']!=0){ 
 										echo "
 										<td onclick=\"document.location='$open_ticket_link'\">
@@ -1548,6 +1960,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</td>
 										";
 									}
+									//display date hope
 									if($rright['dashboard_col_date_hope']!=0){ 
 										echo "
 										<td onclick=\"document.location='$open_ticket_link'\">
@@ -1555,6 +1968,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</td>
 										";
 									}
+									//display resolution date
 									if (($rright['dashboard_col_date_res']!=0)  && (($_GET['state']==3) || ($_GET['state']==4) || ($_GET['state']=='%')))
 									{
 										echo "
@@ -1563,11 +1977,13 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</td>
 										";
 									}
+									//display state
 									echo '
 									<td onclick="document.location=\''.$open_ticket_link.'\'">
 										<center><a class="td" href="'.$open_ticket_link.'"><span class="'.$resultstate['display'].'" title="'.T_($resultstate['description']).'"><span style="font-size: x-small;">'.T_($resultstate['name']).'</span></span></a></center>
 									</td>
 									';
+									//display priority
 									if($rright['dashboard_col_priority']!=0)
 									{
 										echo '
@@ -1576,6 +1992,7 @@ if($_POST['selectrow'] && $_POST['selectrow']!='selectall')
 										</td>
 										';
 									}
+									//display criticality
 									if ($rright['dashboard_col_criticality']!=0)
 									{
 										echo '
@@ -1687,9 +2104,9 @@ function date_cnv ($date)
 {return substr($date,8,2) . "/" . substr($date,5,2) . "/" . substr($date,0,4);}
 
 //play notify sound for tech and admin in new ticket case
-if ($rparameters['notify']==1 && ($_SESSION['profile_id']==4 || $_SESSION['profile_id']==0))
+if ($rparameters['notify']==1 && ($_SESSION['profile_id']==4 || $_SESSION['profile_id']==0) && $_GET['keywords']=='')
 {
-	$query="SELECT id FROM `tincidents` WHERE technician='0' and t_group='0' and techread='0' and disable='0' and notify='0' $where_service ";
+	$query="SELECT id FROM `tincidents` WHERE technician='0' and t_group='0' and techread='0' and disable='0' and notify='0' $where_agency $where_service $parenthese2";
 	if($rparameters['debug']==1) {echo "[Notification] $query";}
 	$query=$db->query($query);
 	$row=$query->fetch();

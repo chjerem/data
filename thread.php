@@ -5,8 +5,8 @@
 # @Description : display tickets thread
 # @Author : Flox
 # @Create : 27/01/2013
-# @Update : 31/03/2017
-# @Version : 3.1.19
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 // initialize variables 
@@ -15,12 +15,16 @@ if(!isset($_GET['threadedit'])) $_GET['threadedit'] = '';
 if(!isset($rcreator['firstname'])) $rcreator['firstname']= ''; 
 if(!isset($rcreator['lastname'])) $rcreator['lastname']= ''; 
 
+$db_threaddelete=strip_tags($db->quote($_GET['threaddelete']));
+$db_threadedit=strip_tags($db->quote($_GET['threadedit']));
+$db_id=strip_tags($db->quote($_GET['id']));
+
 ///// actions for threads
 
 //thread delete
 if ($_GET['threaddelete']!='' && $rright['ticket_thread_delete']!=0)
 {
-	$db->exec("DELETE FROM tthreads WHERE id=$_GET[threaddelete]");
+	$db->exec("DELETE FROM tthreads WHERE id=$db_threaddelete");
 } 
 
 //call date conversion function from index
@@ -38,7 +42,7 @@ if ($globalrow['creator']!='')
 if($_GET['action']!='new') //case for edit ticket not new ticket
 {
 	echo '
-    <table border="1" style="border: 1px solid #D8D8D8;" CELLPADDING="15">
+    <table '; if($mobile==0) {echo 'border="1" style="border: 1px solid #D8D8D8;"';} echo ' CELLPADDING="15">
 		<tr>
 			<td>
 				<div id="timeline-1">
@@ -60,7 +64,7 @@ if($_GET['action']!='new') //case for edit ticket not new ticket
 												</span>
 											</div>
 										<div class="timeline-items">';
-											$query = $db->query('SELECT * FROM tthreads WHERE ticket='.$_GET['id'].' ORDER BY date');
+											$query = $db->query('SELECT * FROM tthreads WHERE ticket='.$db_id.' ORDER BY date');
 											while ($row = $query->fetch()) 
 											{
 												////for each type of thread display line
@@ -137,6 +141,12 @@ if($_GET['action']!='new') //case for edit ticket not new ticket
 																//detect <br> for wysiwyg transition from 2.9 to 3.0
 																$findbr=stripos($row['text'], '<br>');
 																if ($findbr === false) {$threadtext=nl2br($row['text']);} else {$threadtext=$row['text'];}
+																//insert html link if http is detected in text
+																if (preg_match('#http://#',$threadtext) || preg_match('#https://#',$threadtext))
+																{
+																	$url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i'; 
+																	$threadtext = preg_replace($url, '<a href="$0" target="_blank" title="$0">$0</a>', $threadtext);
+																}
 																echo '
 																<div class="widget-body">
 																	<div class="widget-main">'.$threadtext.'</div>
@@ -291,7 +301,7 @@ if($_GET['action']!='new') //case for edit ticket not new ticket
 					//display text input
 					if($_GET['action']!='new') //query only in edit ticket mode to display new ticket faster
 					{
-						$query=$db->query("SELECT text FROM `tthreads` WHERE id='$_GET[threadedit]'");
+						$query=$db->query("SELECT text FROM `tthreads` WHERE id=$db_threadedit");
 						$row=$query->fetch();
 						$query->closeCursor();
 					}
@@ -311,7 +321,7 @@ if($_GET['action']!='new') //case for edit ticket not new ticket
 									<tr>
 										<td>
 											<div id="editor2" class="wysiwyg-editor" style="min-height:80px;">';
-										    	if($_POST['text2']!='') {echo $_POST['text2'];} elseif($text) {echo "$text";} else {echo "";}
+										    	if($_POST['text2']!='') {echo $_POST['text2'];} elseif($text) {echo "	$text";} else {echo "";}
 											echo '</div>
 											<input type="hidden" name="text2" />
 										</td>

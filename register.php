@@ -1,12 +1,12 @@
 <?php
 ################################################################################
 # @Name : ./register.php 
-# @Desc : create gestsup user
-# @call : /index.php
+# @Description : create gestsup user
+# @Call : /index.php
 # @Author : Flox
-# @Version : 3.1.14
+# @Version : 3.1.29
 # @Create : 20/03/2014
-# @Update : 08/12/2016
+# @Update : 18/12/2017
 ################################################################################
 
 //init language
@@ -26,7 +26,7 @@ if(!isset($_POST['company'])) $_POST['company'] = '';
 
 if(!isset($user1['company'])) $user1['company'] = '';
 
-//secure HMTL injection
+//secure string
 $_POST['login']=strip_tags($_POST['login']);
 $_POST['password']=strip_tags($_POST['password']);
 $_POST['password2']=strip_tags($_POST['password2']);
@@ -44,10 +44,10 @@ require "connect.php";
 $db->exec('SET sql_mode = ""');
 
 //load parameters table
-$qparameters=$db->query("SELECT * FROM `tparameters`");
-$rparameters=$qparameters->fetch();
-$qparameters->closeCursor();
-
+$qry = $db->prepare("SELECT * FROM `tparameters`");
+$qry->execute();
+$rparameters=$qry->fetch();
+$qry->closeCursor();
 
 if ($rparameters['user_register']==1)
 {
@@ -64,30 +64,46 @@ if ($rparameters['user_register']==1)
             	                 if($_POST['password2']==$_POST['password']) {
 									//check if user id already exist
 									$exist_user = false;
-									$query = $db->query("SELECT * FROM tusers WHERE mail = '".$_POST['mail']."' or login='".$_POST['login']."'");            
-									while ($row = $query->fetch()) 
+									$qry = $db->prepare("SELECT `id` FROM `tusers` WHERE `mail`=:mail OR `login`=:login ");
+									$qry->execute(array(
+										'mail' => $_POST['mail'],
+										'login' => $_POST['login']
+										));	
+									while ($row = $qry->fetch()) 
 									{
 									   $exist_user = true;   
-									} 
+									}
+									$qry->closeCursor();									
 									if($exist_user==true)
 									{
-										$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> L\'identifiant ou l\'adresse mail renseignée existe déjà.<br></div>';
+										$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("L'identifiant ou l'adresse mail renseignée existe déjà.").'<br></div>';
 									} else {
 										//crypt password md5 + salt
 										$salt = substr(md5(uniqid(rand(), true)), 0, 5); // Generate a random key
 										$_POST['password']=md5($salt . md5($_POST['password'])); // store in md5, md5 password + salt
-										//query
-										$db->exec ("INSERT INTO tusers (firstname,lastname,password,salt,mail,profile,login,chgpwd,company) VALUES ('$_POST[firstname]','$_POST[lastname]','$_POST[password]','$salt','$_POST[mail]','$defaultprofile','$_POST[login]','0','$_POST[company]')");
+										//insert user
+										$qry=$db->prepare("INSERT INTO `tusers` (`firstname`,`lastname`,`password`,`salt`,`mail`,`profile`,`login`,`chgpwd`,`company`) VALUES (:firstname,:lastname,:password,:salt,:mail,:profile,:login,:chgpwd,:company)");
+										$qry->execute(array(
+											'firstname' => $_POST['firstname'],
+											'lastname' => $_POST['lastname'],
+											'password' => $_POST['password'],
+											'salt' => $salt,
+											'mail' => $_POST['mail'],
+											'profile' => $defaultprofile,
+											'login' => $_POST['login'],
+											'chgpwd' => 0,
+											'company' => $_POST['company']
+											));
 										//message to display
-										$message='<div class="alert alert-block alert-success"><center><i class="icon-ok green"></i> Votre compte à été crée avec succès.</center></div>';
+										$message='<div class="alert alert-block alert-success"><center><i class="icon-ok green"></i> '.T_('Votre compte à été crée avec succès').'.</center></div>';
 									}
-            	                } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> Vos mots de passes ne sont pas identiques.<br></div>';}
-            	              } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> Vous devez spécifier une adresse mail.<br></div>';}
-        	             } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> Vous devez spécifier un mot de passe.<br></div>';}
-        	        } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> Vous devez spécifier un mot de passe.<br></div>';}
-        	    } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> Vous devez spécifier un identifiant.<br></div>';}
-        	} else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> Vous devez spécifier un nom.<br></div>';}
-        } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> Erreur:</strong> Vous devez spécifier un prénom.<br></div>';}
+            	                } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("Vos mots de passes ne sont pas identiques").'.<br></div>';}
+            	              } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("Vous devez spécifier une adresse mail").'.<br></div>';}
+        	             } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("Vous devez spécifier un mot de passe").'.<br></div>';}
+        	        } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("Vous devez spécifier un mot de passe").'.<br></div>';}
+        	    } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("Vous devez spécifier un identifiant").'.<br></div>';}
+        	} else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("Vous devez spécifier un nom").'.<br></div>';}
+        } else {$message='<div class="alert alert-danger"><strong><i class="icon-remove"></i> '.T_('Erreur').':</strong> '.T_("Vous devez spécifier un prénom").'.<br></div>';}
 	}
     
     //display form
@@ -144,7 +160,6 @@ if ($rparameters['user_register']==1)
 								<h1>
 									<i class="icon-ticket green"></i>
 									<span class="white">GestSup</span>
-									<span style="font-size: x-small;">'.$rparameters['version'].'</span>
 								</h1>
 								<h4 class="blue">';if (isset($rparameters['company'])) echo $rparameters['company']; echo' </h4>
 								<img style="border-style: none" alt="logo" src="./upload/logo/'; if ($rparameters['logo']=='') echo 'logo.png'; else echo $rparameters['logo'];  echo '" />
@@ -167,37 +182,37 @@ if ($rparameters['user_register']==1)
 												<fieldset>
 												    <label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input class="form-control" type="text" id="firstname" name="firstname" class="span12" placeholder="'.T_('Prénom').'" />
+															<input class="form-control" type="text" id="firstname" name="firstname" class="span12" placeholder="'.T_('Prénom').'" value="'.$_POST['firstname'].'" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input class="form-control" type="text" id="lastname" name="lastname" class="span12" placeholder="'.T_('Nom').'" />
+															<input class="form-control" type="text" id="lastname" name="lastname" class="span12" placeholder="'.T_('Nom').'" value="'.$_POST['lastname'].'" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input class="form-control" type="text" id="login" name="login" class="span12" placeholder="'.T_('Identifiant').'" />
+															<input class="form-control" type="text" id="login" name="login" class="span12" placeholder="'.T_('Identifiant').'" value="'.$_POST['login'].'" />
 															<i class="icon-user"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input class="form-control" type="password" id="password" name="password" class="span12" placeholder="'.T_('Mot de passe').'" />
+															<input class="form-control" type="password" id="password" name="password" class="span12" placeholder="'.T_('Mot de passe').'" value="'.$_POST['password'].'" />
 															<i class="icon-lock"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input class="form-control" type="password" id="password2" name="password2" class="span12" placeholder="'.T_('Re-taper votre mot de passe').'" />
+															<input class="form-control" type="password" id="password2" name="password2" class="span12" placeholder="'.T_('Re-taper votre mot de passe').'" value="'.$_POST['password2'].'" />
 															<i class="icon-retweet"></i>
 														</span>
 													</label>
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input class="form-control" type="text" id="mail" name="mail" class="span12" placeholder="'.T_('Adresse Mail').'" />
+															<input class="form-control" type="text" id="mail" name="mail" class="span12" placeholder="'.T_('Adresse Mail').'" value="'.$_POST['mail'].'" />
 															<i class="icon-envelope"></i>
 														</span>
 													</label>';
@@ -209,11 +224,13 @@ if ($rparameters['user_register']==1)
     														<span class="block input-icon input-icon-right">
     															<select class="form-control" type="text" id="company" name="company" class="span12" placeholder="'.T_('Adresse Mail').'" />
     															    <option value="">'.T_('Votre Société').':</option>';
-                                									$query = $db->query("SELECT * FROM tcompany ORDER BY name");
-                                									while ($row = $query->fetch())
+																	$qry = $db->prepare("SELECT `id`,`name` FROM `tcompany` ORDER BY name");
+																	$qry->execute();
+                                									while ($row = $qry->fetch())
                                 									{
                                 										if ($user1['company']==$row['id']) echo "<option selected value=\"$row[id]\">$row[name]</option>"; else echo "<option value=\"$row[id]\">$row[name]</option>";
-                                									} 
+                                									}
+																	$qry->closeCursor();																	
                                 									echo '
     															</select>
     															<i class="icon-building"></i>
@@ -264,10 +281,7 @@ if ($rparameters['user_register']==1)
         echo '
 	</body>
 </html>';
-
 } else {
-    echo '<div class="alert alert-danger"><strong><i class="icon-remove"></i>Erreur:</strong> La fonction d\'enregistrement des utilisateurs est désactivé par votre administrateur.<br></div>';
+    echo '<div class="alert alert-danger"><strong><i class="icon-remove"></i>'.T_('Erreur').':</strong> '.T_("La fonction d'enregistrement des utilisateurs est désactivée par votre administrateur").'.<br></div>';
 }
-
-
 ?>

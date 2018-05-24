@@ -6,8 +6,8 @@
 # @parameters : 
 # @Author : Flox
 # @Create : 25/01/2016
-# @Update : 19/04/2017
-# @Version : 3.1.20
+# @Update : 27/07/2017
+# @Version : 3.1.24
 ################################################################################
 
 if ($rparameters['debug']==1) {echo '<u><b>DEBUG MODE:</b></u><br /><b>VAR</b> where_service='.$where_service.' where_agency='.$where_agency.' POST_service='.$_POST['service'].' POST_agency='.$_POST['agency'].'';}
@@ -22,13 +22,40 @@ if ($rparameters['debug']==1) {echo '<u><b>DEBUG MODE:</b></u><br /><b>VAR</b> w
 			//case limit user service
 			if ($rparameters['user_limit_service']==1 && $rright['admin']==0)
 			{
+				//case technician with agency et service
 				$where_service2=str_replace('AND tincidents.u_service','service_id', $where_service);
 				$where_service2=str_replace('AND', '', $where_service2);
+				if($cnt_service>1 && $cnt_agency!=0)
+				{
+					$where_service2=preg_replace('/OR/', '', $where_service2, 1); //case user have single service and agency
+					echo "CASE1";
+				} elseif($cnt_service==1) {
+					$where_service2=str_replace('OR', '', $where_service2); //case user have single service and agency
+				}
+				//case user have service and agency
+				if($cnt_service==1 && $cnt_agency!=0) {
+					$where_service=str_replace('OR', 'AND', $where_service); 
+				} elseif ($cnt_service>1 && $cnt_agency!=0)
+				{
+					$where_service=preg_replace('/OR/', 'AND', $where_service, 1); 
+				}
+				//case user with only-one agency
+				if($cnt_agency!=0 && $cnt_service==0)
+				{
+					$where_service2=' 1=1';
+				}
+				
 				$where_service2=str_replace('tincidents.u_service', 'service_id', $where_service2);
-				$query="SELECT id,firstname,lastname FROM tusers WHERE id IN (SELECT user_id FROM tusers_services WHERE $where_service2) AND profile='0' AND disable='0' ORDER BY lastname";
+				$query="SELECT id,firstname,lastname FROM tusers WHERE id IN (SELECT user_id FROM tusers_services WHERE $where_service2 ) AND profile='0' AND disable='0' ORDER BY lastname";
 				$query = $db->query($query);
 			} else {
-				$query = $db->query("SELECT id,firstname,lastname FROM tusers WHERE profile='0' AND disable=0 ORDER BY lastname");
+				//display admin in technician liste
+				if($rright['ticket_tech_admin']!=0)
+				{
+					$query = $db->query("SELECT id,firstname,lastname FROM tusers WHERE (profile='0' OR profile='4') AND disable=0 ORDER BY lastname");
+				} else {
+					$query = $db->query("SELECT id,firstname,lastname FROM tusers WHERE profile='0' AND disable=0 ORDER BY lastname");
+				}
 			}				
 			while ($row=$query->fetch()) {
 				if ($row['id'] == $_POST['tech']) {$selected1='selected';} else {$selected1='';}
@@ -90,7 +117,8 @@ if ($rparameters['debug']==1) {echo '<u><b>DEBUG MODE:</b></u><br /><b>VAR</b> w
 			//case limit user service
 			if ($rparameters['user_limit_service']==1 && $rright['admin']==0)
 			{
-				$query = $db->query("SELECT id,name FROM tcriticality WHERE service IN (SELECT service_id FROM tusers_services WHERE user_id='$_SESSION[user_id]') ORDER BY number");
+				$query="SELECT id,name FROM tcriticality WHERE service IN (SELECT service_id FROM tusers_services WHERE user_id='$_SESSION[user_id]') ORDER BY number";
+				$query = $db->query($query);
 			} else {
 				$query = $db->query("SELECT id,name FROM tcriticality ORDER BY number");
 			}			
@@ -154,9 +182,9 @@ if ($rparameters['debug']==1) {echo '<u><b>DEBUG MODE:</b></u><br /><b>VAR</b> w
 	//call all graphics files from ./stats directory
 	require('./stats/line_tickets.php');
 	echo "<br />";
-	echo "<a name=\"chart4\"></a>";
-	require('./stats/line_tickets_activity.php');
-	echo "<br />";
+	//echo "<a name=\"chart4\"></a>";
+	//require('./stats/line_tickets_activity.php');
+	//echo "<br />";
 	echo "<a name=\"chart1\"></a>";
 	require('./stats/pie_tickets_tech.php');
 	echo "<br />";
@@ -179,11 +207,7 @@ if ($rparameters['debug']==1) {echo '<u><b>DEBUG MODE:</b></u><br /><b>VAR</b> w
 		require('./stats/pie_services.php');
 		echo "<br />";
 	}
-	//display pie company if exist companies
-	$qcompany = $db->query("SELECT count(*) FROM tcompany WHERE id!=0");
-	$rcompany=$qcompany->fetch();
-	$query->closeCursor(); 
-	if ($rcompany[0]>0 && $rparameters['user_advanced']==1)
+	if ($company_filter==1 && $rparameters['user_advanced']==1)
 	{
 		echo "<a name=\"chart8\"></a>";
 		echo "<hr />";

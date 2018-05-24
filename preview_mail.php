@@ -6,8 +6,8 @@
 # @Parameters: mail.php
 # @Author : Flox
 # @Create : 01/10/2014
-# @Update : 02/05/2017
-# @Version : 3.1.20
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -15,11 +15,13 @@ if(!isset($send)) $send = '';
 if(!isset($_POST['mail'])) $_POST['mail'] = '';
 if(!isset($_POST['return'])) $_POST['return'] = '';
 
+$db_id=strip_tags($db->quote($_GET['id']));
+
 //send message and trace in thread
 if ($_POST['mail'])
 {
 	//trace mail in thread
-	$db->exec("INSERT INTO tthreads (ticket,date,author,text,type) VALUES ('$_GET[id]','$datetime', '$_SESSION[user_id]', '','3')");
+	$db->exec("INSERT INTO tthreads (ticket,date,author,text,type) VALUES ($db_id,'$datetime', '$_SESSION[user_id]', '','3')");
 	//send
 	$send=1;
 	require('./core/mail.php');
@@ -125,7 +127,7 @@ else
 												if ($rparameters['user_agency']==1 && $different_tech==0) {
 													
 													//get agency mail
-													$query=$db->query("SELECT mail,name FROM tagencies WHERE id IN (SELECT u_agency FROM tincidents WHERE id='$_GET[id]')");
+													$query=$db->query("SELECT mail,name FROM tagencies WHERE id IN (SELECT u_agency FROM tincidents WHERE id=$db_id)");
 													$row=$query->fetch();
 													$query->closeCursor();
 													if($row['mail']) {echo '<option selected value="'.$row['mail'].'">'.T_('Agence').' '.$row['name'].' ('.$row['mail'].')</option>';}
@@ -148,8 +150,7 @@ else
 												//auto select mail agency if parameters is enable and if agency have mail and user have no mail
 												if ($rparameters['user_agency']==1 && $different_tech==1) {
 													//get agency mail
-													echo "SELECT mail,name FROM tagencies WHERE id IN (SELECT u_agency FROM tincidents WHERE id='$_GET[id]')";
-													$query=$db->query("SELECT mail,name FROM tagencies WHERE id IN (SELECT u_agency FROM tincidents WHERE id='$_GET[id]')");
+													$query=$db->query("SELECT mail,name FROM tagencies WHERE id IN (SELECT u_agency FROM tincidents WHERE id=$db_id)");
 													$row=$query->fetch();
 													$query->closeCursor();
 													if($row['mail']) {echo '<option selected value="'.$row['mail'].'">'.T_('Agence').' '.$row['name'].' ('.$row['mail'].')</option>';}
@@ -254,8 +255,8 @@ else
     												$ext = strtolower($ext);
     												echo "
     													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    													<a  target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img1]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
-    													<a target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img1]\" >$globalrow[img1]</a>
+    													<a  target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img1]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
+    													<a target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img1]\" >$globalrow[img1]</a>
     												";
     											}
     											if ($globalrow['img2']!='')
@@ -265,8 +266,8 @@ else
     												$ext = strtolower($ext);
     												echo "
     													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    													<a  target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img2]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
-    													<a target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img2]\" >$globalrow[img2]</a>
+    													<a  target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img2]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
+    													<a target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img2]\" >$globalrow[img2]</a>
     												";
     											}
     											if ($globalrow['img3']!='')
@@ -276,8 +277,8 @@ else
     												$ext = strtolower($ext);
     												echo "
     													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    													<a  target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img3]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
-    													<a target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img3]\" >$globalrow[img3]</a>
+    													<a  target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img3]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
+    													<a target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img3]\" >$globalrow[img3]</a>
     												";
     											}
     											if ($globalrow['img4']!='')
@@ -287,8 +288,8 @@ else
     												$ext = strtolower($ext);
     												echo "
     													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    													<a  target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img4]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
-    													<a target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img4]\" >$globalrow[img4]</a>
+    													<a  target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img4]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
+    													<a target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img4]\" >$globalrow[img4]</a>
     												";
     											}
     											if ($globalrow['img5']!='')
@@ -298,8 +299,8 @@ else
     												$ext = strtolower($ext);
     												echo "
     													&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    													<a  target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img5]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
-    													<a target=\"about_blank\" href=\"./upload/$_GET[id]/$globalrow[img5]\" >$globalrow[img5]</a>
+    													<a  target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img5]\" style=\"text-decoration:none\"> <img border=\"0\" src=\"./images/icon_file/$ext.png\" /> </a>&nbsp;
+    													<a target=\"_blank\" href=\"./upload/$_GET[id]/$globalrow[img5]\" >$globalrow[img5]</a>
     												";
     											}
     											echo '

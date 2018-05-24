@@ -6,8 +6,8 @@
 # @parameters : 
 # @Author : Flox
 # @Create : 12/01/2011
-# @Update : 19/04/2017
-# @Version : 3.1.20
+# @Update : 13/09/2017
+# @Version : 3.1.26
 ################################################################################
 
 //initialize variables 
@@ -31,6 +31,7 @@ if(!isset($_POST['year'])) $_POST['year'] = '';
 if(!isset($_POST['month'])) $_POST['month'] = '';
 if(!isset($_POST['category'])) $_POST['category'] = '';
 if(!isset($_POST['service'])) $_POST['service'] = '';
+if(!isset($_POST['company'])) $_POST['company'] = '';
 if(!isset($_POST['agency'])) $_POST['agency'] = '';
 if(!isset($_POST['model'])) $_POST['model'] = '';
 if(!isset($_GET['tab'])) $_GET['tab'] = 'ticket';
@@ -43,11 +44,15 @@ if ($_POST['month']=="") $_POST['month']=date('m');
 if ($_POST['type']=="") $_POST['type']='%';
 if ($_POST['category']=="") $_POST['category']='%';
 if ($_POST['service']=="") $_POST['service']='%';
+if ($_POST['company']=="") $_POST['company']='%';
 if ($_POST['agency']=="") $_POST['agency']='%';
 if ($_POST['model']=="") $_POST['model']='%';
 
-//case limit user service
-//if ($rparameters['user_limit_service']!=1 || $rright['admin']==0){if ($_POST['service']!='%') {$where_service='';}}
+//count company from company list to display company filter or not
+$query = $db->query("SELECT count(id) FROM tcompany WHERE disable='0'"); 
+$company_cnt = $query->fetch();
+$query->closeCursor();
+if($company_cnt[0]>1 && $rparameters['user_advanced']==1) {$company_filter=1;} else {$company_filter=0;}
 
 //case agency parameter is enabled
 if ($rparameters['user_agency']==1){$where_agency="AND tincidents.u_agency LIKE '$_POST[agency]'";} else {$where_agency='';}
@@ -80,7 +85,7 @@ if (($rparameters['user_limit_service']==1 && $cnt_service!=0) || $rright['stat'
 					$db->exec("DELETE FROM ttoken WHERE action='export_asset'");
 					$db->exec("INSERT INTO ttoken (token,action) VALUES ('$token','export_asset')");
 					echo'
-						<a title="'.T_("Télécharge un fichier au format CSV avec l'ensemble des équipements").'" target="about_blank" href="./core/export_assets.php?token='.$token.'&technician='.$_POST['tech'].'&service='.$_POST['service'].'&type='.$_POST['type'].'&criticality='.$_POST['criticality'].'&category='.$_POST['category'].'&month='.$_POST['month'].'&year='.$_POST['year'].'">
+						<a title="'.T_("Télécharge un fichier au format CSV avec l'ensemble des équipements").'" target="_blank" href="./core/export_assets.php?token='.$token.'&technician='.$_POST['tech'].'&service='.$_POST['service'].'&type='.$_POST['type'].'&criticality='.$_POST['criticality'].'&category='.$_POST['category'].'&month='.$_POST['month'].'&year='.$_POST['year'].'&company='.$_POST['company'].'">
 							<button  class="btn btn-xs btn-purple">
 								<i align="right" class="icon-list "></i>
 								'.T_('Export des équipements en CSV').'
@@ -93,7 +98,7 @@ if (($rparameters['user_limit_service']==1 && $cnt_service!=0) || $rright['stat'
 					$db->exec("DELETE FROM ttoken WHERE action='export_ticket'");
 					$db->exec("INSERT INTO ttoken (token,action) VALUES ('$token','export_ticket')");
 					echo'
-						<a title="'.T_("Télécharge un fichier au format CSV avec l'ensemble des tickets").'" target="about_blank" href="./core/export_tickets.php?token='.$token.'&technician='.$_POST['tech'].'&service='.$_POST['service'].'&agency='.$_POST['agency'].'&type='.$_POST['type'].'&criticality='.$_POST['criticality'].'&category='.$_POST['category'].'&month='.$_POST['month'].'&year='.$_POST['year'].'&userid='.$_SESSION['user_id'].'">
+						<a title="'.T_("Télécharge un fichier au format CSV avec l'ensemble des tickets").'" target="_blank" href="./core/export_tickets.php?token='.$token.'&technician='.$_POST['tech'].'&service='.$_POST['service'].'&agency='.$_POST['agency'].'&type='.$_POST['type'].'&criticality='.$_POST['criticality'].'&category='.$_POST['category'].'&month='.$_POST['month'].'&year='.$_POST['year'].'&userid='.$_SESSION['user_id'].'">
 							<button  class="btn btn-xs btn-purple">
 								<i align="right" class="icon-list "></i>
 								'.T_('Export des tickets en CSV').'

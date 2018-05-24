@@ -1,13 +1,13 @@
 <?php
 ################################################################################
-# @Name : /plugin/availability/index.php
-# @Desc : display availability
-# @call : /menu.php
-# @parameters : 
+# @Name : /plugins/availability/index.php
+# @Description : display availability
+# @Call : /menu.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 18/04/2014
-# @Update : 28/12/2015
-# @Version : 3.1.15
+# @Update : 04/12/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -23,8 +23,13 @@ if(!isset($_GET['page'])) $_GET['page'] = '';
 //default settings
 if(!isset($_GET['year']))$year=date('Y'); else $year=$_GET['year'];
 
-//get median calc
+//get median calculate
 include('median.php');
+
+//generate token
+$token=uniqid(); 
+$db->exec("DELETE FROM ttoken WHERE action='availability_print'");
+$db->exec("INSERT INTO ttoken (token,action,ticket_id) VALUES ('$token','availability_print','0')");
 
 //display head
 echo '
@@ -48,7 +53,7 @@ echo '
 	$queryyears->closeCursor(); 
 	echo '
             
-           <a href="./plugins/availability/print.php?year='.$year.'" target="about_blank" <i title="'.T_('Imprimer').'" class="icon-print green bigger-130"></i></a>
+    <a href="./plugins/availability/print.php?year='.$year.'&token='.$token.'" target="_blank" <i title="'.T_('Imprimer').'" class="icon-print green bigger-130"></i></a>
 
 </div>
 <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large"></div>
@@ -79,7 +84,7 @@ echo '
     		   		$sname= $db->query("SELECT name FROM `tsubcat` WHERE id='$rowsubcat[subcat]'"); 
     				$sname= $sname->fetch();
 
-    		        //statistics calc
+    		        //statistics calculate
     		        include('core.php');
     		        //find color red or green for tx
     				if ($tx_target>$tx) $color_tx="red"; else $color_tx="green";
@@ -118,7 +123,7 @@ echo '
                         					$time_min=round($time_min);
                                            	$time_hour=$time_hour[0];
                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                        					echo '&nbsp; - <a target="about_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
+                        					echo '&nbsp; - <a target="_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
                         				}
     			                        echo '
     			                        <i class="icon-caret-right purple"></i> <u>'.T_('Autres maintenances').'</u><br />
@@ -138,7 +143,7 @@ echo '
                     						$time_min=round($time_min);
                     	                   	$time_hour=$time_hour[0];
                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                        					echo '&nbsp;&nbsp;&nbsp; - <a target="about_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
+                        					echo '&nbsp;&nbsp;&nbsp; - <a target="_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
                         				}
     			                        echo '
     			                    </blockquote>
@@ -162,7 +167,7 @@ echo '
                         					$time_min=round($time_min);
                                            	$time_hour=$time_hour[0];
                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                        					echo '&nbsp;&nbsp;&nbsp; - <a target="about_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
+                        					echo '&nbsp;&nbsp;&nbsp; - <a target="_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
                         				}
     			                        echo '
     			                        <i class="icon-caret-right orange"></i> <u>'.T_('Autres problème').'</u><br />
@@ -182,7 +187,7 @@ echo '
                     						$time_min=round($time_min);
                     	                   	$time_hour=$time_hour[0];
                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                        					echo '&nbsp;&nbsp;&nbsp; - <a target="about_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
+                        					echo '&nbsp;&nbsp;&nbsp; - <a target="_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
                         				}
     			                        echo "
     			                    </blockquote>
@@ -263,7 +268,7 @@ echo '
                                         					$time_min=round($time_min);
                                                            	$time_hour=$time_hour[0];
                                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="about_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
+                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
                                         				}
 														$queryticket->closeCursor();  
                     			                        echo '
@@ -284,7 +289,7 @@ echo '
                         						$time_min=round($time_min);
                                     	                   	$time_hour=$time_hour[0];
                                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="about_blank" href=\./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
+                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="_blank" href=\./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
                                         				}
 														$queryticket->closeCursor(); 
                     			                        echo '
@@ -309,7 +314,7 @@ echo '
                                         					$time_min=round($time_min);
                                                            	$time_hour=$time_hour[0];
                                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="about_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
+                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' min)<br />';
                                         				}
 														$queryticket->closeCursor(); 
                     			                        echo '
@@ -330,7 +335,7 @@ echo '
                                     						$time_min=round($time_min);
                                     	                   	$time_hour=$time_hour[0];
                                                            	$dateticket=date("d/m/Y",strtotime($rowticket['start_availability']));
-                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="about_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
+                                        					echo '&nbsp;&nbsp;&nbsp; - <a target="_blank" href="./index.php?page=ticket&id='.$rowticket['id'].'">'.T_('Ticket').' n°'.$rowticket['id'].'</a>: '.$rowticket['title'].' '.T_('le').' '.$dateticket.' ('.$time_hour.' h '.$time_min.' m)<br />';
                                         				}
 														$queryticket->closeCursor(); 
                     			                        echo "

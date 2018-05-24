@@ -1,9 +1,9 @@
 <?php
 ################################################################################
 # @Name : stat_histo.php
-# @Desc : display histogram
-# @call : /stats/histo_load.php
-# @parameters : 
+# @Description : display histogram
+# @Call : /stats/histo_load.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 06/11/2012
 # @Update : 31/01/2017

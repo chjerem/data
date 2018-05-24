@@ -5,8 +5,8 @@
 # @Call : /menu.php
 # @Author : Flox
 # @Create : 20/11/2014
-# @Update : 03/05/2017
-# @Version : 3.1.20
+# @Update : 06/12/2017
+# @Version : 3.1.29
 ################################################################################
 
 //initialize variables 
@@ -48,6 +48,8 @@ if(!isset($_POST['date_end_warranty'])) $_POST['date_end_warranty']= $_GET['date
 if(!isset($_POST['department'])) $_POST['department']= $_GET['department'];
 if(!isset($_POST['location'])) $_POST['location']= $_GET['location'];
 if(!isset($_POST['virtual'])) $_POST['virtual']= $_GET['virtual'];
+if(!isset($_POST['warranty_type'])) $_POST['warranty_type']= '';
+if(!isset($_POST['warranty_time'])) $_POST['warranty_time']= '';
 
 //default values
 if($_GET['cursor']=='') $_GET['cursor']= '0'; 
@@ -62,6 +64,7 @@ if($_POST['date_stock']=='') $_POST['date_stock']= '%';
 if($_POST['date_end_warranty']=='') $_POST['date_end_warranty']= '%';
 if($_POST['department']=='') $_POST['department']= '%';
 if($_POST['virtual']=='') $_POST['virtual']= '%';
+if($_POST['warranty_type']=='') $_POST['warranty_type']= 'under_warranty';
 
 if($_GET['sn_internal']=='') $_GET['sn_internal']= '%'; 
 if($_GET['ip']=='') $_GET['ip']= '%'; 
@@ -86,22 +89,35 @@ if ($_GET['order']=='' && $_GET['warranty']==1){$_GET['order']='date_end_warrant
 if($_POST['type']!=$_GET['type'] && $_GET['cursor']!=0) $_GET['cursor']='0';
 if($_POST['model']!=$_GET['model'] && $_GET['cursor']!=0) $_GET['cursor']='0';
 
-//restrict to view only asset department
-if($rright['asset_list_department_only']!=0) {
+//restrict to view only asset of:
+if($rright['asset_list_department_only']!=0) { //department
 	//get service from this user
 	$query=$db->query("SELECT service_id FROM tusers_services WHERE user_id='$ruser[id]'");
 	$rservice=$query->fetch();
 	$query->closeCursor();
 	$_POST['department']=$rservice['service_id'];
+} elseif ($rright['asset_list_company_only']!=0) { //company
+	$_POST['company']=$ruser['company'];
 }
 
 //restrict to view only active state
 if($rright['side_asset_all_state']==0) {$_POST['state']=2;}
 
+if($_GET['way']=='ASC' || $_GET['way']=='DESC') {$db_way=$_GET['way'];} else {$db_way='DESC';}
 //convert order in number
 if($_GET['order']=='sn_internal') $_GET['order']= 'ABS(sn_internal)'; 
+if($_GET['order']=='tassets_iface.ip') $_GET['order']= "INET_ATON(tassets_iface.ip) $db_way,tassets.id"; 
 
-if ($rparameters['debug']==1) echo "<b><u>DEBUG MODE:</u></b> <br /> assetkeywords $assetkeywords POST assetkeywords $_POST[assetkeywords] $assetkeywords POST type $_POST[type] GET type: $_GET[type] POST model $_POST[model] GET model: $_GET[model] POST state $_POST[state] GET state: $_GET[state] GET cursor: $_GET[cursor] GET order: $_GET[order] GET way: $_GET[way] <br />";
+$db_order=strip_tags($db->quote($_GET['order']));
+$db_order=str_replace("'","",$db_order);
+if(is_numeric($_GET['cursor'])) {$db_cursor=$_GET['cursor'];} else {$db_cursor=0;}
+$db_type=strip_tags($db->quote($_GET['type']));
+$db_assetkeywords=strip_tags($db->quote($_GET['assetkeywords']));
+$_POST['assetkeywords']=strip_tags($_POST['assetkeywords']);
+$assetkeywords=strip_tags($assetkeywords);
+
+if ($rparameters['debug']==1) echo "<b><u>DEBUG MODE:</u></b> <br />
+<b>CURRENT_VAR:</b> assetkeywords=$assetkeywords POST_assetkeywords=$_POST[assetkeywords] POST_type=$_POST[type] GET_type=$_GET[type] POST_model=$_POST[model] GET_model_$_GET[model] POST_state=$_POST[state] GET_state=$_GET[state] GET_cursor=$_GET[cursor] GET_order=$_GET[order] GET way: $_GET[way] POST_warranty_type: $_POST[warranty_type] POST_warranty_time: $_POST[warranty_time]<br />";
 
 //page url to keep filters
 $url_post_parameters="sn_internal=$_POST[sn_internal]&ip=$_POST[ip]&netbios=$_POST[netbios]&user=$_POST[user]&type=$_POST[type]&model=$_POST[model]&description=$_POST[description]&department=$_POST[department]&location=$_POST[location]&virtual=$_POST[virtual]&date_stock=$_POST[date_stock]&date_end_warranty=$_POST[date_end_warranty]&state=$_POST[state]&warranty=$_GET[warranty]&assetkeywords=$assetkeywords";
@@ -182,35 +198,41 @@ if ($assetkeywords)
 	if ($_POST['ip']!='%' && $_POST['ip']!='') {$where.=" AND tassets_iface.ip LIKE '%$_POST[ip]%' ";} else {$where.=" AND (tassets_iface.ip LIKE '%$_POST[ip]%' OR tassets_iface.ip is null)";}
 	if ($_POST['netbios']) {$where.=" AND (tassets_iface.netbios LIKE '%$_POST[netbios]%' OR tassets.netbios LIKE '%$_POST[netbios]%' )";} else {$where.=" AND (tassets_iface.netbios LIKE '%$_POST[netbios]%' OR tassets_iface.netbios is null)";}
 	$where.=' AND (tassets_iface.disable=0 OR tassets_iface.disable is null)';
-	}
+}
 if($rright['asset_list_col_location']!=0 && !$assetkeywords)
 {
 	$join.='LEFT JOIN tassets_location ON tassets.location=tassets_location.id';
 	if ($_POST['location']){$where.=" AND tassets_location.name LIKE '%$_POST[location]%' ";} else {$where.=" AND (tassets_location.name LIKE '%$_POST[location]%' OR tassets_location.name is null)";}
 }
-if ($_GET['warranty']==1)
+//add warranty period selection
+if ($rparameters['asset_warranty']==1 && $_GET['warranty']==1)
 {
-	if ($_POST['date_end_warranty']!='%')
+	if($_POST['warranty_type']=='under_warranty')
 	{
-		if($_POST['date_end_warranty']>0) //case warranty will be expire
-		{
-			$limit_warranty=strtotime(date("Y-m-d", strtotime($today)) . " + $_POST[date_end_warranty] day");
+		if($_POST['warranty_time']==0) {
+			$where.=" AND tassets.date_end_warranty > '$today'";
+		} else {
+			$limit_warranty=strtotime(date("Y-m-d", strtotime($today)) . " + $_POST[warranty_time] day");
 			$limit_warranty=date('Y-m-d', $limit_warranty);
 			$where.=" AND tassets.date_end_warranty BETWEEN '$today' AND '$limit_warranty'";
-		}elseif($_POST['date_end_warranty']<0) //case warranty have already expire since month
-		{
-			$_POST['date_end_warranty']=str_replace('-','',$_POST['date_end_warranty']);
-			$limit_warranty=strtotime(date("Y-m-d", strtotime($today)) . " - $_POST[date_end_warranty] day");
-			$limit_warranty=date('Y-m-d', $limit_warranty);
-			$where.=" AND tassets.date_end_warranty BETWEEN '$limit_warranty' AND '$today'";
-		} elseif($_POST['date_end_warranty']==0) //case warranty have already expire since today
-		{
-			$where.=" AND tassets.date_end_warranty < '$today' AND tassets.date_end_warranty!='0000-00-00'";
 		}
-	} else {
-		$where.=" AND tassets.date_end_warranty > '$today'";
+	} elseif($_POST['warranty_type']=='except_warranty') {
+		if($_POST['warranty_time']==0) {
+			$where.=" AND tassets.date_end_warranty < '$today' AND tassets.date_end_warranty!='0000-00-00'";
+		} else {
+			$limit_warranty=strtotime(date("Y-m-d", strtotime($today)) . " - $_POST[warranty_time] day");
+			$limit_warranty=date('Y-m-d', $limit_warranty);
+			$where.=" AND tassets.date_end_warranty BETWEEN  '$limit_warranty' AND '$today'";
+		}
 	}
+	
 }
+//add company limit
+if($rright['asset_list_company_only']!=0)
+{
+	$where.=" AND tusers.company='$ruser[company]'";
+}
+
 if ($rparameters['debug']==1)
 {
 	$where_debug=str_replace("AND", "AND <br />",$where);
@@ -222,7 +244,7 @@ if ($rparameters['debug']==1)
 	$join_debug <br />
 	<b>WHERE</b><br />
 	$where_debug<br />
-	<b>ORDER BY</b> $_GET[order] $_GET[way] <b>LIMIT</b> $_GET[cursor],$rparameters[maxline]<br />
+	<b>ORDER BY</b> $db_order $db_way <b>LIMIT</b> $db_cursor,$rparameters[maxline]<br />
 	";
 }
 
@@ -230,7 +252,7 @@ $query=$db->query("SELECT COUNT(DISTINCT tassets.id) FROM $from $join WHERE $whe
 $resultcount=$query->fetch();
 $query->closeCursor();
 
-$masterquery = $db->query("SELECT DISTINCT tassets.* FROM $from $join WHERE $where ORDER BY $_GET[order] $_GET[way] LIMIT $_GET[cursor],$rparameters[maxline]"); 
+$masterquery = $db->query("SELECT DISTINCT tassets.* FROM $from $join WHERE $where ORDER BY $db_order $db_way LIMIT $db_cursor,$rparameters[maxline]"); 
 
 //auto launch asset if only one resultcount
 if($resultcount[0]==1 && $assetkeywords!='')
@@ -254,16 +276,43 @@ if($resultcount[0]==1 && $assetkeywords!='')
 <div class="page-header position-relative">
 	<h1>
 		<?php
-		//display page title of asset lis
-		if ($assetkeywords) {echo '<i class="icon-search"></i> '.T_("Recherche d'équipements:").' '.$assetkeywords;} else {echo '<i class="icon-desktop"></i> '.T_('Liste des équipements');}
-		//modify title for department view only
-		if ($rright['asset_list_department_only']!=0)
+		//display page title of asset list
+		if ($assetkeywords) 
+		{
+			$disp_assetkeywords=str_replace("'","",$db_assetkeywords);
+			$disp_assetkeywords=strip_tags($disp_assetkeywords);
+			echo '<i class="icon-search"></i> '.T_("Recherche d'équipements:").' '.$disp_assetkeywords;
+		}
+		else
+		{echo '<i class="icon-desktop"></i> '.T_('Liste des équipements');}
+		//modify title 
+		if ($rright['asset_list_department_only']!=0) //for department view only
 		{
 			//get department name
 			$query=$db->query("SELECT name FROM tservices WHERE id='$rservice[service_id]'");
 			$row=$query->fetch();
 			$query->closeCursor(); 
 			echo T_(' du service').' '.$row[0];
+		} elseif ($rright['asset_list_company_only']!=0) //for company view only
+		{
+			//get company name
+			$query=$db->query("SELECT name FROM tcompany WHERE id='$ruser[company]'");
+			$row=$query->fetch();
+			$query->closeCursor(); 
+			echo T_(' de la société').' '.$row[0];
+		} 
+		//modify title for warranty view only
+		if ($rparameters['asset_warranty']==1 && $_GET['warranty']==1)
+		{
+			echo '
+			<form style="display: inline-block;" name="warranty" id="warranty" method="post" action="" onsubmit="loadVal();" >
+				<small>
+					<select name="warranty_type" onchange="submit()">
+						<option '; if($_POST['warranty_type']=='under_warranty') {echo ' selected ';} echo' value="under_warranty">'.T_("Sous garantie").'</option>
+						<option '; if($_POST['warranty_type']=='except_warranty') {echo ' selected ';} echo' value="except_warranty">'.T_("Hors garantie").'</option>
+					</select>
+				</small>
+			';
 		} 
 		//display counter
 		echo '
@@ -272,6 +321,45 @@ if($resultcount[0]==1 && $assetkeywords!='')
 			&nbsp;'.T_('Nombre').': '.$resultcount[0].'</i>
 		</small>
 		';
+		//modify title for warranty view only
+		if ($rparameters['asset_warranty']==1 && $_GET['warranty']==1)
+		{
+			echo ' |
+			';
+				if ($_POST['warranty_type']=='under_warranty')
+				{
+					echo '
+						<small>
+							<select name="warranty_time" onchange="submit()">
+								<option '; if($_POST['warranty_time']=='0') {echo ' selected ';} echo ' value="0">'.T_("Garantie actuellement").'</option>
+								<option '; if($_POST['warranty_time']=='31') {echo ' selected ';} echo ' value="31">'.T_("Garantie prenant fin dans les 1 mois").'</option>
+								<option '; if($_POST['warranty_time']=='62') {echo ' selected ';} echo ' value="62">'.T_("Garantie prenant fin dans les 2 mois").'</option>
+								<option '; if($_POST['warranty_time']=='186') {echo ' selected ';} echo ' value="186">'.T_("Garantie prenant fin dans les 6 mois").'</option>
+								<option '; if($_POST['warranty_time']=='365') {echo ' selected ';} echo ' value="365">'.T_("Garantie prenant fin dans les 1 an").'</option>
+								<option '; if($_POST['warranty_time']=='730') {echo ' selected ';} echo ' value="730">'.T_("Garantie prenant fin dans les 2 ans").'</option>
+								<option '; if($_POST['warranty_time']=='1095') {echo ' selected ';} echo ' value="1095">'.T_("Garantie prenant fin dans les 3 ans").'</option>
+							</select>
+						</small>
+					';
+				} else 	if ($_POST['warranty_type']=='except_warranty')
+				{
+					echo '
+						<small>
+							<select name="warranty_time" onchange="submit()">
+								<option '; if($_POST['warranty_time']=='0') {echo ' selected ';} echo ' value="0">'.T_("Hors garantie actuellement").'</option>
+								<option '; if($_POST['warranty_time']=='31') {echo ' selected ';} echo ' value="31">'.T_("Garantie ayant pris fin il y a moins d'1 mois").'</option>
+								<option '; if($_POST['warranty_time']=='62') {echo ' selected ';} echo ' value="62">'.T_("Garantie ayant pris fin il y a moins de 2 mois").'</option>
+								<option '; if($_POST['warranty_time']=='186') {echo ' selected ';} echo ' value="186">'.T_("Garantie ayant pris fin il y a moins de 6 mois").'</option>
+								<option '; if($_POST['warranty_time']=='365') {echo ' selected ';} echo ' value="365">'.T_("Garantie ayant pris fin il y a moins de 1 an").'</option>
+								<option '; if($_POST['warranty_time']=='730') {echo ' selected ';} echo ' value="730">'.T_("Garantie ayant pris fin il y a moins de 2 ans").'</option>
+								<option '; if($_POST['warranty_time']=='1095') {echo ' selected ';} echo ' value="1095">'.T_("Garantie ayant pris fin il y a moins de 3 ans").'</option>
+							</select>
+						</small>
+					';
+				}
+			echo '</form>';
+		} 
+		//modify title for search view
 		if ($assetkeywords)
 		{
 			//if virtual asset detected display new select box filter
@@ -302,7 +390,7 @@ if($resultcount[0]==1 && $assetkeywords!='')
 </div>
 <?php
 	//display message if search result is null
-	if($resultcount[0]==0 && $assetkeywords!="") echo '<div class="alert alert-danger"><i class="icon-remove"></i> Aucun équipement trouvé pour la recherche: <strong>'.$assetkeywords.'</strong></div>';
+	if($resultcount[0]==0 && $assetkeywords!="") echo '<div class="alert alert-danger"><i class="icon-remove"></i> Aucun équipement trouvé pour la recherche: <strong>'.$disp_assetkeywords.'</strong></div>';
 ?>
 <div class="row">
 	<div class="col-xs-12">
@@ -355,7 +443,7 @@ if($resultcount[0]==1 && $assetkeywords!='')
 										<i class="icon-exchange"></i><br />
 										'.T_('Adresse IP');
 										//Display arrows
-										if ($_GET['order']=='tassets_iface.ip'){
+										if ($_GET['order']=="INET_ATON(tassets_iface.ip) $db_way,tassets.id"){
 											if ($_GET['way']=='ASC') {echo ' <i class="icon-sort-up"></i>';}
 											if ($_GET['way']=='DESC') {echo ' <i class="icon-sort-down"></i>';}
 										}
@@ -588,7 +676,7 @@ if($resultcount[0]==1 && $assetkeywords!='')
 								<select style="width:90px" name="model" onchange="submit()">
 									<option value="%"></option>
 									<?php
-									$query = $db->query("SELECT DISTINCT tassets_model.* FROM tassets_model, $from $join WHERE tassets_model.id=tassets.model AND tassets_model.type LIKE '$_GET[type]' AND $where ORDER BY tassets_model.name");
+									$query = $db->query("SELECT DISTINCT tassets_model.* FROM tassets_model, $from $join WHERE tassets_model.id=tassets.model AND tassets_model.type LIKE $db_type AND $where ORDER BY tassets_model.name");
 									while ($row=$query->fetch())
 									{
 										if ($_POST['model']==$row['id']) echo "<option selected value=\"$row[id]\">$row[name]</option>"; else echo "<option value=\"$row[id]\">$row[name]</option>";
@@ -625,33 +713,7 @@ if($resultcount[0]==1 && $assetkeywords!='')
 								<input name="date_stock" onchange="submit();" style="width:82px" type="text"  value="<?php if ($_POST['date_stock']!='%') {echo $_POST['date_stock'];} ?>" />
 							</td>
 							<?php 
-							if ($rparameters['asset_warranty']==1 && $_GET['warranty']==1)
-							{
-								echo '
-								<td>
-									<center>
-										<select style="width:70px" id="date_end_warranty" name="date_end_warranty" onchange="submit()" >	
-											<option '; if($_POST['date_end_warranty']=='%'){echo ' selected ';} echo 'value="%">'.T_('Tous').'</option>
-											<option '; if($_POST['date_end_warranty']==31){echo ' selected ';} echo 'value="31">'.T_('Garanties prenant fin dans 1 mois').'</option>
-											<option '; if($_POST['date_end_warranty']==62){echo ' selected ';} echo 'value="62">'.T_('Garanties prenant fin dans les 2 mois').'</option>
-											<option '; if($_POST['date_end_warranty']==182){echo ' selected ';} echo 'value="182">'.T_('Garanties prenant fin dans les 6 mois').'</option>
-											<option '; if($_POST['date_end_warranty']==365){echo ' selected ';} echo 'value="365">'.T_("Garanties prenant fin dans les 1 an ").'</option>
-											<option '; if($_POST['date_end_warranty']==730){echo ' selected ';} echo 'value="730">'.T_('Garanties prenant fin dans les 2 ans').'</option>
-											<option '; if($_POST['date_end_warranty']==1095){echo ' selected ';} echo 'value="1095">'.T_('Garanties prenant fin dans les 3 ans').'</option>
-											<option></option>
-											<option '; if($_POST['date_end_warranty']=='-31'){echo ' selected ';} echo 'value="-31">'.T_("Garanties ayant pris fin il y a moins d'1 mois").'</option>
-											<option '; if($_POST['date_end_warranty']=='-62'){echo ' selected ';} echo 'value="-62">'.T_('Garanties ayant pris fin il y a moins de 2 mois').'</option>
-											<option '; if($_POST['date_end_warranty']=='-182'){echo ' selected ';} echo 'value="-182">'.T_('Garanties ayant pris fin il y a moins 6 mois').'</option>
-											<option '; if($_POST['date_end_warranty']=='-365'){echo ' selected ';} echo 'value="-365">'.T_('Garanties ayant pris fin il y a moins 1 an').'</option>
-											<option '; if($_POST['date_end_warranty']=='-730'){echo ' selected ';} echo 'value="-730">'.T_('Garanties ayant pris fin il y a moins 2 ans').'</option>
-											<option '; if($_POST['date_end_warranty']=='-1095'){echo ' selected ';} echo 'value="-1095">'.T_('Garanties ayant pris fin il y a moins 3 ans').'</option>
-											<option></option>
-											<option '; if($_POST['date_end_warranty']=='0'){echo ' selected ';} echo 'value="0">'.T_('Garanties expirées').'</option>
-										</select>
-									</center>	
-								</td>
-								';
-							}
+							if ($rparameters['asset_warranty']==1 && $_GET['warranty']==1){echo '<td></td>';}
 							?>
 							<td align="center">
 								<select style="width:50px" id="state" name="state" onchange="submit()" >	
@@ -725,16 +787,30 @@ if($resultcount[0]==1 && $assetkeywords!='')
 								$asset_link='./index.php?page=asset&id='.$row['id'].'&'.$url_post_parameters.'&way='.$_GET['way'].'&order='.$_GET['order'].'&cursor='.$_GET['cursor'];
 							}	
 							
-							//display each line 
+							//check if asset have been discover by import csv file
+							$query=$db->query("SELECT id FROM tassets WHERE discover_import_csv='1'"); 
+							$discover_import_csv=$query->fetch();
+							$query->closeCursor();
+							if($discover_import_csv) {
+								
+								//generate network discover flag
+								if($row['discover_net_scan']==1 && $row['discover_import_csv']==0)
+								{
+									$flag='&nbsp;<i title="'.T_("Équipement découvert par le scan réseau, mais pas dans l'import de fichier CSV").'" class="icon-flag red bigger-130"></i>';
+								} else {$flag='';}
+							} else {$flag='';}
+							
+							////////////////////////////////////////////////////////////////display each line 
 							echo "
 								<tr>
 									<td style=\"vertical-align:middle;\" onclick=\"document.location='$asset_link'\">
 										<center>
 										&nbsp<a href=\"$asset_link\">
 												<span title=\"\" class=\"label\">
-													$row[sn_internal]
+													$row[sn_internal] 
 												</span>
 											</a>
+											$flag
 										</center>
 									</td>
 									";

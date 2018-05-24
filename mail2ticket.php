@@ -6,8 +6,8 @@
 # @parameters : 
 # @Author : Flox
 # @Create : 07/04/2013
-# @Update : 24/04/2017
-# @Version : 3.1.20
+# @Update : 06/02/2018
+# @Version : 3.1.30
 ################################################################################
 
 //initialize variables 
@@ -33,11 +33,14 @@ T_textdomain($_GET['lang']);
 header('Content-Type: text/html; charset=utf-8');
 
 //call phpimap component
+require_once('components/PhpImap/IncomingMailHeader.php');
 require_once('components/PhpImap/IncomingMail.php');
+require_once('components/PhpImap/IncomingMailAttachment.php');
 require_once('components/PhpImap/Mailbox.php');
 use PhpImap\Mailbox as ImapMailbox;
 use PhpImap\IncomingMail;
 use PhpImap\IncomingMailAttachment;
+
 
 //function to add attachment in image on ticket
 function func_attachement($c_ticket_number,$c_name_dir_upload,$mail,$db,$mailbox,$count)
@@ -100,8 +103,20 @@ $query=$db->query("SELECT * FROM tparameters");
 $rparameters=$query->fetch();
 $query->closeCursor(); 	
 
+//display error parameter
+if ($rparameters['debug']==1) {
+	ini_set('display_errors', 'On');
+	error_reporting(E_ALL);
+} else {
+	ini_set('display_errors', 'Off');
+	error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+}
+
+//case to certificat failure  
+if($rparameters['imap_ssl_check']==0) {$ssl_check='/novalidate-cert';} else {$ssl_check='';}
+
 //hostname building
-$hostname = '{'.$rparameters['imap_server'].':'.$rparameters['imap_port'].'}'.$rparameters['imap_inbox'].'';
+$hostname = '{'.$rparameters['imap_server'].':'.$rparameters['imap_port'].''.$ssl_check.'}'.$rparameters['imap_inbox'].'';
 
 //connect to in-box
 $c_name_dir_upload =  __DIR__.'/upload/';
@@ -118,6 +133,8 @@ if($rparameters['imap_port'])
 } else {
 	echo 'IMAP port: <span style="color:red">No IMAP port detected</span><br /><br />';
 }
+
+echo 'IMAP connection string: <span style="color:green">'.$hostname.'</span><br />';
 
 //define mailbox to check
 $mailboxes=array();
@@ -151,8 +168,6 @@ foreach ($mailboxes as $mailbox)
 	if (!$con_mailbox ) {
 		echo '['.$mailbox.'] Connection to mailbox: <span style="color:red">KO</span><br />';
 	} else {
-		echo '['.$mailbox.'] Connection to mailbox: <span style="color:green">OK</span><br />';
-		
 		//check mail in mailbox
 		$mailsIds = $con_mailbox ->searchMailBox('ALL');
 		if(!$mailsIds) {
@@ -160,7 +175,7 @@ foreach ($mailboxes as $mailbox)
 		} else {
 			echo '['.$mailbox.'] Detect mail in mailbox: <span style="color:green">OK</span><br />';
 		}
-
+		
 		//treatment for all mail inside mailbox
 		$seen=0;
 		$tab_MailsInfos =  $con_mailbox ->getMailsInfo($mailsIds);		
@@ -202,7 +217,7 @@ foreach ($mailboxes as $mailbox)
 					$subject = str_replace('_', ' ', $subject);
 
 					//find gestsup userid from mail address
-					$query=$db->query("SELECT id FROM `tusers` where mail='$from' ");
+					$query=$db->query("SELECT id FROM `tusers` where mail='$from' AND disable='0'");
 					$row=$query->fetch();
 					$query->closeCursor();
 					if($row[0])
@@ -254,11 +269,12 @@ foreach ($mailboxes as $mailbox)
 						
 					} else {
 						//create ticket
-						$stmt = $db->prepare("INSERT INTO tincidents (user,technician,title,description,date_create,techread,state,criticality,disable,place,creator) VALUES (?,'0',?, '',?,'0','5','4','0','0',?)");
+						$stmt = $db->prepare("INSERT INTO tincidents (user,technician,title,description,date_create,techread,state,criticality,disable,place,creator) VALUES (?,'0',?, '',?,'0',?,'4','0','0',?)");
 						$stmt->bindParam(1, $user_id);
 						$stmt->bindParam(2, $subject);
 						$stmt->bindParam(3, $datetime);
-						$stmt->bindParam(4, $user_id);
+						$stmt->bindParam(4, $rparameters['ticket_default_state']);
+						$stmt->bindParam(5, $user_id);
 						$stmt->execute();
 						
 						//get ticket number
@@ -291,6 +307,7 @@ foreach ($mailboxes as $mailbox)
 						
 						if($contentype=='textPlain')
 						{
+							if(isset($c_FromMessage)) {$description=$c_FromMessage.$description;}
 							$description=$db->quote($description);
 							$db->query("UPDATE tincidents SET description=$description WHERE id='$c_ticket_number'");
 						}
@@ -301,6 +318,15 @@ foreach ($mailboxes as $mailbox)
 							$message=$db->quote($message);
 							$query="UPDATE tincidents SET description=$message WHERE id='$c_ticket_number'";
 							$db->query($query);
+						}
+						
+						//send mail to user 
+						if($rparameters['mail_auto_user_newticket'])
+						{
+							$send=1;
+							$_GET['id']=$c_ticket_number;
+							include('./core/mail.php');
+							echo "SEND mail";
 						}
 					}
 					//post treatment actions

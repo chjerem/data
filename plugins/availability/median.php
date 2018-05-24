@@ -1,9 +1,9 @@
 <?php
 ################################################################################
-# @Name : /plugin/availability/median.php
-# @Desc : calc median
-# @call : /plugin/availability/index.php
-# @parameters : category
+# @Name : /plugins/availability/median.php
+# @Description : calculate median
+# @Call : /plugins/availability/index.php
+# @Parameters : category
 # @Author : Flox
 # @Create : 23/05/2015
 # @Update : 21/01/2016

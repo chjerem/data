@@ -1,18 +1,29 @@
 <?php
 ################################################################################
 # @Name : ./ticket_template.php
-# @Desc : select template incident
-# @call : /core/ticket.php
+# @Description : select template incident
+# @Call : /core/ticket.php
 # @Author : Flox
 # @Update : 21/10/2014
-# @Update : 28/12/2016
-# @Version : 3.1.15
+# @Update : 04/09/2017
+# @Version : 3.1.25
 ################################################################################
 
-// initialize variables 
+//initialize variables 
 if(!isset($_GET['id'])) $_GET['id'] = ''; 
 if(!isset($_POST['duplicate'])) $_POST['duplicate'] = ''; 
 if(!isset($_SESSION['user_id'])) $_SESSION['user_id'] = '';
+if(!isset($row['title'])) $row['title'] = '';
+if(!isset($row['user'])) $row['user'] = '';
+if(!isset($row['priority'])) $row['priority'] = '';
+if(!isset($row['state'])) $row['state'] = '';
+if(!isset($row['state'])) $row['state'] = '';
+if(!isset($row['time'])) $row['time'] = '';
+if(!isset($row['category'])) $row['category'] = '';
+if(!isset($row['subcat'])) $row['subcat'] = '';
+if(!isset($row['technician'])) $row['technician'] = '';
+if(!isset($row['criticality'])) $row['criticality'] = '';
+if(!isset($row['type'])) $row['type'] = '';
 
 if($_POST['duplicate'])
 {
@@ -28,18 +39,18 @@ if($_POST['duplicate'])
 		//case for powerusers or users
 		$query= "
 		INSERT INTO tincidents (
-		user,title,description,priority,state,time,category,subcat,date_create,technician,criticality,creator,type
+		user,title,description,priority,state,time,category,subcat,date_create,technician,criticality,creator,place,type
 		) VALUES (
-		'$_SESSION[user_id]',$row[title],$row[description],'$row[priority]','$row[state]','$row[time]','$row[category]','$row[subcat]','$datetime','$row[technician]','$row[criticality]','$_SESSION[user_id]','$row[type]'
+		'$_SESSION[user_id]',$row[title],$row[description],'$row[priority]','$row[state]','$row[time]','$row[category]','$row[subcat]','$datetime','$row[technician]','$row[criticality]','$_SESSION[user_id]','$row[place]','$row[type]'
 		)
 		";
 	} else {
 		//case for technician
 		$query= "
 		INSERT INTO tincidents (
-		user,title,description,priority,state,time,category,subcat,date_create,technician,criticality,creator,type
+		user,title,description,priority,state,time,category,subcat,date_create,technician,criticality,creator,place,type
 		) VALUES (
-		'$row[user]',$row[title],$row[description],'$row[priority]','$row[state]','$row[time]','$row[category]','$row[subcat]','$datetime','$row[technician]','$row[criticality]','$_SESSION[user_id]','$row[type]'
+		'$row[user]',$row[title],$row[description],'$row[priority]','$row[state]','$row[time]','$row[category]','$row[subcat]','$datetime','$row[technician]','$row[criticality]','$_SESSION[user_id]','$row[place]','$row[type]'
 		)
 		";
 	}

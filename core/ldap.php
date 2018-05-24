@@ -5,8 +5,8 @@
 # @call : /admin/user.php
 # @Author : Flox
 # @Create : 15/10/2012
-# @Update : 27/04/2017
-# @Version : 3.1.20
+# @Update : 20/01/2018
+# @Version : 3.1.29
 ################################################################################
 
 //initialize variables
@@ -67,8 +67,8 @@ if(!isset($g_company)) $g_company= '';
 //LDAP connection parameters
 $user=$rparameters['ldap_user']; 
 $password=$rparameters['ldap_password']; 
-$hostname=$rparameters['ldap_server'];
 $domain=$rparameters['ldap_domain'];
+if($rparameters['ldap_port']==636) {$hostname='ldaps://'.$rparameters['ldap_server'];} else {$hostname=$rparameters['ldap_server'];}
 
 //Generate DC Chain from domain parameter
 $dcpart=explode(".",$domain);
@@ -82,7 +82,9 @@ while($i<count($dcpart)) {
 $ldap_url="$rparameters[ldap_url]$dcgen";
 
 //display head title
-if ($rparameters['ldap_type']==0) $ldap_type='Active Directory'; else $ldap_type='OpenLDAP';
+if ($rparameters['ldap_type']==0) {$ldap_type='Active Directory';}
+if ($rparameters['ldap_type']==1) {$ldap_type='OpenLDAP';}
+if ($rparameters['ldap_type']==3) {$ldap_type='Samba4';}
 if ($_GET['subpage']=='user')
 {
 	echo '
@@ -100,7 +102,7 @@ if(($_GET['action']=='simul') || ($_GET['action']=='run') || ($_GET['ldaptest']=
 	ldap_set_option($ldap, LDAP_OPT_NETWORK_TIMEOUT, 1);
 	if ($rparameters['ldap_type']==1) {ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);}
 	//check LDAP type for bind
-	if ($rparameters['ldap_type']==0) $ldapbind = ldap_bind($ldap, "$user@$domain", $password); else $ldapbind = ldap_bind($ldap, "cn=$user$dcgen", $password);	
+	if ($rparameters['ldap_type']==0 || $rparameters['ldap_type']==3) $ldapbind = ldap_bind($ldap, "$user@$domain", $password); else $ldapbind = ldap_bind($ldap, "cn=$user$dcgen", $password);	
 	//check ldap authentication
 	if ($ldapbind) {$ldap_connection='<i title="'.T_('Connecteur opérationnel').'" class="icon-ok-sign icon-large green"></i> '.T_('Connecteur opérationnel').'.';} else {$ldap_connection='<i title="'.T_('Le connecteur ne fonctionne pas vérifier vos paramètres').'" class="icon-remove-sign icon-large red"></i> '.T_('Le connecteur ne fonctionne pas vérifier vos paramètres').'';}
 	if ($ldapbind) 
@@ -111,9 +113,10 @@ if(($_GET['action']=='simul') || ($_GET['action']=='run') || ($_GET['ldaptest']=
 				$data = array();
 				$data_temp = array();
 				foreach ($list_dn as $value) {
-					$ldap_url="$value$dcgen";
+					//$ldap_url="$value$dcgen";
+					$ldap_url=utf8_decode("$value$dcgen");
 					//change query filter for OpenLDAP or AD
-					if ($rparameters['ldap_type']==0) {$filter="(&(objectClass=user)(objectCategory=person)(cn=*))";} else {$filter="(uid=*)";}	
+					if ($rparameters['ldap_type']==0 || $rparameters['ldap_type']==3) {$filter="(&(objectClass=user)(objectCategory=person)(cn=*))";} else {$filter="(uid=*)";}	
 					$query = ldap_search($ldap, $ldap_url, $filter);
 					if($rparameters['debug']==1){
 						echo "<u>DEBUG:</u><br />query ldap_search($ldap, $ldap_url, $filter)<br /><br />";
@@ -162,21 +165,46 @@ if(($_GET['action']=='simul') || ($_GET['action']=='run') || ($_GET['ldaptest']=
 					if(!isset($data[$i]['title'][0])) $data[$i]['title'][0] = '';
 					if(!isset($data[$i]['department'][0])) $data[$i]['department'][0] = '';					
 					if(!isset($data[$i]['uid'][0])) $data[$i]['uid'][0] = '';
+					//if(!isset($data[$i]['manager'][0])) $data[$i]['manager'][0] = '';
 					
-					//get user data from Windows AD or OpenLDAP & transform in UTF-8
-					if ($rparameters['ldap_type']==0) $samaccountname=utf8_encode($data[$i]['samaccountname'][0]);  else $samaccountname=utf8_encode($data[$i]['uid'][0]);
-					$UAC=$data[$i]['useraccountcontrol'][0];
-					$givenname=utf8_encode($data[$i]['givenname'][0]);
-					$sn=utf8_encode($data[$i]['sn'][0]);
-					$mail=$data[$i]['mail'][0];
-					$telephonenumber=$data[$i]['telephonenumber'][0];  
-					$streetaddress=utf8_encode($data[$i]['streetaddress'][0]);  
-					$postalcode=$data[$i]['postalcode'][0]; 
-					$l=utf8_encode($data[$i]['l'][0]); 
-					$company=utf8_encode($data[$i]['company'][0]); 
-					$fax=$data[$i]['facsimiletelephonenumber'][0]; 
-					$title=utf8_encode($data[$i]['title'][0]); 
-					$department=utf8_encode($data[$i]['department'][0]); 
+					//get user data from Windows AD or Samba4 or OpenLDAP & transform in UTF-8
+					if ($rparameters['ldap_type']==0 || $rparameters['ldap_type']==3) $samaccountname=utf8_encode($data[$i]['samaccountname'][0]);  else $samaccountname=utf8_encode($data[$i]['uid'][0]);
+					
+					//no UTF8 decoding in Samba4 LDAP
+					if($rparameters['ldap_type']==3)
+					{
+						$UAC=$data[$i]['useraccountcontrol'][0];
+						$givenname=$data[$i]['givenname'][0];
+						$sn=$data[$i]['sn'][0];
+						$mail=$data[$i]['mail'][0];
+						$telephonenumber=$data[$i]['telephonenumber'][0];  
+						$streetaddress=$data[$i]['streetaddress'][0];  
+						$postalcode=$data[$i]['postalcode'][0]; 
+						$l=$data[$i]['l'][0]; 
+						$company=$data[$i]['company'][0]; 
+						$fax=$data[$i]['facsimiletelephonenumber'][0]; 
+						$title=$data[$i]['title'][0]; 
+						$department=$data[$i]['department'][0]; 
+						//$manager=($data[$i]['manager'][0]);
+					} else {
+						$UAC=$data[$i]['useraccountcontrol'][0];
+						$givenname=utf8_encode($data[$i]['givenname'][0]);
+						$sn=utf8_encode($data[$i]['sn'][0]);
+						$mail=utf8_encode($data[$i]['mail'][0]);
+						$telephonenumber=$data[$i]['telephonenumber'][0];  
+						$streetaddress=utf8_encode($data[$i]['streetaddress'][0]);  
+						$postalcode=$data[$i]['postalcode'][0]; 
+						$l=utf8_encode($data[$i]['l'][0]); 
+						$company=utf8_encode($data[$i]['company'][0]); 
+						$fax=$data[$i]['facsimiletelephonenumber'][0]; 
+						$title=utf8_encode($data[$i]['title'][0]); 
+						$department=utf8_encode($data[$i]['department'][0]); 
+						//$manager=($data[$i]['manager'][0]);
+					}
+					
+					
+					//special characters treatment
+					$title=str_replace ('','', $title); //special char SPA treatment
 					
 					if($rparameters['debug']==1) echo "- LDAP_SamAccountName=$samaccountname LDAP_UAC=$UAC LDAP_company=$company ";
 					
@@ -253,8 +281,9 @@ if(($_GET['action']=='simul') || ($_GET['action']=='run') || ($_GET['ldaptest']=
 								if($g_mail!=$mail) 
 								{
 									$update=T_('de l\'adresse mail').' "'.$mail.'"';
+									$mail= $db->quote($mail);
 									if($_GET['action']=='run') {
-										$db->exec("UPDATE tusers SET mail='$mail' WHERE login='$samaccountname'");
+										$db->exec("UPDATE tusers SET mail=$mail WHERE login='$samaccountname'");
 									}
 								}
 								if(($g_telephonenumber=='') && ($telephonenumber!='')) //special case for no tel number in AD
@@ -308,7 +337,11 @@ if(($_GET['action']=='simul') || ($_GET['action']=='run') || ($_GET['ldaptest']=
 								$g_company_name=$q->fetch();
 								$q->closecursor();
 								
-								if(($company!=$g_company_name[0]) && $company!='' ) 
+								//update company name in lowercase to compare
+								$company_lower=strtolower($company);
+								$g_company_name_lower=strtolower($g_company_name[0]);
+								
+								if(($company_lower!=$g_company_name_lower) && $company!='' ) 
 								{
 									$update=T_('de la Société').' "'.$company.'" ';
 									if($_GET['action']=='run') 
@@ -428,33 +461,42 @@ if(($_GET['action']=='simul') || ($_GET['action']=='run') || ($_GET['ldaptest']=
 							$postalcode= $db->quote($postalcode);
 							$fax= $db->quote($fax);
 							$cnt_create=$cnt_create+1;
+							//generate default pwd and salt
+							$salt = substr(md5(uniqid(rand(), true)), 0, 5); //generate a random key as salt
+							$pwd=substr(str_shuffle(strtolower(sha1(rand() . time() . $salt))),0, 50);
+							$pwd=md5($salt . md5($pwd)); 
+							
 						if($_GET['action']=='run') {
 							echo '<i class="icon-plus-sign green bigger-130"></i><font color="green"> '.T_('Utilisateur').' <b>'.$givenname.' '.$sn.'</b> ('.$samaccountname.') '.T_('à été crée').'.</font><br />';
-							$db->exec("INSERT INTO tusers (login,firstname,lastname,profile,mail,phone,address1,zip,city,company,fax) VALUES ($samaccountname,$givenname,$sn,'2',$mail,$telephonenumber,$streetaddress,$postalcode,$l,$company,$fax)");
+							$db->exec("INSERT INTO tusers (login,password,salt,firstname,lastname,profile,mail,phone,address1,zip,city,company,fax) VALUES ($samaccountname,'$pwd','$salt',$givenname,$sn,'2',$mail,$telephonenumber,$streetaddress,$postalcode,$l,$company,$fax)");
 						} else {
 							echo '<i class="icon-plus-sign green bigger-130"></i><font color="green"> '.T_('Création de l\'utilisateur').' <b>'.$givenname.' '.$sn.'</b> ('.$samaccountname.').</font><br />';
 						}
 					}
 				}
 				//for each Gestsup USER (find user not present in LDAP for disable in GestSup)
-				$q = $db->query("SELECT * FROM `tusers`");
-				while ($row=$q->fetch())	
+				if ($rparameters['ldap_disable_user']==1)
 				{
-					$find2_login='';
-					for ($i=0; $i < $cnt_ldap; $i++) 
+					$q = $db->query("SELECT * FROM `tusers`");
+					while ($row=$q->fetch())	
 					{
-						if ($rparameters['ldap_type']==0) $samaccountname=utf8_encode($data[$i]['samaccountname'][0]);  else $samaccountname=utf8_encode($data[$i]['uid'][0]);
-						if ($samaccountname==$row['login']) $find2_login=$row['login'];
-					}
-					if (($find2_login=='') && ($row['disable']=='0') && ($row['login']!='') && $row['login']!=' ' && $row['login']!='admin')
-					{
-						$cnt_disable=$cnt_disable+1;
-						if($_GET['action']=='run')
+						$find2_login='';
+						for ($i=0; $i < $cnt_ldap; $i++) 
 						{
-							echo '<i class="icon-remove-sign icon-large red"></i><font color="red"> '.T_('Utilisateur').' <b>'.$row['firstname'].' '.$row['lastname'].'</b> ('.$row['login'].'), '.T_('désactivé').'.</font><br />';
-							$db->exec("UPDATE tusers SET disable='1' WHERE login='$row[login]'");
-						} else {
-							echo '<i class="icon-remove-sign icon-large red"></i><font color="red"> '.T_('Désactivation de l\'utilisateur').' <b>'.$row['firstname'].' '.$row['lastname'].'</b> ('.$row['login'].'). <span style="font-size: x-small;">'.T_('Raison').': '.T_('Utilisateur non présent dans l\'annuaire LDAP').'.</span></font><br />';
+							if ($rparameters['ldap_type']==0 || $rparameters['ldap_type']==3) {$samaccountname=utf8_encode($data[$i]['samaccountname'][0]);} else {$samaccountname=utf8_encode($data[$i]['uid'][0]);}
+							if ($samaccountname==$row['login']) $find2_login=$row['login'];
+						}
+						if (($find2_login=='') && ($row['disable']=='0') && ($row['login']!='') && ($row['login']!=' ') && ($row['login']!='admin'))
+						{
+							$cnt_disable=$cnt_disable+1;
+							if($_GET['action']=='run')
+							{
+								echo '<i class="icon-remove-sign icon-large red"></i><font color="red"> '.T_('Utilisateur').' <b>'.$row['firstname'].' '.$row['lastname'].'</b> ('.$row['login'].'), '.T_('désactivé').'.</font><br />';
+								$rowlogin= $db->quote($row['login']);
+								$db->exec("UPDATE tusers SET disable='1' WHERE login=$rowlogin");
+							} else {
+								echo '<i class="icon-remove-sign icon-large red"></i><font color="red"> '.T_('Désactivation de l\'utilisateur').' <b>'.$row['firstname'].' '.$row['lastname'].'</b> ('.$row['login'].'). <span style="font-size: x-small;">'.T_('Raison').': '.T_('Utilisateur non présent dans l\'annuaire LDAP').'.</span></font><br />';
+							}
 						}
 					}
 				}

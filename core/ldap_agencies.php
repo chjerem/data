@@ -6,8 +6,8 @@
 # @Parameters : 
 # @Author : Flox
 # @Create : 05/04/2017
-# @Update : 27/04/2017
-# @Version : 3.1.20
+# @Update : 03/07/2017
+# @Version : 3.1.22
 ####################################################################################
 
 if(!isset($ldap_query)) $ldap_query = '';
@@ -159,7 +159,9 @@ if ($ldapbind)
 		
 		//get group data from Windows AD & transform in UTF-8
 		$LDAP_group_name=utf8_encode($data[$i]['distinguishedname'][0]);
+		$LDAP_group_name=str_replace ('','OE', $LDAP_group_name); //special char oe treatment
 		$LDAP_group_samaccountname=utf8_encode($data[$i]['samaccountname'][0]);
+		$LDAP_group_samaccountname=str_replace ('','OE', $LDAP_group_samaccountname); //special char oe treatment
 		$LDAP_group_mail=utf8_encode($data[$i]['mail'][0]);
 		$LDAP_group_objectguid=unpack("H*hex",$data[$i]['objectguid'][0]);
 		$LDAP_group_objectguid=$LDAP_group_objectguid['hex'];
@@ -218,8 +220,9 @@ if ($ldapbind)
 		$data2 = array();
 		$data2_temp = array();
 		$filter2="(&(objectCategory=user)(memberof:1.2.840.113556.1.4.1941:=$LDAP_group_name))";
-		$query2 = ldap_search($ldap, $ldap_agency_url, $filter2);
-		if($rparameters['debug']==1){echo "<font size='1'>query find users ldap_search($ldap, $ldap_agency_url, $filter2)</font><br />";}
+		//$query2 = ldap_search($ldap, $ldap_agency_url, $filter2);
+		$query2 = ldap_search($ldap, $ldap_url, $filter2);
+		if($rparameters['debug']==1){echo "<font size='1'>query find users ldap_search($ldap, $ldap_url, $filter2)</font><br />";}
 		//put all data to $data2
 		$data2_temp = @ldap_get_entries($ldap, $query2);
 		$data2 = array_merge($data2, $data2_temp);
@@ -362,7 +365,6 @@ if ($ldapbind)
 		if ($rparameters['debug']==1) {echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TOTAL users for agency '.$LDAP_group_samaccountname.': '.$cnt_users.'<br />';}
 	}
 	
-	
 	//get all users from root user LDAP UO to check both agency group and service group, place all result in array for next step 
 	$cnt_users=0;
 	$data3 = array();
@@ -396,8 +398,8 @@ if ($ldapbind)
 		while ($row2=$query2->fetch())	
 		{
 			//init var
-			//if(!array_key_exists($row2['agency_id'], $array_agency_members)){$array_agency_members[$row2['agency_id']]=array();}
-			$array_agency_members[$row2['agency_id']]=array();
+			if(!array_key_exists($row2['agency_id'], $array_agency_members)){$array_agency_members[$row2['agency_id']]=array();}
+			//$array_agency_members[$row2['agency_id']]=array();
 			if (!in_array("$row[id]", $array_agency_members[$row2['agency_id']])) {
 				//get agency name to display
 				$query3 = $db->query("select id,name FROM tagencies where id='$row2[agency_id]'");

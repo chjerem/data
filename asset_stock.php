@@ -1,13 +1,13 @@
 <?php
-################################################################################
+################################################################################################
 # @Name : asset_stock.php 
 # @Description : page to add multiple assets in one time in your stock based on serials numbers
-# @call : /dashboard.php
+# @Call : /dashboard.php
 # @Author : Flox
-# @Version : 3.1.15
+# @Version : 3.1.26
 # @Create : 18/12/2015
-# @Update : 24/03/2017
-################################################################################
+# @Update : 14/09/2017
+################################################################################################
 
 //initialize variables 
 if(!isset($_POST['type'])) $_POST['type']= ''; 
@@ -37,6 +37,9 @@ if($_POST['save'])
 	$serials=explode("\r\n", $_POST['serials']);
 	$nb=count($serials);
 	
+	//special case for user who want add multiple asset for company
+	if($rright['asset_list_company_only']){$user_id=$_SESSION['user_id'];} else {$user_id=0;}
+	
 	for ($i=0; $i<$nb; $i++) {
 		//find internal number of new asset
 		$query=$db->query("SELECT MAX(CONVERT(sn_internal, SIGNED INTEGER)) FROM tassets");
@@ -51,6 +54,7 @@ if($_POST['save'])
 		sn_internal,
 		sn_manufacturer,
 		sn_indent,
+		user,
 		type,
 		manufacturer,
 		model,
@@ -62,6 +66,7 @@ if($_POST['save'])
 		'$row_sn_internal',
 		'$serials[$i]',
 		'$_POST[sn_indent]',
+		'$user_id',
 		'$_POST[type]',
 		'$_POST[manufacturer]',
 		'$_POST[model]',

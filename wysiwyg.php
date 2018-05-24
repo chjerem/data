@@ -1,9 +1,9 @@
 <?php
 ################################################################################
 # @Name : wysiwyg.php
-# @Desc : text editor
-# @call : /ticket.php
-# @parameters : 
+# @Description : text editor
+# @Call : /ticket.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 06/03/2013
 # @Update : 01/02/2017
@@ -82,6 +82,13 @@
 									{name:\'justifycenter\',title:\''.T_('Centrer').'\'},
 									{name:\'justifyright\',title:\''.T_('Aligner à droite').'\'},
 									{name:\'justifyfull\',title:\''.T_('Justifier').'\'},
+									null,
+									{
+										name:\'createLink\',
+										title:\''.T_('Insérer un lien').'\',
+										placeholder:\''.T_('Insérer un lien').'\',
+										button_text:\''.T_('Ajouter').'\'
+									},
 									null,
 									{
 										name:\'insertImage\',

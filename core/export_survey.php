@@ -6,8 +6,8 @@
 # @parameters : 
 # @Author : Flox
 # @Create : 01/05/2017
-# @Update : 02/05/2017
-# @Version : 3.1.20
+# @Update : 05/04/2018
+# @Version : 3.1.30 p2
 ################################################################################
 
 //initialize variables 
@@ -33,12 +33,14 @@ T_textdomain($_GET['lang']);
 require "../connect.php"; 
 
 //get last token
-$query = $db->query("SELECT token FROM `ttoken` WHERE action='export_survey' ORDER BY id DESC");
-$token=$query->fetch(); 
-$query->closeCursor();
+$qry = $db->prepare("SELECT `token` FROM `ttoken` WHERE action=:action ORDER BY id");
+$qry->execute(array('action' => 'export_survey'));
+$token=$qry->fetch();
+$qry->closeCursor();
 
 //delete token
-$query = $db->query("DELETE FROM `ttoken` WHERE action='export_survey' ");
+$qry=$db->prepare("DELETE FROM `ttoken` WHERE action=:action");
+$qry->execute(array('action' => 'export_survey'));
 
 //secure connect from authenticated user
 if ($_GET['token'] && $token['token']==$_GET['token'])
@@ -51,9 +53,10 @@ if ($_GET['token'] && $token['token']==$_GET['token'])
 	header("Content-Disposition: attachment; filename=\"$daydate-GestSup-export-survey.csv\"");
 	
 	//load parameters table
-	$qparameters = $db->query("SELECT * FROM `tparameters`"); 
-	$rparameters= $qparameters->fetch();
-	$qparameters->closeCursor();
+	$qry = $db->prepare("SELECT * FROM `tparameters`");
+	$qry->execute();
+	$rparameters=$qry->fetch();
+	$qry->closeCursor();
 
 	//create a file pointer connected to the output stream
 	$output = fopen('php://output', 'w');
@@ -63,40 +66,48 @@ if ($_GET['token'] && $token['token']==$_GET['token'])
 	array_push($col_title,T_('N° Ticket'));
 	array_push($col_title,T_('Titre ticket'));
 	array_push($col_title,T_('Utilisateur'));
-	$query = $db->query("SELECT text FROM tsurvey_questions ORDER BY number");
-	while ($row = $query->fetch(PDO::FETCH_ASSOC)) 
+	
+	$qry = $db->prepare("SELECT text FROM tsurvey_questions ORDER BY number");
+	$qry->execute();
+	while ($row = $qry->fetch(PDO::FETCH_ASSOC)) 
 	{
 		array_push($col_title,$row['text']);
 	}
+	$qry->closeCursor();
 	
 	//output the column headings
 	fprintf($output, chr(0xEF).chr(0xBB).chr(0xBF));
 	fputcsv($output, $col_title,";");
 	
 	//get each ticket
-	$query = $db->query("SELECT distinct(ticket_id) FROM tsurvey_answers ORDER BY ticket_id DESC");
-	while ($row = $query->fetch(PDO::FETCH_ASSOC)) 
+	$qry = $db->prepare("SELECT distinct(tsurvey_answers.ticket_id) FROM `tsurvey_answers`,`tincidents` WHERE tsurvey_answers.ticket_id=tincidents.id AND tincidents.disable=:disable ORDER BY ticket_id DESC");
+	$qry->execute(array('disable' => 0));
+	while ($row = $qry->fetch(PDO::FETCH_ASSOC)) 
 	{	
 		$outputrow=array();
 		//get validate date
-		$query2 = $db->query("SELECT MAX(date) FROM tsurvey_answers WHERE ticket_id='$row[ticket_id]'");
-		$date= $query2->fetch();
-		$query2->closeCursor();
+		$qry2=$db->prepare("SELECT MAX(date) FROM tsurvey_answers WHERE ticket_id=:ticket_id");
+		$qry2->execute(array('ticket_id' => $row['ticket_id']));
+		$date=$qry2->fetch();
+		$qry2->closeCursor();
 		
 		//count number of questions for this ticket
-		$query2 = $db->query("SELECT count(id) FROM tsurvey_answers WHERE ticket_id='$row[ticket_id]'");
-		$count= $query2->fetch();
-		$query2->closeCursor();
+		$qry2=$db->prepare("SELECT count(id) FROM tsurvey_answers WHERE ticket_id=:ticket_id");
+		$qry2->execute(array('ticket_id' => $row['ticket_id']));
+		$count=$qry2->fetch();
+		$qry2->closeCursor();
 		
 		//get firstname and lastname of user attached with this ticket
-		$query2 = $db->query("SELECT firstname,lastname FROM tusers WHERE id=(SELECT user FROM tincidents WHERE id='$row[ticket_id]')");
-		$user= $query2->fetch();
-		$query2->closeCursor();
+		$qry2=$db->prepare("SELECT firstname,lastname FROM tusers WHERE id=(SELECT user FROM tincidents WHERE id=:id)");
+		$qry2->execute(array('id' => $row['ticket_id']));
+		$user=$qry2->fetch();
+		$qry2->closeCursor();
 		
 		//get title of this ticket
-		$query2 = $db->query("SELECT title FROM tincidents WHERE id='$row[ticket_id]'");
-		$title= $query2->fetch();
-		$query2->closeCursor();
+		$qry2=$db->prepare("SELECT title FROM tincidents WHERE id=:id");
+		$qry2->execute(array('id' => $row['ticket_id']));
+		$title=$qry2->fetch();
+		$qry2->closeCursor();
 		
 		//for each ticket
 		array_push($outputrow,$date[0]);
@@ -106,16 +117,17 @@ if ($_GET['token'] && $token['token']==$_GET['token'])
 		for($i=1;$i<=$count[0];$i++)
 		{
 			//get answer data for question $i
-			$query2 = $db->query("SELECT answer FROM tsurvey_answers WHERE ticket_id='$row[ticket_id]' AND question_id=(SELECT id FROM tsurvey_questions WHERE number='$i')");
-			$answer= $query2->fetch();
-			$query2->closeCursor();
+			$qry2=$db->prepare("SELECT answer FROM tsurvey_answers WHERE ticket_id=:ticket_id AND question_id=(SELECT id FROM tsurvey_questions WHERE number=:number)");
+			$qry2->execute(array('ticket_id' => $row['ticket_id'],'number' => $i));
+			$answer=$qry2->fetch();
+			$qry2->closeCursor();
+			
 			$col=$i+2;
 			array_push($outputrow,$answer[0]);
 		}
 		fputcsv($output,$outputrow,';');
 	}
-	
-	
+	$qry->closeCursor();
 } else {
 	echo '<br /><br /><center><span style="font-size: x-large; color: red;"><b>'.T_('Accès à cette page interdite, contactez votre administrateur').'.</b></span></center>';	
 }

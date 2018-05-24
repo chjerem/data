@@ -1,9 +1,9 @@
 <?php
 ################################################################################
 # @Name : stat_pie.php
-# @Desc : display pies statistics
-# @call : /stat.php
-# @parameters : unit, values, names, libchart
+# @Description : display pies statistics
+# @Call : /stat.php
+# @Parameters : unit, values, names, libchart
 # @Author : Flox
 # @Create : 06/10/2012
 # @Update : 22/12/2016

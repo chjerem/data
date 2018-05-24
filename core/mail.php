@@ -6,8 +6,8 @@
 # @Parameters : ticket id destinataires
 # @Author : Flox
 # @Create : 15/07/2014
-# @Update : 02/05/2017
-# @Version : 3.1.20
+# @Update : 31/01/2018
+# @Version : 3.1.30 p2
 ################################################################################
 
 //initialize variables 
@@ -25,6 +25,7 @@ if(!isset($fname31)) $fname31 = '';
 if(!isset($fname41)) $fname41 = '';
 if(!isset($fname51)) $fname51 = '';
 if(!isset($resolution)) $resolution = '';
+if(!isset($mail_text_end)) $mail_text_end = '';
 if(!isset($rtech4['firstname'])) $rtech4['firstname'] = '';
 if(!isset($rtech4['lastname'])) $rtech4['lastname'] = '';
 if(!isset($rtech5['firstname'])) $rtech5['firstname'] = '';
@@ -32,8 +33,10 @@ if(!isset($rtech5['lastname'])) $rtech5['lastname'] = '';
 if(!isset($rtechgroup4['name'])) $rtechgroup4['name'] = '';
 if(!isset($rtechgroup5['name'])) $rtechgroup5['name'] = '';
 
+$db_id=strip_tags($db->quote($_GET['id']));
+
 //database queries to find values for create mail	
-$globalquery = $db->query("SELECT * FROM tincidents WHERE id LIKE '$_GET[id]'");
+$globalquery = $db->query("SELECT * FROM tincidents WHERE id LIKE $db_id");
 $globalrow=$globalquery->fetch();
 $globalquery->closeCursor();
 
@@ -58,11 +61,15 @@ if ($globalrow['u_group']!=0)
 	$groupuser=$query->fetch();
 	$query->closeCursor();
 }
-	
-$query = $db->query("SELECT * FROM tusers WHERE id LIKE '$_SESSION[user_id]'");
-$creatorrow=$query->fetch();
-$query->closeCursor();
-	
+
+//case no send mail from mail2ticket
+if(isset($_SESSION['user_id'])) 
+{
+	$query = $db->query("SELECT * FROM tusers WHERE id LIKE '$_SESSION[user_id]'");
+	$creatorrow=$query->fetch();
+	$query->closeCursor();
+}	
+
 $query = $db->query("SELECT name FROM tstates WHERE id LIKE '$globalrow[state]'");
 $staterow=$query->fetch();
 $query->closeCursor();
@@ -92,7 +99,7 @@ if ($rparameters['ticket_places']==1)
 
 //generate resolution
 if($rparameters['mail_order']==1) {$mail_order='DESC';} else {$mail_order='ASC';}
-$query = $db->query("SELECT * FROM tthreads WHERE ticket='$_GET[id]' AND private='0' ORDER BY date $mail_order");
+$query = $db->query("SELECT * FROM tthreads WHERE ticket=$db_id AND private='0' ORDER BY date $mail_order");
 while ($row = $query->fetch())
 {
 	//remove display date from old post 
@@ -202,14 +209,28 @@ $destinataire="$userrow[mail]";
 //check if unique sender mail address exist else get creator mail address
 if($rparameters['mail_from_adr']==''){$emetteur=$creatorrow['mail'];} else {$emetteur=$rparameters['mail_from_adr'];}
 
-//integer link parameter
-if ($rparameters['mail_link']==1)
+//display custom end text mail, else auto generate
+if ($rparameters['mail_txt_end'])
 {
-	$link=', '.T_('ou consultez votre ticket sur ce lien').': <a href="'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'">'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'</a>';	
-} else $link=".";
-
-//Add tag in mail to split fonction of imap connector
-if ($rparameters['imap']==1) {$msg='---- '.T_('Vous pouvez répondre à ce ticket via ce mail, écrivez au dessus de cette ligne').' ----';} else {$msg='';}
+	//generate mail end text
+	$mail_text_end=str_replace("[tech_name]", "$techrow[firstname] $techrow[lastname]", $rparameters['mail_txt_end']);
+	$mail_text_end=str_replace("[tech_phone]", "$techrow[phone]", $mail_text_end);
+	if ($rparameters['mail_link']==1) {
+		$link='<a href="'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'">'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'</a>';
+		$mail_text_end=str_replace("[link]", "$link", $mail_text_end);
+	}
+} else { //auto end mail
+	if ($rparameters['mail_link']==1) //integer link parameter
+	{
+		$link=', '.T_('ou consultez votre ticket sur ce lien').': <a href="'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'">'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'</a>';	
+	} else $link=".";
+	if (($techrow['lastname']!='Aucun') && ($techrow['phone']!='')) //case technician phone
+	{$mail_text_end=T_('Pour toutes informations complémentaires sur votre ticket, vous pouvez joindre').' '.$techrow['firstname'].' '.$techrow['lastname'].' '.T_('au').' '.$techrow['phone'].' '.$link;}
+	elseif ($rparameters['mail_link']==1) //case technician no phone
+	{$mail_text_end=T_("Vous pouvez suivre l'état d'avancement de votre ticket sur ce lien:").'<a href="'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'">'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'</a>';}
+}
+//add tag in mail to split fonction of imap connector
+if ($rparameters['imap']==1 && $rparameters['imap_reply']==1) {$msg='---- '.T_('Vous pouvez répondre à ce ticket via ce mail, écrivez au dessus de cette ligne').' ----';} else {$msg='';}
 $msg.='
 	<html>
 		<head>
@@ -217,21 +238,23 @@ $msg.='
 		</head>
 		<body>
 			<font face="Arial">
-				<table width="820" cellspacing="0" cellpadding="10">
+				<table width="700" cellspacing="0" cellpadding="10">
 					<tr bgcolor="'.$rparameters['mail_color_title'].'" >
 					  <th><span style="font-size: large; color: #FFFFFF;"> &nbsp; '.$objet.' &nbsp;</span></th>
 					</tr>
 					<tr bgcolor="'.$rparameters['mail_color_bg'].'" >
 					  <td>
 						<font color="'.$rparameters['mail_color_text'].'">
-							'.T_($rparameters['mail_txt']).'
+							';
+							if($rparameters['mail_txt']) {$msg.=T_($rparameters['mail_txt']);}
+							$msg.='
 						</font>
 						<br />
 						<br />
 						<table  border="1" bordercolor="'.$rparameters['mail_color_title'].'" cellspacing="0"  cellpadding="5">
 							<tr>
 								<td><font color="'.$rparameters['mail_color_text'].'"><b>'.T_('Titre').':</b></b> '.$globalrow['title'].'</font></td>
-								<td><font color="'.$rparameters['mail_color_text'].'"><b>'.T_('Catégorie').':</b></b> '.$catrow[1].' - '.$subcatrow[2].'</td>
+								<td><font color="'.$rparameters['mail_color_text'].'"><b>'.T_('Catégorie').':</b></b> '.$catrow['name'].' - '.$subcatrow['name'].'</td>
 							</tr>
 							<tr>
 								';
@@ -283,10 +306,7 @@ $msg.='
 						<hr />
 						<font color="'.$rparameters['mail_color_text'].'">
 						';
-						if (($techrow['lastname']!='Aucun') && ($techrow['phone']!='')) //case technician
-						{$msg.=T_('Pour toutes informations complémentaires sur votre ticket, vous pouvez joindre').' '.$techrow['firstname'].' '.$techrow['lastname'].' '.T_('au').' '.$techrow['phone'].' '.$link;}
-						elseif ($rparameters['mail_link']==1 && $globalrow['t_group']!=0) //case technician group
-						{$msg.=T_("Vous pouvez suivre l'état d'avancement de votre ticket sur ce lien:").'<a href="'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'">'.$rparameters['server_url'].'/index.php?page=ticket&id='.$_GET['id'].'</a>';}
+						$msg.=$mail_text_end;
 						$msg.='
 						</font>
 					  </td>
@@ -296,14 +316,16 @@ $msg.='
 		</body>
 	</html>
 ';
-//Add tag in mail to split fonction of imap connector
-if ($rparameters['imap']==1) {$msg.='---- '.T_('Vous pouvez répondre à ce ticket via ce mail, écrivez au dessus du ticket').' ----';} else {$msg.='';}
+//add tag in mail to split fonction of imap connector
+if ($rparameters['imap']==1 && $rparameters['imap_reply']==1) {$msg.='---- '.T_('Vous pouvez répondre à ce ticket via ce mail, écrivez au dessus du ticket').' ----';} else {$msg.='';}
 
 if ($send==1)
 {
 	if ($rparameters['debug']==1) {echo '<b>SMTP SERVER:</b><br />';}
-	require_once("components/PHPMailer/PHPMailerAutoload.php"); 
-	$mail = new PHPmailer();
+	require_once("components/PHPMailer/src/PHPMailer.php");
+	require_once("components/PHPMailer/src/SMTP.php");
+	require_once("components/PHPMailer/src/Exception.php");
+	$mail = new PHPMailer\PHPMailer\PHPMailer(true);
 	
 	//detect and convert image in mail
 	if(preg_match_all('/<img.*?>/', $msg, $matches))
@@ -336,7 +358,7 @@ if ($send==1)
 		$query=$db->query("SELECT mail FROM tagencies WHERE id IN (SELECT agency_id FROM tusers_agencies WHERE user_id='$userrow[id]')");
 		$row=$query->fetch();
 		$query->closeCursor();
-		if($row) 
+		if($row['mail']) 
 		{
 			if ($userrow['mail']){$mail->AddCC("$row[mail]");} else {$mail->AddAddress("$row[mail]");}
 		}
@@ -351,7 +373,7 @@ if ($send==1)
 	else 
 	{$mail->Host = "$rparameters[mail_smtp]";}
 	$mail->SMTPAuth = $rparameters['mail_auth'];
-	if ($rparameters['debug']==1) $mail->SMTPDebug = 2;
+	if ($rparameters['debug']==1) $mail->SMTPDebug = 4;
 	if ($rparameters['mail_secure']!=0) $mail->SMTPSecure = $rparameters['mail_secure'];
 	if ($rparameters['mail_port']!=25) $mail->Port = $rparameters['mail_port'];
 	$mail->Username = "$rparameters[mail_username]";
@@ -366,9 +388,9 @@ if ($send==1)
 		{
 			$qgroup = $db->query("SELECT mail FROM `tusers`, `tgroups_assoc` WHERE tgroups_assoc.user=tusers.id AND tgroups_assoc.group=$globalrow[u_group] AND tusers.disable=0");
 			while ($row = $qgroup->fetch()) $mail->AddAddress("$row[0]");
-		} else $mail->AddAddress("$userrow[mail]");
+		} elseif ($userrow['mail']) {$mail->AddAddress("$userrow[mail]");}
 	}
-	if ($rparameters['mail_from_adr']!='') {$mail->AddReplyTo("$rparameters[mail_from_adr]");} else {$mail->AddReplyTo("$techrow[mail]");}
+	if ($rparameters['mail_from_adr']!='') {$mail->AddReplyTo("$rparameters[mail_from_adr]");} elseif ($techrow['mail']!='') {$mail->AddReplyTo($techrow['mail']);}
 	if ($rparameters['mail_cc']!='') {
 		$addresses = explode(";",$rparameters['mail_cc']);
 		foreach($addresses as $mailCC){
@@ -452,19 +474,18 @@ if ($send==1)
 	}
 	$mail->Body = "$msg";
 	if (!$mail->Send()){
-    	echo '<div class="alert alert-block alert-danger"><center><i class="icon-remove red"></i> <b>Message non envoyé, vérifier la configuration de votre serveur de messagerie.</b> (';
+    	echo '<div class="alert alert-block alert-danger"><center><i class="icon-remove red"></i> <b>'.T_('Message non envoyé, vérifier la configuration de votre serveur de messagerie').'.</b> (';
         	echo $mail->ErrorInfo;
     	echo ')</center></div>';
-	}
-	else {
-		echo '<div class="alert alert-block alert-success"><center><i class="icon-envelope green"></i> Message envoyé.</center></div>';
+	} elseif(isset($_SESSION['user_id'])) {
+		echo '<div class="alert alert-block alert-success"><center><i class="icon-envelope green"></i> '.T_('Message envoyé').'.</center></div>';
 		//redirect
 		echo "
 		<SCRIPT LANGUAGE='JavaScript'>
 		<!--
 		function redirect()
 		{
-		window.location='./index.php?page=dashboard&&state=$_GET[state]&userid=$_GET[userid]'
+		window.location='./index.php?page=dashboard&&state=$_GET[state]&userid=$_GET[userid]&view=$_GET[view]&date_start=$_GET[date_start]&date_end=$_GET[date_end]'
 		}
 		setTimeout('redirect()',$rparameters[time_display_msg]);
 		-->

@@ -2,17 +2,27 @@
 ################################################################################
 # @Name : infos.php
 # @Description :  admin infos
-# @call : admin.php
-# @parameters : 
+# @Call : admin.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 12/01/2011
-# @Update : 28/02/2018
-# @Version : 3.1.18
+# @Update : 13/10/2017
+# @Version : 3.1.27
 ################################################################################
 
 //generate name of current version
-$vactuname=explode('.',$rparameters['version']);
-if($vactuname[2]==0) $vactuname=''; else $vactuname="($vactuname[0].$vactuname[1] patch $vactuname[2])";
+$dedicated=substr_count($rparameters['version'], '.'); // check dedicated version
+if($dedicated==2) //case current branch
+{
+	$vactuname=explode('.',$rparameters['version']);
+	if($vactuname[2]==0) $vactuname=''; else $vactuname="($vactuname[0].$vactuname[1] patch $vactuname[2])";
+} elseif($dedicated==3) { //case dedicated branch
+	$vactuname=explode('.',$rparameters['version']);
+	if($vactuname[2]==0) $vactuname=''; else $vactuname="($vactuname[0].$vactuname[1].$vactuname[2] patch $vactuname[3])";
+} else {
+	$vactuname=$rparameters['version'];
+}
+
 ?>
 <div class="page-header position-relative">
 	<h1>

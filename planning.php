@@ -1,13 +1,13 @@
 <?php
 ################################################################################
 # @Name : planning.php
-# @Desc : display planning
-# @call : /menu.php
-# @parameters : 
+# @Description : display planning
+# @Call : /menu.php
+# @Parameters : 
 # @Author : Flox
 # @Create : 28/12/2012
-# @Update : 27/01/2016
-# @Version : 3.1.16
+# @Update : 21/11/2017
+# @Version : 3.1.28
 ################################################################################
 
 //initialize variables 
@@ -34,7 +34,7 @@ if ($_GET['view']=='') $_GET['view']="week";
 if ($next=='') $next=0;
 if ($previous=='') $previous=0;
 
-//calc dates
+//calculate dates
 $cursor=intval($_GET['cursor'])+intval($_GET['next'])-intval($_GET['previous']);
 $current = date("Y-m-d H:i");
 $week = date("W") + $cursor;
@@ -92,11 +92,12 @@ $sunday_month=$sunday_month->format('m')-1;
 $frday = array (T_('Lundi'), T_('Mardi'), T_('Mercredi'), T_('Jeudi'), T_('Vendredi'), T_('Samedi'),T_('Dimanche'), );
 $frmonth = array (T_('Janvier'), T_('Février'), T_('Mars'), T_('Avril'), T_('Mai'), T_('Juin'), T_('Juillet'), T_('Août'), T_('Septembre'), T_('Octobre'), T_('Novembre'), T_('Décembre'));
 
-//Delete events
+//delete events
 if($_GET['delete']!='')
 {
-//disable ticket
-$db->exec("DELETE FROM tevents WHERE incident=$_GET[delete]");
+	$db_delete=strip_tags($db->quote($_GET['delete']));
+	//disable ticket
+	$db->exec("DELETE FROM tevents WHERE incident=$db_delete");
 }
 
 //select technician selection
@@ -255,11 +256,11 @@ if ($_GET['view']=='week')
 		<tr>
 			<td><b>'.$i.'h</b></td>
 			<td '.$mon_color.'>';
-				$query = $db->query("SELECT * FROM tevents WHERE technician LIKE '$_POST[technician]' AND (date_start='$current_monday $i:00' OR date_end='$current_monday $i:00' OR (date_start<'$current_monday $i:00' AND date_end>'$current_monday $i:00'))");
+				$query = $db->query("SELECT tevents.* FROM tevents,tincidents WHERE tevents.incident=tincidents.id AND tincidents.disable=0 AND tevents.technician LIKE '$_POST[technician]' AND (tevents.date_start='$current_monday $i:00' OR tevents.date_end='$current_monday $i:00' OR (tevents.date_start<'$current_monday $i:00' AND tevents.date_end>'$current_monday $i:00'))");
 				while ($row = $query->fetch())
 				{
 					if ($row['type']==1) $type='<i class="icon-bell-alt orange"></i>'; else $type='<i class="icon-calendar" blue></i>';
-					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] ");
+					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] AND disable=0");
 					$rowi = $queryi->fetch();
 					//Select name of technician
 					if($_POST['technician']=='%') $querytech= $db->query("SELECT * FROM tusers WHERE id =$rowi[technician]"); else $querytech= $db->query("SELECT * FROM tusers WHERE id =$_POST[technician]"); 
@@ -273,16 +274,17 @@ if ($_GET['view']=='week')
 			echo '
 			</td>
 			<td '.$tue_color.' >';
-				$query = $db->query("SELECT * FROM tevents WHERE technician LIKE '$_POST[technician]' AND (date_start='$current_tuesday $i:00' OR date_end='$current_tuesday $i:00' OR (date_start<'$current_tuesday $i:00' AND date_end>'$current_tuesday $i:00'))");
+				$query = $db->query("SELECT tevents.* FROM tevents,tincidents WHERE tevents.incident=tincidents.id AND tincidents.disable=0 AND tevents.technician LIKE '$_POST[technician]' AND (tevents.date_start='$current_tuesday $i:00' OR tevents.date_end='$current_tuesday $i:00' OR (tevents.date_start<'$current_tuesday $i:00' AND tevents.date_end>'$current_tuesday $i:00'))");
 				while ($row = $query->fetch())
 				{
 					if ($row['type']==1) $type='<i class="icon-bell-alt orange"></i>'; else $type='<i class="icon-calendar" blue></i>';
-					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] ");
+					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] AND disable=0");
 					$rowi = $queryi->fetch();
 					//Select name of technician
 					if($_POST['technician']=='%') $querytech= $db->query("SELECT * FROM tusers WHERE id =$rowi[technician]"); else $querytech= $db->query("SELECT * FROM tusers WHERE id =$_POST[technician]"); 
 					$resulttech=$querytech->fetch();
 					$querytech->closeCursor();
+					//echo '<span class="label label-sm label-info arrowed-in" title="tickets en attente de prise en charge">#2430</span>&nbsp;';
 					echo '<a title="'.T_('Voir le ticket').' '.$rowi['id'].'" href="./index.php?page=ticket&id='.$rowi['id'].'">'.$type.' '.$resulttech['firstname'].' '.$resulttech['lastname'].': '.$rowi['title'].'</a>';
 					echo '<a title="'.T_('Supprimer cet évènement').'" href="./index.php?page=planning&view='.$_GET['view'].'&cursor='.$_GET['cursor'].'&next='.$_GET['next'].'&delete='.$rowi['id'].'"> <i class="icon-trash red"></i></a>';
 					echo '<br />';
@@ -291,11 +293,11 @@ if ($_GET['view']=='week')
 			echo '
 			</td>
 			<td '.$wed_color.'>';
-				$query = $db->query("SELECT * FROM tevents WHERE technician LIKE '$_POST[technician]' AND (date_start='$current_wednesday $i:00' OR date_end='$current_wednesday $i:00' OR (date_start<'$current_wednesday $i:00' AND date_end>'$current_wednesday $i:00'))");
+				$query = $db->query("SELECT tevents.* FROM tevents,tincidents WHERE tevents.incident=tincidents.id AND tincidents.disable=0 AND tevents.technician LIKE '$_POST[technician]' AND (tevents.date_start='$current_wednesday $i:00' OR tevents.date_end='$current_wednesday $i:00' OR (tevents.date_start<'$current_wednesday $i:00' AND tevents.date_end>'$current_wednesday $i:00'))");
 				while ($row = $query->fetch())
 				{
 					if ($row['type']==1) $type='<i class="icon-bell-alt orange"></i>'; else $type='<i class="icon-calendar" blue></i>';
-					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] ");
+					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] AND disable=0");
 					$rowi = $queryi->fetch();
 					//Select name of technician
 					if($_POST['technician']=='%') $querytech= $db->query("SELECT * FROM tusers WHERE id =$rowi[technician]"); else $querytech= $db->query("SELECT * FROM tusers WHERE id =$_POST[technician]"); 
@@ -307,11 +309,11 @@ if ($_GET['view']=='week')
 			echo '
 			</td>
 			<td '.$thu_color.'>';
-				$query = $db->query("SELECT * FROM tevents WHERE technician LIKE '$_POST[technician]' AND (date_start='$current_thursday $i:00' OR date_end='$current_thursday $i:00' OR (date_start<'$current_thursday $i:00' AND date_end>'$current_thursday $i:00'))");
+				$query = $db->query("SELECT tevents.* FROM tevents,tincidents WHERE tevents.incident=tincidents.id AND tincidents.disable=0 AND tevents.technician LIKE '$_POST[technician]' AND (tevents.date_start='$current_thursday $i:00' OR tevents.date_end='$current_thursday $i:00' OR (tevents.date_start<'$current_thursday $i:00' AND tevents.date_end>'$current_thursday $i:00'))");
 				while ($row = $query->fetch())
 				{
 					if ($row['type']==1) $type='<i class="icon-bell-alt orange"></i>'; else $type='<i class="icon-calendar" blue></i>';
-					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] ");
+					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] AND disable=0");
 					$rowi = $queryi->fetch();
 					//Select name of technician
 					if($_POST['technician']=='%') $querytech= $db->query("SELECT * FROM tusers WHERE id =$rowi[technician]"); else $querytech= $db->query("SELECT * FROM tusers WHERE id =$_POST[technician]"); 
@@ -325,11 +327,11 @@ if ($_GET['view']=='week')
 			echo '
 			</td>
 			<td '.$fri_color.'>';
-				$query = $db->query("SELECT * FROM tevents WHERE technician LIKE '$_POST[technician]' AND (date_start='$current_friday $i:00' OR date_end='$current_friday $i:00' OR (date_start<'$current_friday $i:00' AND date_end>'$current_friday $i:00'))");
+				$query = $db->query("SELECT tevents.* FROM tevents,tincidents WHERE tevents.incident=tincidents.id AND tincidents.disable=0 AND tevents.technician LIKE '$_POST[technician]' AND (tevents.date_start='$current_friday $i:00' OR tevents.date_end='$current_friday $i:00' OR (tevents.date_start<'$current_friday $i:00' AND tevents.date_end>'$current_friday $i:00'))");
 				while ($row = $query->fetch())
 				{
 					if ($row['type']==1) $type='<i class="icon-bell-alt orange"></i>'; else $type='<i class="icon-calendar" blue></i>';
-					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] ");
+					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] AND disable=0");
 					$rowi = $queryi->fetch();
 					//Select name of technician
 					if($_POST['technician']=='%') $querytech= $db->query("SELECT * FROM tusers WHERE id =$rowi[technician]"); else $querytech= $db->query("SELECT * FROM tusers WHERE id =$_POST[technician]"); 
@@ -343,11 +345,11 @@ if ($_GET['view']=='week')
 			echo '
 			</td>
 			<td '.$sat_color.'>';
-				$query = $db->query("SELECT * FROM tevents WHERE technician LIKE '$_POST[technician]' AND (date_start='$current_saturday $i:00' OR date_end='$current_saturday $i:00' OR (date_start<'$current_saturday $i:00' AND date_end>'$current_saturday $i:00')) ");
+				$query = $db->query("SELECT tevents.* FROM tevents,tincidents WHERE tevents.incident=tincidents.id AND tincidents.disable=0 AND tevents.technician LIKE '$_POST[technician]' AND (tevents.date_start='$current_saturday $i:00' OR tevents.date_end='$current_saturday $i:00' OR (tevents.date_start<'$current_saturday $i:00' AND tevents.date_end>'$current_saturday $i:00')) ");
 				while ($row = $query->fetch())
 				{
 					if ($row['type']==1) $type='<i class="icon-bell-alt orange"></i>'; else $type='<i class="icon-calendar" blue></i>';
-					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] ");
+					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] AND disable=0");
 					$rowi = $queryi->fetch();
 					//Select name of technician
 					if($_POST['technician']=='%') $querytech= $db->query("SELECT * FROM tusers WHERE id =$rowi[technician]"); else $querytech= $db->query("SELECT * FROM tusers WHERE id =$_POST[technician]"); 
@@ -361,11 +363,11 @@ if ($_GET['view']=='week')
 			echo '
 			</td>
 			<td '.$sun_color.'>';
-				$query = $db->query("SELECT * FROM tevents WHERE technician LIKE '$_POST[technician]' AND (date_start='$current_sunday $i:00' OR date_end='$current_sunday $i:00' OR (date_start<'$current_sunday $i:00' AND date_end>'$current_sunday $i:00'))");
+				$query = $db->query("SELECT tevents.* FROM tevents,tincidents WHERE tevents.incident=tincidents.id AND tincidents.disable=0 AND tevents.technician LIKE '$_POST[technician]' AND (tevents.date_start='$current_sunday $i:00' OR tevents.date_end='$current_sunday $i:00' OR (tevents.date_start<'$current_sunday $i:00' AND tevents.date_end>'$current_sunday $i:00'))");
 				while ($row = $query->fetch())
 				{
 					if ($row['type']==1) $type='<i class="icon-bell-alt orange"></i>'; else $type='<i class="icon-calendar" blue></i>';
-					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] ");
+					$queryi= $db->query( "SELECT * FROM `tincidents` WHERE id=$row[incident] AND disable=0");
 					$rowi = $queryi->fetch();
 					//Select name of technician
 					if($_POST['technician']=='%') $querytech= $db->query("SELECT * FROM tusers WHERE id =$rowi[technician]"); else $querytech= $db->query("SELECT * FROM tusers WHERE id =$_POST[technician]"); 

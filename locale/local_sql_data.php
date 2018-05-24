@@ -6,8 +6,8 @@
 # @parameters : 
 # @Author : Flox
 # @Create : 06/12/2016
-# @Update : 13/04/2017
-# @Version : 3.1.20
+# @Update : 06/12/2017
+# @Version : 3.1.29
 ################################################################################
 
 //tickets states
@@ -160,7 +160,6 @@ echo T_("Droit d\'ajouter des procédures");
 echo T_("Droit de supprimer des procédures");
 echo T_("Affiche la colonne catégorie dans la liste des tickets");
 echo T_("Affiche la colonne sous-catégorie dans la liste des tickets");
-echo T_("Affiche la colonne société dans la liste des tickets");
 echo T_("Affiche l'heure de création du ticket dans la colonne date de création, sur la liste des tickets");
 echo T_("Affiche le nom de la société de l'utilisateur dans la liste des utilisateurs sur un ticket");
 echo T_("Affiche le champ localisation sur un équipement");
@@ -168,7 +167,6 @@ echo T_("Affiche le champ équipement virtuel");
 echo T_("Affiche la colonne localisation dans la liste des tickets");
 echo T_("Affiche uniquement les équipements du service auquel est rattaché l'utilisateur");
 echo T_("Affiche uniquement la liste des équipements, sans droit d'éditer une fiche");
-echo T_("Affiche la colonne société dans la liste des tickets");
 echo T_("Affiche la colonne type dans la liste des tickets");
 echo T_("Affiche la colonne criticité dans la liste des tickets");
 echo T_("Affiche la colonne priorité dans la liste des tickets");
@@ -180,7 +178,6 @@ echo T_("Oblige la saisie du champ date de résolution estimée");
 echo T_("Modification des procédures");
 echo T_("Droit d'ajouter des procédures");
 echo T_("Droit de suppression des équipements");
-echo T_("Affiche la colonne société dans la liste des tickets");
 echo T_("Affiche la colonne date de résolution estimée dans la liste des tickets");
 echo T_("Affiche vos demande non attribuées");
 echo T_("Affiche la section vos tickets");
@@ -209,6 +206,33 @@ echo T_("Affiche uniquement les tickets des agences auxquelles est rattaché l'u
 echo T_("Affiche le champ agence dans le ticket");
 echo T_("Affiche la colonne date de résolution estimée dans la liste des tickets");
 echo T_("Affiche le champ service pour les nouveaux tickets");
+echo T_("Affiche le bouton de désactivation du scan réseau pour cet équipement");
+echo T_("Oblige la saisie du champ technicien");
+echo T_("Oblige la saisie du champ titre");
+echo T_("Oblige la saisie de la description");
+echo T_("Affiche les administrateurs dans la liste des techniciens sur un ticket");
+echo T_("Affiche les superviseurs dans la liste des techniciens sur un ticket");
+echo T_("Affiche le champ équipement pour les nouveaux tickets");
+echo T_("Affiche le champ équipement dans le ticket");
+echo T_("Modification de l'équipement sur un ticket");
+echo T_("Oblige la saisie du champ équipement");
+echo T_("Affiche la colonne équipement dans la liste des tickets");
+echo T_("Affiche la colonne société dans la liste des tickets");
+echo T_("Affiche la colonne date de résolution estimée dans la liste des tickets");
+echo T_("Oblige la saisie du champ agence");
+echo T_("Affiche la colonne service du demandeur dans la liste des tickets");
+echo T_("Affiche le champ équipement dans le ticket");
+echo T_("	Affiche le champ équipement dans le ticket");
+echo T_("Affiche le champ service du demandeur dans le ticket");
+echo T_("Bloque la modification du champ technicien si la limite par service est activée et qu\'il ouvre un ticket pour un autre service");
+echo T_("Affiche le menu Administration > Listes > Priorité");
+echo T_("Affiche le menu Administration > Listes > Types des tickets");
+echo T_("Affiche uniquement les types associés au service");
+echo T_("Affiche uniquement les équipements de la société rattachée à l'utilisateur");
+echo T_("Affiche uniquement les procédures de la société rattachée à l'utilisateur");
+echo T_("Affiche le champ société sur une procédure");
+echo T_("Modification de l'agence sur la fiche de l'utilisateur");
+echo T_("Bonjour, <br />Vous avez fait la demande suivante auprès du support:");
 
 //Assets states
 echo T_("Stock");
