@@ -207,6 +207,9 @@ if ($_GET['download']!='')
 		
 		<link rel="stylesheet" href="./template/assets/css/ace-fonts.css" />
 		<link rel="stylesheet" href="./template/assets/css/jquery-ui-1.10.3.full.min.css" />
+
+		<!-- CUSTOM CSS -->
+		<link rel="stylesheet" href="css/custom.css" />		
 		
 		<?php 
 		//add css for chosen select

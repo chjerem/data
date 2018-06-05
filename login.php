@@ -284,7 +284,6 @@ if($_GET['state']=='') $_GET['state'] = '%';
 						{
 						window.location='$www'
 						}
-						setTimeout('redirect()',$rparameters[time_display_msg]+1000);
 						-->
 					</SCRIPT>";
 		}

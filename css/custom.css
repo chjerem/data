@@ -1,0 +1,40 @@
+.custommenu {
+	display: block;
+    height: 38px;
+    line-height: 36px;
+    padding: 0 16px 0 7px;
+    background-color: #f9f9f9;
+    color: #585858;
+    text-shadow: none!important;
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.custommenu:hover {
+    background-color: #FFF;
+    color: #1963aa;
+}
+
+li.active>.custommenu,
+li.active>.custommenu:focus,
+li.active>.custommenu:active,
+li.active>.custommen:hover {
+	background-color: #fff;
+    color: #2b7dbc;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+li span>.arrow {
+	    display: inline-block;
+    width: 14px!important;
+    height: 14px;
+    line-height: 14px;
+    text-shadow: none;
+    font-size: 18px;
+    position: absolute;
+    right: 11px;
+    top: 11px;
+    padding: 0;
+    color: #666;
+}

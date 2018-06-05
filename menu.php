@@ -53,54 +53,6 @@ if(!isset($state)) $state = '';
 			</div>
 			';
 		}
-		if (($rright['side_asset_create']!=0) && ($rparameters['asset']==1) && (($_GET['page']=='asset_list') || ($_GET['page']=='asset') ) && ($_GET['state']!='1'))
-		{
-			echo'
-			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<a href="./index.php?page=asset&amp;action=new">
-						<button accesskey="n" title="'.T_('Ajoute un nouvel équipement').' (SHIFT+ALT+n)" onclick=\'window.location.href="./index.php?page=asset&amp;action=new"\' class="btn btn-sm btn-success">
-							&nbsp;
-							<i class="icon-plus bigger-120"></i> '.T_('Nouvel équipement').'
-						</button>
-					</a>
-			</div>
-			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-				<a href="./index.php?page=asset&amp;action=new"><span class="btn btn-success"></span></a>
-			</div>
-			';
-		}
-		if (($rright['side_asset_create']!=0) && ($rparameters['asset']==1) && (($_GET['page']=='asset_list') || ($_GET['page']=='asset') ) && ($_GET['state']=='1'))
-		{
-			echo'
-			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<a href="./index.php?page=asset_stock">
-						<button title="'.T_('Permet l\'ajout de plusieurs équipements à la fois').'" onclick=\'window.location.href="./index.php?page=asset_stock"\' class="btn btn-sm btn-warning">
-							&nbsp;
-							<i class="icon-plus bigger-120"></i> '.T_('Ajouter un lot').'
-						</button>
-					</a>
-			</div>
-			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-				<a href="./index.php?page=asset_stock"><span class="btn btn-warning"></span></a>
-			</div>
-			';
-		}
-		if (($rright['procedure_add']!=0) && ($_GET['page']=='procedure'))
-		{
-			echo'
-			<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-					<a href="index.php?page=procedure&amp;action=add">
-						<button accesskey="n" title="'.T_('Ajoute une nouvelle procédure').' (SHIFT+ALT+n)" class="btn btn-sm btn-success">
-							&nbsp;
-							<i class="icon-plus bigger-120"></i> '.T_('Nouvelle procédure').'
-						</button>
-					</a>
-			</div>
-			<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-				<a href="index.php?page=procedure&amp;action=add"><span class="btn btn-success"></span></a>
-			</div>
-			';
-		}
 		?>
 	</div>
 	<!--#sidebar-shortcuts-->
@@ -498,6 +450,37 @@ if(!isset($state)) $state = '';
 				</a>
 			</li>';
 		}
+		//DEBUT AJOUT TOOLS
+			 if($_GET['page']=='tools') echo '<li class="active">'; else echo '<li>'; echo '
+				<a href="./index.php?page=tools&subpage=tools" class="dropdown-toggle">
+					<i class="icon-cogs"></i>
+					<span class="menu-text"> '.T_('Tools').' </span>
+					<b class="arrow icon-angle-down"></b>
+				</a>
+				<ul class="submenu">';
+
+						if($_GET['page']=='tools' && $_GET['subpage']=='urlbuilder') echo '<li class="active">'; else echo '<li>'; echo '
+							<a href="http://orange-url-builder.appspot.com/" target="_blank">
+								<i class="icon-cog"></i>
+								'.T_('URL Builder').'
+							</a>
+						</li>';
+						if($_GET['page']=='tools' && $_GET['subpage']=='modop') echo '<li class="active">'; else echo '<li>'; echo '
+							<a href="http://10.198.134.33:84/doc/Compte_Google%20Analytics%20Premium.pdf" target="_blank">
+								<i class="icon-user"></i>
+								'.T_('Modop mail Google').'
+							</a>
+						</li>';
+						if($_GET['page']=='tools' && $_GET['subpage']=='piggy') echo '<li class="active">'; else echo '<li>'; echo '
+							<a href="https://trafficmanager.havasmedia.com/#/public/piggybackings/fe01d67a002dfa0f3ac0" target="_blank">
+								<i class="icon-user"></i>
+								'.T_('Piggybacking').'
+							</a>
+						</li>';
+					echo '
+				</ul>
+			</li>';
+			//FIN AJOUT TOOLS
 		if ($rright['stat']!=0)
 		{
 			if($_GET['page']=='stat') echo '<li class="active">'; else echo '<li>'; echo '
@@ -514,7 +497,7 @@ if(!isset($state)) $state = '';
 			if($rright['admin_groups']!=0) {$dest_subpage='group';}
 			if($rright['admin_lists']!=0) {$dest_subpage='list';}
 			 if($_GET['page']=='admin') echo '<li class="active">'; else echo '<li>'; echo '
-				<a href="./index.php?page=admin&subpage='.$dest_subpage.'">
+				<a href="./index.php?page=admin&subpage='.$dest_subpage.'" class="dropdown-toggle">
 					<i class="icon-cogs"></i>
 					<span class="menu-text"> '.T_('Administration').' </span>
 					<b class="arrow icon-angle-down"></b>
