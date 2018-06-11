@@ -452,7 +452,7 @@ if(!isset($state)) $state = '';
 		}
 		//DEBUT AJOUT TOOLS
 			 if($_GET['page']=='tools') echo '<li class="active">'; else echo '<li>'; echo '
-				<a href="./index.php?page=tools&subpage=tools" class="dropdown-toggle">
+				<a href="./index.php?page=tools" class="dropdown-toggle">
 					<i class="icon-cogs"></i>
 					<span class="menu-text"> '.T_('Tools').' </span>
 					<b class="arrow icon-angle-down"></b>
@@ -483,12 +483,27 @@ if(!isset($state)) $state = '';
 			//FIN AJOUT TOOLS
 		if ($rright['stat']!=0)
 		{
-			if($_GET['page']=='stat') echo '<li class="active">'; else echo '<li>'; echo '
-				<a href="./index.php?page=stat&tab=ticket">
+			if($_GET['page']=='stat' || $_GET['page']=='kanban') echo '<li class="active">'; else echo '<li>'; echo '
+				<a href="./index.php?page=stat" class="dropdown-toggle">
 					<i class="icon-bar-chart"></i>
-					<span class="menu-text">'.T_('Statistiques').'</span>
+					<span class="menu-text">'.T_('Stats').'</span>
+					<b class="arrow icon-angle-down"></b>
 				</a>
-			</li>';
+				<ul class="submenu">';
+				if($_GET['page']=='stat' && $_GET['subpage']=='ticket') echo '<li class="active">'; else echo '<li>'; echo '
+							<a href="./index.php?page=stat&subpage=ticket">
+								<i class="icon-cog"></i>
+								'.T_('Stats tickets').'
+							</a>
+						</li>';
+						if($_GET['page']=='kanban') echo '<li class="active">'; else echo '<li>'; echo '
+							<a href="./index.php?page=kanban">
+								<i class="icon-user"></i>
+								'.T_('Kanban').'
+							</a>
+						</li>';
+
+			echo '</ul></li>';
 		}
 		if ($rright['admin']!=0 || $rright['admin_groups']!=0 || $rright['admin_lists']!=0 )
 		{

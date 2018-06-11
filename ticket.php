@@ -232,7 +232,7 @@ if($_SESSION['profile_id']==4 || $_SESSION['profile_id']==0 || $_SESSION['profil
 							<div class="col-sm-9">
 								<!-- START sender list part -->
 								<!-- <select autofocus id="user" name="user" onchange="loadVal(); submit();" <?php if(($rright['ticket_user']==0 && $_GET['action']!='new') || ($rright['ticket_new_user']==0 && $_GET['action']=='new')) echo ' disabled="disabled" ';?> > -->
-								<select autofocus <?php if($mobile==0) {echo 'class="chosen-select"';}  else {echo ' style="max-width: 225px;" ';} ?> id="user" name="user" onchange="loadVal(); submit();" <?php if(($rright['ticket_user']==0 && $_GET['action']!='new') || ($rright['ticket_new_user']==0 && $_GET['action']=='new')) echo ' disabled="disabled" ';?> >
+								<select autofocus <?php /*if($mobile==0) {echo 'class="chosen-select"';}  else {echo ' style="max-width: 225px;" ';} */?> id="user" name="user" onchange="loadVal(); submit();" <?php if(($rright['ticket_user']==0 && $_GET['action']!='new') || ($rright['ticket_new_user']==0 && $_GET['action']=='new')) echo ' disabled="disabled" ';?> >
 									<?php
 									//define order of user list in case with company prefix
 									if($rright['ticket_user_company']!=0)

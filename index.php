@@ -208,6 +208,9 @@ if ($_GET['download']!='')
 		<link rel="stylesheet" href="./template/assets/css/ace-fonts.css" />
 		<link rel="stylesheet" href="./template/assets/css/jquery-ui-1.10.3.full.min.css" />
 
+		<!-- Test Select 2 
+		<link rel="stylesheet" href="./components/select2/css/select2.min.css" />-->
+
 		<!-- CUSTOM CSS -->
 		<link rel="stylesheet" href="css/custom.css" />		
 		
@@ -966,6 +969,14 @@ if ($_GET['download']!='')
 		<!-- Modalbox -->
 		<script src="./template/assets/js/jquery-ui-1.10.3.full.min.js"></script>
 		<script src="./template/assets/js/jquery.ui.touch-punch.min.js"></script>
+
+		<!-- Select 2 -->		
+		<!--<script src="./components/select2/js/select2.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$('select[name="user"]').select2({dropdownAutoWidth : true});
+			});
+		</script>-->
 		
 		<?php
 		//add js for chosen select list
